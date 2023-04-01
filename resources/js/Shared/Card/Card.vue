@@ -2,12 +2,12 @@
     <div class="card">
         <div class="row g-0">
             <div class="col-md-4">
-                <img :src="card.image" class="img-fluid rounded-start" :alt="card.title">
+                <img :src="cardImage" class="img-fluid rounded-start" :alt="card.title">
             </div>
             <div class="col-md-8">
                 <div class="card-body">
                     <div class="card-title mb-3 text-truncate">
-                        <Link :href="'/articles/' + card.id">
+                        <Link :href="`/${card.category_slug}/` + card.slug">
                             {{ card.name }}
                         </Link>
                     </div>
@@ -30,6 +30,13 @@ export default {
     computed: {
         formattedTime() {
             return moment(this.card.updated_at).fromNow();
+        },
+        cardImage() {
+            let img = this.card.image;
+
+            if (!img) img = 'photo_placement_wide.jpg'
+
+            return 'storage/' + img;
         }
     }
 }

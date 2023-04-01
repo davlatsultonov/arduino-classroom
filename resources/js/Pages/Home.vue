@@ -2,11 +2,7 @@
     <Head>
         <title>Home Page</title>
     </Head>
-
-   <div class="container">
-       <Navbar :categories="categories"/>
-        <CardGroup :cards="articles" />
-   </div>
+    <CardGroup :cards="articles" />
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
@@ -16,7 +12,6 @@ import CardGroup from "../Shared/Card/CardGroup.vue";
 export default {
     components: {CardGroup, Navbar, Head, Link},
     props: {
-        categories: Array,
         articles: Array
     }
 }

@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Article;
-use App\Models\Category;
-use Illuminate\Http\Request;
 
-class HomeController extends Controller
+use App\Models\Article;
+
+class CategoryController extends Controller
 {
-    public function index()
+    public function index($slug)
     {
         $articles = Article::join('categories', 'articles.category_id', '=', 'categories.id')
             ->select('articles.*', 'categories.slug as category_slug')
-            ->get();
+            ->where('categories.slug', $slug)->get();
 
-        return inertia('Home', compact('articles'));
+        return inertia('Articles/Index', compact('articles'));
     }
 }

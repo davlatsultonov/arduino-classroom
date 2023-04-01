@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 
 class ArticleController extends Controller
 {
-    public function show($id)
+    public function show(Request $request)
     {
-        $article = Article::findOrFail($id);
-        $article->image = asset('storage/', $article->image);
-        return inertia('Articles/Index', compact('article'));
+        $article = Article::where('slug', $request->article_slug)->firstOrFail();
+
+        return inertia('Articles/Show', compact('article'));
     }
 }
