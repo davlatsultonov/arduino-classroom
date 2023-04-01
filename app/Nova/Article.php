@@ -59,7 +59,9 @@ class Article extends Resource
             Markdown::make('Description', 'description')
                 ->required(),
             Image::make('Photo', 'image')->disk('public'),
-            BelongsTo::make('User', 'user', User::class)
+            BelongsTo::make('Choose a user', 'user', User::class)
+                ->required(),
+            BelongsTo::make('Choose a category', 'category', Category::class)
                 ->required()
         ];
     }

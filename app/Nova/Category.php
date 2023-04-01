@@ -51,7 +51,8 @@ class Category extends Resource
                 ->rules('unique:categories,name,{{resourceId}}')
                 ->sortable()
                 ->required(),
-            HasMany::make('Tests')
+            HasMany::make('Tests'),
+            HasMany::make('Articles'),
         ];
     }
 

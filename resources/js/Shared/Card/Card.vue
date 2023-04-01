@@ -12,7 +12,7 @@
                         </Link>
                     </div>
                     <p class="card-text text-truncate">{{ card.description }}</p>
-                    <p class="card-text"><small class="text-muted">{{formattedTime}}</small></p>
+                    <p class="card-text"><small class="text-muted">Last updated {{formattedTime}}</small></p>
                 </div>
             </div>
         </div>
