@@ -2,14 +2,9 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
-Route::get('/', function () {
-    return inertia('Home');
-});
-
-Route::get('/profile', function () {
-    return inertia('Home');
-})->name('profile');
+Route::get('/', ['App\Http\Controllers\HomeController', 'index'])->name('home');
 
 // Auth
 Route::controller(LoginController::class)->group(static function () {

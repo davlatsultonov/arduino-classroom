@@ -3,13 +3,18 @@
         <title>Home Page</title>
     </Head>
 
-    <h1>Home page</h1>
-
+   <div class="container">
+       <Navbar :categories="categories"/>
+   </div>
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
+import Navbar from "../Shared/Navbar.vue";
 
 export default {
-    components: {Head, Link}
+    components: {Navbar, Head, Link},
+    props: {
+        categories: Object
+    }
 }
 </script>
