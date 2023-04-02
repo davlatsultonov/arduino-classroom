@@ -1,16 +1,20 @@
 <template>
     <div class="card">
         <div class="row g-0">
-            <div class="col-md-4">
-                <img :src="cardImage" class="img-fluid rounded-start" :alt="card.title">
+            <div class="col-md-3">
+                <div
+                    class="img-fluid w-100 h-100 rounded-start"
+                    :style="{
+                       backgroundImage: `url('${cardImage}')`,
+                       backgroundSize: 'contain',
+                       backgroundPosition: 'center'
+                     }"></div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-9">
                 <div class="card-body">
-                    <div class="card-title mb-3 text-truncate">
-                        <Link :href="`/${card.category_slug}/` + card.slug">
-                            {{ card.name }}
-                        </Link>
-                    </div>
+                    <Link :href="`/${card.category_slug}/` + card.slug" rel="preload" as="h5" class="card-title mb-3 text-truncate">
+                        {{ card.name }}
+                    </Link>
                     <p class="card-text text-truncate">{{ card.description }}</p>
                     <p class="card-text"><small class="text-muted">Last updated {{formattedTime}}</small></p>
                 </div>
@@ -43,5 +47,7 @@ export default {
 </script>
 
 <style scoped>
-
+    .card-title {
+        cursor: pointer;
+    }
 </style>
