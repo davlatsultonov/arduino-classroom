@@ -32,6 +32,9 @@
                 text-transform: uppercase;
                 font-weight: bold;
                 font-size: 14px;
+                min-height: 100%;
+                display: inline-flex;
+                align-items: center;
             }
         }
     }
