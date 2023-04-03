@@ -3,7 +3,7 @@
         <title>Articles list</title>
     </Head>
     <div class="container">
-        <CardGroup v-if="articles.length" :cards="articles" />
+        <CardGroup v-if="articles.length" :cards="articles" :cards-in-row="3"/>
         <div class="mt-3 text-center" v-else>
             No data.
         </div>

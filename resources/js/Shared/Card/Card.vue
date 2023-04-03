@@ -1,24 +1,47 @@
 <template>
-    <div class="card">
+    <div class="card border-0" v-if="horizontal">
         <div class="row g-0">
-            <div class="col-md-3">
-                <div
-                    class="img-fluid w-100 h-100 rounded-start"
-                    :style="{
-                       backgroundImage: `url('${cardImage}')`,
-                       backgroundSize: 'contain',
-                       backgroundPosition: 'center'
-                     }"></div>
-            </div>
-            <div class="col-md-9">
-                <div class="card-body">
-                    <Link :href="`/${card.category_slug}/` + card.slug" rel="preload" as="h5" class="card-title mb-3 text-truncate">
-                        {{ card.name }}
+            <div class="col-md-4">
+                <div class="img-fluid w-100 h-100 position-relative rounded-end rounded-top"
+                     :style="cardImageStyles">
+                    <Link :href="card.category_slug"
+                          class="badge text-bg-dark rounded-0 position-absolute bottom-0 start-0 text-decoration-none">
+                        {{ badgeText }}
                     </Link>
-                    <p class="card-text text-truncate">{{ card.description }}</p>
-                    <p class="card-text"><small class="text-muted">Last updated {{formattedTime}}</small></p>
                 </div>
             </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <Link :href="`/${card.category_slug}/` + card.slug" as="h5"
+                          class="card-title mb-3 text-truncate">
+                        {{ card.name }}
+                    </Link>
+                    <p class="card-text card-description">{{ card.description }}</p>
+                    <p class="card-text"><small class="text-muted">Last updated {{ formattedTime }}</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card border-0 mb-3" v-else>
+        <div
+            class="img-fluid position-relative rounded-end rounded-top"
+            :style="{
+                       height: '200px',
+                       ...cardImageStyles
+                     }">
+
+            <Link :href="card.category_slug"
+                  class="badge text-bg-dark rounded-0 position-absolute bottom-0 start-0 text-decoration-none">
+                {{ badgeText }}
+            </Link>
+        </div>
+        <div class="card-body">
+            <Link :href="`/${card.category_slug}/` + card.slug" as="h5"
+                  class="card-title mb-3 text-truncate">
+                {{ card.name }}
+            </Link>
+            <p class="card-text card-description">{{ card.description }}</p>
+            <p class="card-text"><small class="text-muted">Last updated {{ formattedTime }}</small></p>
         </div>
     </div>
 </template>
@@ -30,10 +53,16 @@ import moment from 'moment';
 export default {
     name: "Card",
     components: {Link},
-    props: ['card'],
+    props: {
+        card: Object,
+        horizontal: Boolean
+    },
     computed: {
         formattedTime() {
             return moment(this.card.updated_at).fromNow();
+        },
+        badgeText() {
+            return this.card.category_name
         },
         cardImage() {
             let img = this.card.image;
@@ -41,13 +70,41 @@ export default {
             if (!img) img = 'photo_placement_wide.jpg'
 
             return 'storage/' + img;
+        },
+        cardImageStyles() {
+            return {
+                backgroundImage: `url('${this.cardImage}')`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+            };
         }
     }
 }
 </script>
 
-<style scoped>
-    .card-title {
+<style scoped lang="scss">
+.card {
+
+    &-title {
         cursor: pointer;
+        color: #f47a20;
     }
+
+    &-body {
+        padding: var(--bs-card-spacer-y) 0;
+    }
+
+    &-text {
+        color: #777;
+    }
+
+    &-description {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+}
 </style>

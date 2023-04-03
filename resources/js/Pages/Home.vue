@@ -2,7 +2,14 @@
     <Head>
         <title>Home Page</title>
     </Head>
-    <CardGroup :cards="articles" />
+    <div class="row gx-5">
+        <div class="col-lg-8">
+            <CardGroup :cards="articles" :cards-in-row="3"/>
+        </div>
+        <div class="col-lg-4">
+            <CardGroup :cards="articles" :cards-in-row="1"/>
+        </div>
+    </div>
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
