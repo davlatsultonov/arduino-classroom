@@ -1,7 +1,9 @@
 <template>
-    <div class="container">
+    <div class="container-fluid">
         <Navbar :categories="categories"/>
-        <slot/>
+        <div class="container">
+            <slot/>
+        </div>
     </div>
 </template>
 
