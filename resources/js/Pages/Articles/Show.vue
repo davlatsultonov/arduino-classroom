@@ -4,6 +4,8 @@
             <title>Article</title>
         </Head>
 
+        <Breadcrumb :breadcrumbs="breadcrumbs.breadcrumbs" />
+
         <div class="row justify-content-center ">
             <div class="col-md-8">
                 <h2 class="mb-3">{{ article.name }}</h2>
@@ -15,6 +17,7 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
+import Breadcrumb from "../../Shared/Breadcrumb.vue";
 import MarkdownIt from 'markdown-it'
 const md = new MarkdownIt();
 
@@ -28,8 +31,8 @@ md.renderer.rules.image = (tokens, idx, options, env, self) => {
 };
 
 export default {
-    components: {Head, Link},
-    props: ['article'],
+    components: {Head, Link, Breadcrumb},
+    props: ['article', 'breadcrumbs'],
     computed: {
         parsedText () {
             return md.render(this.article.description)
