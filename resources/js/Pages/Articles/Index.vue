@@ -2,10 +2,15 @@
     <Head>
         <title>Articles list</title>
     </Head>
-    <div class="container">
-        <CardGroup v-if="articles.length" :cards="articles" :cards-in-row="3"/>
-        <div class="mt-3 text-center" v-else>
-            No data.
+    <div class="row">
+        <div class="col-lg-8">
+            <CardGroup v-if="articles.length" :cards="articles" :horizontal="true" :cards-in-row="1"/>
+            <div class="mt-3 text-center" v-else>
+                No data.
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <CardGroup :cards="articles" title="Top" :cards-in-row="1"/>
         </div>
     </div>
 </template>

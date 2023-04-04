@@ -7,8 +7,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item" v-for="{id, name, slug} in categories" :key="id">
-                        <Link :class="['nav-link px-3', { 'active': $page.url.startsWith('/' + slug) }]" aria-current="page" :href="'/' + slug">{{ name }}</Link>
+                    <li :class="['nav-item', { 'active': $page.url.startsWith('/' + slug) }]" v-for="{id, name, slug} in categories" :key="id">
+                        <Link class="nav-link px-3" aria-current="page" :href="'/' + slug">{{ name }}</Link>
                     </li>
                 </ul>
             </div>

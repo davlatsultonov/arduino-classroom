@@ -22,7 +22,7 @@
             &-item {
                 border-radius: 3px;
 
-                &:hover {
+                &:hover, &.active {
                     background-color: #00696E;
                 }
             }
