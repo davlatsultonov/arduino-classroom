@@ -1,9 +1,11 @@
 <template>
     <div>
-        <div class="card-group-title mt-4 mb-3" v-if="title">
+        <div :class="['card-group-title mb-4', {
+            'mt-4 ': title.toLocaleLowerCase() !== 'top'
+        }]" v-if="title">
             <span>{{ title }}</span>
         </div>
-        <div :class="`row row-cols-1 row-cols-md-2 row-cols-lg-${cardsInRow} gx-5 gy-2 my-2 card-group`">
+        <div :class="`row row-cols-1 row-cols-md-2 row-cols-lg-${cardsInRow} gy-2 my-2 card-group`">
             <div v-for="card in cards" class="col">
                 <Card :card="card" :horizontal="horizontal"/>
             </div>
@@ -41,6 +43,7 @@ export default {
     border-bottom: 2px solid #f47a20;
 
     span {
+        display: inline-block;
         background-color: #f47a20;
         color: #fff;
         font-size: 14px;
