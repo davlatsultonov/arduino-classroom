@@ -1,6 +1,6 @@
 <template>
     <div class="card border-0" v-if="horizontal">
-        <div class="row g-0">
+        <div class="row g-3">
             <div class="col-md-4">
                 <div class="img-fluid w-100 h-100 position-relative rounded-end rounded-top"
                      :style="cardImageStyles">

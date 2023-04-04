@@ -4,10 +4,10 @@
     </Head>
     <div class="row gx-5">
         <div class="col-lg-8">
-            <CardGroup :cards="articles" :cards-in-row="3"/>
+            <CardGroup v-for="(category, key) in articles" :title="key" :cards="category" :cards-in-row="3"/>
         </div>
         <div class="col-lg-4">
-            <CardGroup :cards="articles" :cards-in-row="1"/>
+            <CardGroup :cards="articles['Платы']" title="Top" :cards-in-row="1"/>
         </div>
     </div>
 </template>
