@@ -1,8 +1,8 @@
-import { createApp, h } from 'vue'
-import { createInertiaApp } from '@inertiajs/inertia-vue3'
-import { InertiaProgress } from '@inertiajs/progress'
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import * as bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min'
+import {createApp, h} from 'vue'
+import {createInertiaApp} from '@inertiajs/inertia-vue3'
+import {InertiaProgress} from '@inertiajs/progress'
+import {resolvePageComponent} from 'laravel-vite-plugin/inertia-helpers';
+import 'bootstrap/dist/js/bootstrap.bundle.min'
 import DefaultLayout from "./Layouts/DefaultLayout.vue";
 
 InertiaProgress.init()
@@ -19,12 +19,7 @@ createInertiaApp({
     },
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
-            .mixin({ methods: {route}, mounted() {
-                    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-                    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl, {
-                        offset: [0, 10]
-                    }));
-                }})
+            .mixin({ methods: {route}})
             .use(plugin)
             .mount(el)
 

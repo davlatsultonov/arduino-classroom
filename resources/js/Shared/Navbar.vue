@@ -8,18 +8,12 @@
             <ul class="navbar-nav ps-3 flex-row order-lg-1">
                 <li>
                     <Link class="nav-link px-2" :href="route(isAuth ? 'profile.index' : 'login')">
-                        <img  data-bs-toggle="tooltip"
-                              data-bs-placement="bottom"
-                              :data-bs-title="isAuth ? 'Профиль' : 'Войти'"
-                              width="25" :src="'/images/' + (isAuth ? 'auth-stub.svg' : 'sign_in.svg')" :alt="'icon' + (isAuth ? 'auth' : 'sign in')">
+                        <img  width="25" :src="'/images/' + (isAuth ? 'auth-stub.svg' : 'sign_in.svg')" :alt="'icon' + (isAuth ? 'auth' : 'sign in')">
                     </Link>
                 </li>
                 <li v-if="isAuth">
                     <form @submit.prevent="submit" class="nav-link px-2">
-                        <button type="submit" class="btn btn-link p-0"
-                                data-bs-toggle="tooltip"
-                                data-bs-placement="bottom"
-                                data-bs-title="Выйти">
+                        <button type="submit" class="btn btn-link p-0">
                             <img src="/images/sign_out.svg" width="23" alt="icon sing out">
                         </button>
                     </form>
