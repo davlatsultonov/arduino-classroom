@@ -3,48 +3,42 @@
         <title>Авторизация</title>
     </Head>
 
+    <Link :href="route('home')" class="btn btn-outline-secondary text-decoration-none text-black d-inline-flex align-items-center py-1">
+        <img src="/images/arrow_left_single.svg" alt="icon arrow left" width="23" class="me-1">
+        Home</Link>
+    <h1 class="my-5 text-center">Авторизация</h1>
     <form @submit.prevent="submit">
-        <div class="form-group field-loginform-email required" :class="{'has-error': form.errors.email}">
-            <div class="wrapper-placeholder modal-input">
-                <input type="text" id="email"
-                       v-model="form.email"
-                       class="input-custom dark-input placeholder-input"
-                       name="email"/>
-
-                <span><i><label class="control-label" for="email">E-mail</label></i></span>
-
-                <p v-if="form.errors.email" >
-                    {{ form.errors.email }}
-                </p>
+        <div class="mb-3">
+            <label for="login-email" class="form-label">Email address</label>
+            <input type="email" name="email" v-model="form.email" class="form-control" :class="{
+                'is-invalid': form.errors.email
+            }" id="login-email" aria-describedby="emailHelp">
+            <div class="invalid-feedback" v-if="form.errors.email">
+                {{ form.errors.email }}
             </div>
         </div>
-        <div class="form-group field-loginform-password" :class="{'has-error': form.errors.password}">
-            <div class="wrapper-placeholder modal-input">
-                <input type="password" id="password"
-                       v-model="form.password"
-                       class="input-custom dark-input placeholder-input"
-                       name="password"/>
-
-                <span><i><label class="control-label" for="password">Пароль</label></i></span>
-
-                <p v-if="form.errors.password" >
-                    {{ form.errors.password }}
-                </p>
+        <div class="mb-4">
+            <label for="login-password" class="form-label">Password</label>
+            <input type="password" name="password" v-model="form.password" class="form-control" :class="{
+                'is-invalid': form.errors.password
+            }" id="login-password">
+            <div class="invalid-feedback" v-if="form.errors.password">
+                {{ form.errors.password }}
             </div>
         </div>
-        <div class="line-btn-modal">
-            <button type="submit" class="btn-brand">Войти</button>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Войти</button>
         </div>
     </form>
 </template>
 
 <script>
 import AuthLayout from "../../Layouts/AuthLayout.vue"
-import {Head, useForm} from "@inertiajs/inertia-vue3";
+import {Head, useForm, Link} from "@inertiajs/inertia-vue3";
 
 export default {
     layout: AuthLayout,
-    components: {Head},
+    components: {Head, Link},
     data() {
         return {
             form: useForm({

@@ -4,7 +4,7 @@
     </Head>
     <div class="row gx-5">
         <div class="col-lg-8">
-            <img src="/storage/arduino-logo.png" class="rounded float-start" alt="arduino logo"
+            <img src="/images/arduino-logo.png" class="rounded float-start" alt="arduino logo"
                  style="margin-right: 20px; margin-bottom: 20px;">
             <p>Arduino – это название сразу нескольких технологий, с помощью которых можно научиться создавать умные
                 устройства. Ардуино был придуман в университетской студенческой среде, поэтому эта платформа открыта и
@@ -13,7 +13,7 @@
                 А программы и все необходимые библиотеки можно скачать бесплатно с официального сайта, на нашем сайте
                 arduinomaster.ru или найти на сотнях других ресурсов в интернете.</p>
             <figure class="figure mt-4 mb-4">
-                <img src="/storage/ARDUINO_UNO_DIP_01.png" class="figure-img img-fluid rounded" alt="plata arduino">
+                <img src="/images/ARDUINO_UNO_DIP_01.png" class="figure-img img-fluid rounded" alt="plata arduino">
                 <figcaption class="figure-caption fst-italic mt-3">Оригинальный и официальный Arduino Uno</figcaption>
             </figure>
             <p>

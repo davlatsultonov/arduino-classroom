@@ -67,9 +67,9 @@ export default {
         cardImage() {
             let img = this.card.image;
 
-            if (!img) img = 'photo_placement_wide.jpg'
+            img = !img ? '/images/photo_placement_wide.jpg' : '/storage/' + img;
 
-            return 'storage/' + img;
+            return img;
         },
         cardImageStyles() {
             return {

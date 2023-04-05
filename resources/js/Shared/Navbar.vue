@@ -1,13 +1,33 @@
 <template>
-    <nav class="navbar navbar-expand-lg mb-3 ac-navbar">
+    <nav class="navbar navbar-expand-lg mb-3 ac-navbar rounded mt-2">
         <div class="container">
-            <Link class="navbar-brand" href="/">Arduino<b>CLASSROOM</b></Link>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <Link class="navbar-brand" href="/">Arduino <span class="d-block d-sm-inline"><b>CLASSROOM</b></span></Link>
+            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+            <ul class="navbar-nav ps-3 flex-row order-lg-1">
+                <li>
+                    <Link class="nav-link px-2" :href="route(isAuth ? 'profile.index' : 'login')">
+                        <img  data-bs-toggle="tooltip"
+                              data-bs-placement="bottom"
+                              :data-bs-title="isAuth ? 'Профиль' : 'Войти'"
+                              width="25" :src="'/images/' + (isAuth ? 'auth-stub.svg' : 'sign_in.svg')" :alt="'icon' + (isAuth ? 'auth' : 'sign in')">
+                    </Link>
+                </li>
+                <li v-if="isAuth">
+                    <form @submit.prevent="submit" class="nav-link px-2">
+                        <button type="submit" class="btn btn-link p-0"
+                                data-bs-toggle="tooltip"
+                                data-bs-placement="bottom"
+                                data-bs-title="Выйти">
+                            <img src="/images/sign_out.svg" width="23" alt="icon sing out">
+                        </button>
+                    </form>
+                </li>
+            </ul>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li :class="['nav-item', { 'active': $page.url.startsWith('/' + slug) }]" v-for="{id, name, slug} in categories" :key="id">
+                <ul class="navbar-nav mt-4 mt-lg-0">
+                    <li :class="['nav-item', { 'active': $page.url.startsWith('/' + slug) }]" v-for="{id, name, slug} in this.$page.props.categories" :key="id">
                         <Link class="nav-link px-3" aria-current="page" :href="'/' + slug">{{ name }}</Link>
                     </li>
                 </ul>
@@ -17,13 +37,25 @@
 </template>
 
 <script>
-import {Link} from "@inertiajs/inertia-vue3";
+import {Link, useForm} from "@inertiajs/inertia-vue3";
 
 export default {
     name: "Navbar",
     components: {Link},
-    props: {
-        categories: Array
+    computed: {
+        isAuth() {
+            return this.$page.props.auth.check;
+        }
+    },
+    data() {
+        return {
+            form: useForm({}),
+        }
+    },
+    methods: {
+        submit() {
+            this.form.delete('/logout');
+        }
     }
 }
 </script>
