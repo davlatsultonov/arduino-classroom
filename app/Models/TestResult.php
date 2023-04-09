@@ -9,6 +9,8 @@ class TestResult extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'test_question_id', 'test_answer_id'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

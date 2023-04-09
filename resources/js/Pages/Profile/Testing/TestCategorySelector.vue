@@ -34,10 +34,13 @@ export default {
     },
     methods: {
         submit: function () {
-            this.quizCategorySelectionForm.post(this.$page.url, {
-                onSuccess: () => this.$emit('setQuizState', 'process'),
+            this.quizCategorySelectionForm.post('test/' + this.quizCategorySelectionForm.category_id, {
+                onSuccess: () => this.handleEmit(),
             });
         },
+        handleEmit: function () {
+            this.$emit('setQuizState', 'process')
+        }
     },
 }
 </script>

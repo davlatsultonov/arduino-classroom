@@ -46,7 +46,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => function () {
                 return [
                     'user' => Auth::user(),
-                    'check' => Auth::check()
+                    'check' => Auth::check(),
+                    'solved_tests' =>  Auth::check() ? TestController::getUserTestCategories(Auth::user()->id) : []
                 ];
             },
         ]);

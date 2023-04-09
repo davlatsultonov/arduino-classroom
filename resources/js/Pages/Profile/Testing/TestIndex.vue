@@ -10,13 +10,13 @@
             <TestBox v-else-if="quizState === 'process'"
                      @test-state-changed="handleTestStateChange"
                      :tests="Object.entries(filteredTests)"
-                     :restart-test="() => quizState = 'start'"
+                     :handle-quiz-result="handleQuizResult"
             />
-            <TestResultBox v-else-if="quizState === 'end'"
+            <TestResultBox v-else-if="quizState === 'finish'"
                            :correctAnswersCount="correctAnswersCount"
                            :showQuizResults="showQuizResults"
                            :quiz-results="quizResults"
-                           @set-quiz-state="(state) => quizState = state"
+                           :handle-quiz-result="handleQuizResult"
                            :filtered-tests-length="Object.keys(filteredTests).length"
             />
         </div>
@@ -51,10 +51,14 @@ export default {
 
             this.tests.forEach((test, index, array) => {
                 if (!result.hasOwnProperty(test.question)) {
-                    result[test.question] = array.filter(item => item.question === test.question).map(item => ({
-                        answer: item.answer,
-                        is_correct: item.is_correct
-                    }))
+                    result[test.question] = array
+                        .filter(item => item.question === test.question)
+                        .map(({
+                          answer,
+                          is_correct,
+                          test_question_id,
+                          test_answer_id
+                      }) => ({answer, is_correct, test_question_id, test_answer_id}))
                 }
             })
 
@@ -62,12 +66,42 @@ export default {
         }
     },
     methods: {
-        handleTestStateChange: function (state) {
-            this.quizState = state[0];
-            this.quizResults = state[1];
-            this.correctAnswersCount = this.countCorrectAnswers(state[1]);
+        handleTestStateChange: function ([quizState, quizResults]) {
+            this.quizState = quizState;
+            this.quizResults = quizResults;
+            this.correctAnswersCount = this.countCorrectAnswers(quizResults);
         },
-        countCorrectAnswers: (answers) => answers.reduce((acc, curr) => curr.is_correct ? ++acc : acc, 0)
+        countCorrectAnswers: (answers) => answers.reduce((acc, curr) => curr.is_correct ? ++acc : acc, 0),
+        handleQuizResult: function (quizState) {
+            if (quizState === 'reset') {
+                this.quizState = 'start';
+            }
+
+            if (quizState === 'start') {
+                if (confirm('Сохранить тякущие изменения?')) {
+                    this.saveQuizResult()
+                }
+
+                this.quizState = 'start';
+            }
+
+            if (quizState === 'finish') {
+                this.saveQuizResult();
+                this.quizState = 'finish';
+            }
+        },
+        saveQuizResult: function () {
+            this.$inertia.visit('/profile/test', {
+                method: 'post',
+                data: {
+                    quizResults: this.quizResults.map(({test_question_id, test_answer_id}) => {
+                        return {
+                            test_question_id, test_answer_id, 'user_id': this.$page.props.auth.user.id
+                        }
+                    })
+                }
+            })
+        }
     }
 }
 </script>

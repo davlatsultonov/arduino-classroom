@@ -10,14 +10,16 @@
                 </button>
             </div>
         </div>
-        <button class="btn btn-dark" @click="restartTest">Restart</button>
+        <Link class="btn btn-outline-danger" :href="route('profile.test.index')" @click="() => handleQuizResult('reset')">Restart</Link>
     </div>
 </template>
 
 <script>
+import {Link} from "@inertiajs/inertia-vue3";
 export default {
     name: "TestBox",
-    props: ['tests', 'restartTest'],
+    props: ['tests', 'handleQuizResult'],
+    components: {Link},
     data() {
         return {
             currentQuestionIndex: 0,
@@ -29,25 +31,27 @@ export default {
             return {
                 question: this.tests[this.currentQuestionIndex][0],
                 answers: this.tests[this.currentQuestionIndex][1],
-                is_correct: this.tests[this.currentQuestionIndex][3],
             }
         }
     },
     methods: {
         nextQuestion: function (currentTestAnswer) {
+            console.log(123)
             this.quizResult.push({
                 question: this.currentTest.question,
-                answer: currentTestAnswer.answer,
-                is_correct: currentTestAnswer.is_correct
+                ...currentTestAnswer
             })
 
             ++this.currentQuestionIndex;
 
             if (this.currentQuestionIndex === this.tests.length) {
-                this.$emit('testStateChanged', ['end', this.quizResult])
+                this.$emit('testStateChanged', ['finish', this.quizResult])
             }
 
         }
+    },
+    created() {
+        console.log(12123)
     }
 }
 </script>
