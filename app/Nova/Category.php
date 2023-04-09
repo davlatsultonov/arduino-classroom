@@ -48,7 +48,7 @@ class Category extends Resource
                 ->hideFromIndex()
                 ->sortable()->required(),
             Text::make('Name')
-                ->rules('unique:categories,name,{{resourceId}}')
+                ->rules('unique:categories,id,{{resourceId}}')
                 ->sortable()
                 ->required(),
             HasMany::make('Tests'),

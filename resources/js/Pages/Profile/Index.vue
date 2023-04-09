@@ -1,6 +1,10 @@
 <template>
     <div>
         Profile Page, {{ name }}
+
+        <div class="mt-4">
+            <Link :href="route('profile.test.index')" class="btn btn-outline-dark">Test Myself</Link>
+        </div>
     </div>
 </template>
 

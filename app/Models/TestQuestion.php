@@ -17,4 +17,14 @@ class TestQuestion extends Model
     {
         return $this->belongsTo(Test::class);
     }
+
+    public function testResult()
+    {
+        return $this->hasOne(TestResult::class);
+    }
+
+    public function testAnswers()
+    {
+        return $this->hasMany(TestAnswer::class);
+    }
 }

@@ -47,7 +47,8 @@ class TestAnswer extends Resource
                 ->sortable()
                 ->required(),
             Boolean::make('Is correct', 'is_correct'),
-            BelongsTo::make('Test')
+            BelongsTo::make('Test'),
+            BelongsTo::make('TestQuestion')
         ];
     }
 

@@ -5,17 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TestAnswer extends Model
+class TestResult extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'answer', 'is_correct'
-    ];
-
-    public function test()
+    public function user()
     {
-        return $this->belongsTo(Test::class);
+        return $this->belongsTo(User::class);
     }
 
     public function testQuestion()

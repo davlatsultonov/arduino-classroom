@@ -3,10 +3,19 @@
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\ProfileController;
+use \App\Http\Controllers\TestController;
 
-// Profile
-Route::controller(ProfileController::class)->group(static function () {
-    Route::get('/profile', 'index')->name('profile.index')->middleware('auth:sanctum');
+Route::middleware(['auth:sanctum'])->group(function () {
+    // Test
+    Route::controller(TestController::class)->group(static function () {
+        Route::get('/profile/test/', 'index')->name('profile.test.index');
+        Route::post('/profile/test/', 'show')->name('profile.test.show');
+        //Route::post('/profile/test', 'store')->name('profile.test.store');
+    });
+    // Profile
+    Route::controller(ProfileController::class)->group(static function () {
+        Route::get('/profile', 'index')->name('profile.index');
+    });
 });
 // Auth
 Route::controller(LoginController::class)->group(static function () {

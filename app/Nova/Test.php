@@ -45,7 +45,7 @@ class Test extends Resource
                 ->sortable()
                 ->required(),
 
-            BelongsTo::make('Category'),
+            BelongsTo::make('Category')->rules('unique:tests,category_id,{{resourceId}}'),
 
             HasMany::make('TestQuestions'),
             HasMany::make('TestAnswers'),
