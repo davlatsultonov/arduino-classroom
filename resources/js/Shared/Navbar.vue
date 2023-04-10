@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand-lg mb-3 ac-navbar rounded mt-2">
         <div class="container">
-            <Link class="navbar-brand" href="/">Arduino <span class="d-block d-sm-inline"><b>CLASSROOM</b></span></Link>
+            <Link class="navbar-brand" href="/">Arduino<span class="d-block d-sm-inline"><b>CLASSROOM</b></span></Link>
             <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
