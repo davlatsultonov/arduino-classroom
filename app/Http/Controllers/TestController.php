@@ -63,15 +63,14 @@ class TestController extends Controller
     public static function getUserTestCategories($id)
     {
         return TestResult::where('user_id', $id)
-            ->join('test_questions', 'test_results.test_question_id', '=', 'test_questions.id')
-            ->join('tests', 'test_questions.test_id', '=', 'tests.id')
-            ->join('categories', 'tests.category_id', '=', 'categories.id')
+            ->join('test_questions', 'test_results.test_question_id', 'test_questions.id')
+            ->join('tests', 'test_questions.test_id', 'tests.id')
+            ->join('categories', 'tests.category_id', 'categories.id')
             ->distinct()
             ->select('categories.name')
             ->get()
             ->map(function ($category) {
                 return $category->name;
-            })
-            ->toArray();
+            });
     }
 }
