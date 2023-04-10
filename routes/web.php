@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\TestController;
+use \App\Http\Controllers\Auth\RegisterController;
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // Test
@@ -18,6 +19,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 });
 // Auth
+Route::controller(RegisterController::class)->group(static function () {
+    Route::get('/register', 'create')->name('register')->middleware('guest');
+    Route::post('/register', 'store')->middleware('guest');
+});
+
 Route::controller(LoginController::class)->group(static function () {
     Route::get('/login', 'create')->name('login')->middleware('guest');
     Route::post('/login', 'store')->middleware('guest');

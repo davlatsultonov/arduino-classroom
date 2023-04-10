@@ -1,13 +1,22 @@
 <template>
     <Head>
-        <title>Авторизация</title>
+        <title>Регистрация</title>
     </Head>
 
     <Link :href="route('home')" class="btn btn-outline-secondary text-decoration-none text-black d-inline-flex align-items-center py-1">
         <img src="/images/arrow_left_single.svg" alt="icon arrow left" width="23" class="me-1">
         Home</Link>
-    <h1 class="my-5 text-center">Авторизация</h1>
+    <h1 class="my-5 text-center">Регистрация</h1>
     <form @submit.prevent="submit">
+        <div class="mb-3">
+            <label for="login-name" class="form-label">Name</label>
+            <input type="text" name="name" v-model="form.name" class="form-control" :class="{
+                'is-invalid': form.errors.name
+            }" id="login-name">
+            <div class="invalid-feedback" v-if="form.errors.name">
+                {{ form.errors.name }}
+            </div>
+        </div>
         <div class="mb-3">
             <label for="login-email" class="form-label">Email address</label>
             <input type="email" name="email" v-model="form.email" class="form-control" :class="{
@@ -26,9 +35,13 @@
                 {{ form.errors.password }}
             </div>
         </div>
-        <button type="submit" class="btn btn-primary btn w-100">Войти</button>
+        <div class="mb-4">
+            <label for="login-password-confirmation" class="form-label">Confirm password</label>
+            <input type="password" name="password_confirmation"  v-model="form.password_confirmation" class="form-control" id="login-password-confirmation">
+        </div>
+        <button type="submit" class="btn btn-primary btn w-100">Зарегистрироваться</button>
         <div class="text-center mt-4">
-            <Link :href="route('register')" class="btn btn-link">Регистрация</Link>
+            <Link :href="route('login')" class="btn btn-link">Войти</Link>
         </div>
     </form>
 </template>
@@ -43,14 +56,16 @@ export default {
     data() {
         return {
             form: useForm({
-                email: process.env.NODE_ENV === 'development' ? 'test@mail.com' : null,
-                password: process.env.NODE_ENV === 'development' ? 'testtest' : null
+                name: process.env.NODE_ENV === 'development' ? 'Test1' : null,
+                email: process.env.NODE_ENV === 'development' ? 'test1@mail.com' : null,
+                password: process.env.NODE_ENV === 'development' ? 'test11' : null,
+                password_confirmation: process.env.NODE_ENV === 'development' ? 'test11' : null
             }),
         }
     },
     methods: {
         submit() {
-            this.form.post('/login');
+            this.form.post('/register');
         }
     }
 }
