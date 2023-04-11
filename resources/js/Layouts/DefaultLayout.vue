@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <Navbar/>
-        <div :class="`container mt-${$page.component === 'Home' ? '5' : '4'}`">
+        <div :class="`container mt-${hasMoreMargin ? '5' : '4'}`">
             <slot/>
         </div>
     </div>
@@ -13,6 +13,13 @@ import Navbar from "../Shared/Navbar.vue";
 
 export default {
     components: {Link, Navbar},
+    computed: {
+        hasMoreMargin() {
+            const routes = ['Home', 'Profile/Index'];
+
+            return routes.indexOf(this.$page.component) !== -1;
+        }
+    },
     methods: {
         logout() {
             this.$inertia.delete(route('logout'))

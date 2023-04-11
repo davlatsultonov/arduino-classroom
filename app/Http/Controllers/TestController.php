@@ -67,10 +67,10 @@ class TestController extends Controller
             ->join('tests', 'test_questions.test_id', 'tests.id')
             ->join('categories', 'tests.category_id', 'categories.id')
             ->distinct()
-            ->select('categories.name')
+            ->select('categories.name', 'categories.image')
             ->get()
             ->map(function ($category) {
-                return $category->name;
+                return $category;
             });
     }
 }

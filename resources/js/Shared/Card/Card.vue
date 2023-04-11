@@ -2,13 +2,12 @@
     <div class="card border-0" v-if="horizontal">
         <div class="row g-3">
             <div class="col-md-4">
-                <div class="img-fluid w-100 h-100 position-relative rounded-end rounded-top"
-                     :style="cardImageStyles">
+                <CardImage class="img-fluid w-100 h-100 position-relative rounded-end rounded-top" :image="card.image">
                     <Link :href="card.category_slug"
                           class="badge text-bg-dark rounded-0 position-absolute bottom-0 start-0 text-decoration-none">
                         {{ badgeText }}
                     </Link>
-                </div>
+                </CardImage>
             </div>
             <div class="col-md-8">
                 <div class="card-body">
@@ -23,18 +22,12 @@
         </div>
     </div>
     <div class="card border-0 mb-3" v-else>
-        <div
-            class="img-fluid position-relative rounded-end rounded-top"
-            :style="{
-                       height: '200px',
-                       ...cardImageStyles
-                     }">
-
+        <CardImage class="img-fluid position-relative rounded-end rounded-top" :image="card.image" image-height="200">
             <Link :href="card.category_slug"
                   class="badge text-bg-dark rounded-0 position-absolute bottom-0 start-0 text-decoration-none">
                 {{ badgeText }}
             </Link>
-        </div>
+        </CardImage>
         <div class="card-body">
             <Link :href="`/${card.category_slug}/` + card.slug" as="h5"
                   class="card-title mb-3 text-truncate">
@@ -49,10 +42,11 @@
 <script>
 import {Link} from "@inertiajs/inertia-vue3";
 import moment from 'moment';
+import CardImage from "./CardImage.vue";
 
 export default {
     name: "Card",
-    components: {Link},
+    components: {CardImage, Link},
     props: {
         card: Object,
         horizontal: Boolean

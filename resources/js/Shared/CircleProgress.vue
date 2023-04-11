@@ -35,7 +35,7 @@ export default {
         },
         progressColor: {
             type: String,
-            default: "#08D7B8"
+            default: "#00979d"
         },
         showNumber: {
             type: Boolean,

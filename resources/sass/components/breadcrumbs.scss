@@ -5,7 +5,7 @@
         &.badge {
             padding: 0;
             border-radius: 0;
-            border: 1px solid #00979d;
+            border: 1px solid $accent-color;
             overflow: hidden;
 
             &:first-child {
@@ -20,7 +20,7 @@
         }
 
         &.active {
-            background-color: #00979d;
+            background-color: $accent-color;
             border-color: transparent;
             color: #fff;
         }

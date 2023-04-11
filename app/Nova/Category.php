@@ -5,6 +5,7 @@ namespace App\Nova;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -53,6 +54,7 @@ class Category extends Resource
                 ->required(),
             HasMany::make('Tests'),
             HasMany::make('Articles'),
+            Image::make('Photo', 'image')->disk('public'),
         ];
     }
 

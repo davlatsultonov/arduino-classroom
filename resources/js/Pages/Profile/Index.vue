@@ -2,7 +2,7 @@
     <div>
         <h2 class="fw-bold mb-5">My learning</h2>
 
-        <div class="border rounded-4 p-5">
+        <div id="welcome-block" class="border rounded-4 py-5 px-4">
             <div class="row position-relative">
                 <div class="col-7">
                     <h3 class="mb-4">
@@ -14,64 +14,25 @@
 
                     <p>We hope you will continue to learn with us.</p>
 
-                    <div class="card position-absolute result-card shadow p-2 rounded-4">
-                        <div class="card-body">
-                            <h5 class="card-title mb-2 text-center">Good job!</h5>
-                            <div class="text-center">
-                                <small>your score</small>
-                            </div>
-                            <div class="mt-4 mb-4">
-                                <CircleProgress :percentage="19" :size="150" />
-                            </div>
-                            <small class="d-inline-block mb-3 ms-3">Score factors</small>
-                            <div class="row gx-2">
-                                <div class="col-6">
-                                    <div class="card result-card__inner-card rounded-3">
-                                        <div class="card-body py-2 px-3">
-                                            <div class="card-title fw-bold mb-0">2</div>
-                                            <small>lessons read</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="card rounded-3">
-                                        <div class="card-body py-2 px-3">
-                                            <div class="card-title fw-bold mb-0">2</div>
-                                            <small>quiz points</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                    <ResultCard class="position-absolute" />
                 </div>
             </div>
         </div>
 
-        <div class="row my-4" v-if="$page.props.auth.solved_tests.length">
-            <h4>Solved tests:</h4>
-            <div class="col-3">
-                <ul class="list-group">
-                    <li class="list-group-item" v-for="item in $page.props.auth.solved_tests">
-                        {{ item }}
-                    </li>
-                </ul>
-            </div>
-        </div>
+        <ProgressListRow v-if="$page.props.auth.solved_tests.length" :list="$page.props.auth.solved_tests" />
 
-        <div class="mt-4">
-            <Link :href="route('profile.test.index')" class="btn btn-outline-dark">Test Myself</Link>
-        </div>
+
     </div>
 </template>
 
 <script>
 import {Link, useForm} from "@inertiajs/inertia-vue3";
-import CircleProgress from "./CircleProgress.vue";
+import CircleProgress from "../../Shared/CircleProgress.vue";
+import ResultCard from "./ResultCard.vue";
+import ProgressListRow from "./ProgressBlock/ProgressListRow.vue";
 export default {
     name: "Index",
-    components: {CircleProgress, Link},
+    components: {ProgressListRow, ResultCard, CircleProgress, Link},
     props: ['name'],
     data() {
         return {
@@ -92,6 +53,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+    #welcome-block {
+        margin-bottom: 150px;
+    }
+
     .card.result-card {
         right: 35px;
         width: 350px;
