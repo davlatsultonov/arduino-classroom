@@ -1,7 +1,7 @@
 <template>
     <div class="container-fluid">
         <Navbar/>
-        <div class="container mt-5">
+        <div :class="`container mt-${$page.component === 'Home' ? '5' : '4'}`">
             <slot/>
         </div>
     </div>

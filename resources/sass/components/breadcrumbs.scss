@@ -1,0 +1,35 @@
+.breadcrumb {
+
+    &-item {
+
+        &.badge {
+            padding: 0;
+            border-radius: 0;
+            border: 1px solid #00979d;
+            overflow: hidden;
+
+            &:first-child {
+                border-top-left-radius: 5px;
+                border-bottom-left-radius: 5px;
+            }
+
+            &:last-child {
+                border-top-right-radius: 5px;
+                border-bottom-right-radius: 5px;
+            }
+        }
+
+        &.active {
+            background-color: #00979d;
+            border-color: transparent;
+            color: #fff;
+        }
+
+        * {
+            display: block;
+            text-align: center;
+            font-size: 14px;
+            padding: 5px 10px;
+        }
+    }
+}

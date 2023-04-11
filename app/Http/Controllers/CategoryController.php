@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Models\Article;
+use App\Models\Category;
 use Diglactic\Breadcrumbs\Breadcrumbs;
 
 class CategoryController extends Controller
@@ -16,5 +17,10 @@ class CategoryController extends Controller
             ->where('categories.slug', $slug)->get();
 
         return inertia('Articles/Index', compact('articles', 'breadcrumbs'));
+    }
+
+    public static function getCategoryNameBySlug($slug)
+    {
+        return Category::firstWhere('slug', $slug)->name;
     }
 }
