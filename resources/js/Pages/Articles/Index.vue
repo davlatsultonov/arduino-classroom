@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="col-lg-4">
-            <CardGroup :cards="articles" title="Top" :cards-in-row="1"/>
+            <CardGroup :cards="topArticles" title="Top" :cards-in-row="1"/>
         </div>
     </div>
 </template>
@@ -21,6 +21,9 @@ import CardGroup from "../../Shared/Card/CardGroup.vue";
 import Breadcrumb from "../../Shared/Breadcrumb.vue";
 export default {
     components: {Breadcrumb, Head, Link, CardGroup},
-    props: ['articles', 'breadcrumbs']
+    props: ['articles', 'breadcrumbs', 'topArticles'],
+    created() {
+        console.log(this.topArticles)
+    }
 }
 </script>

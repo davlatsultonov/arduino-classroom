@@ -3,10 +3,8 @@
         <div class="row g-3">
             <div class="col-md-4">
                 <CardImage class="img-fluid w-100 h-100 position-relative rounded-end rounded-top" :image="card.image">
-                    <Link :href="card.category_slug"
-                          class="badge text-bg-dark rounded-0 position-absolute bottom-0 start-0 text-decoration-none">
-                        {{ badgeText }}
-                    </Link>
+                    <CardTag :category-slug="card.category_slug" :badge-text="badgeText" />
+                    <CardView v-if="card.views" :views="card.views" />
                 </CardImage>
             </div>
             <div class="col-md-8">
@@ -23,10 +21,8 @@
     </div>
     <div class="card border-0 mb-3" v-else>
         <CardImage class="img-fluid position-relative rounded-end rounded-top" :image="card.image" image-height="200">
-            <Link :href="card.category_slug"
-                  class="badge text-bg-dark rounded-0 position-absolute bottom-0 start-0 text-decoration-none">
-                {{ badgeText }}
-            </Link>
+            <CardTag :category-slug="card.category_slug" :badge-text="badgeText" />
+            <CardView v-if="card.views" :views="card.views" />
         </CardImage>
         <div class="card-body">
             <Link :href="`/${card.category_slug}/` + card.slug" as="h5"
@@ -43,10 +39,12 @@
 import {Link} from "@inertiajs/inertia-vue3";
 import moment from 'moment';
 import CardImage from "./CardImage.vue";
+import CardView from "./CardView.vue";
+import CardTag from "./CardTag.vue";
 
 export default {
     name: "Card",
-    components: {CardImage, Link},
+    components: {CardTag, CardView, CardImage, Link},
     props: {
         card: Object,
         horizontal: Boolean
@@ -99,6 +97,16 @@ export default {
         display: -webkit-box;
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
+    }
+
+    .badge {
+        background-color: #00979d !important;
+
+    }
+
+
+    a.badge:hover {
+        color: #fff;
     }
 }
 </style>

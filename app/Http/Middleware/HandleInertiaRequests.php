@@ -2,9 +2,9 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\TestController;
 use App\Models\Category;
-use App\Models\Test;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Middleware;
@@ -42,6 +42,7 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
             'categories' => fn () => Category::all(),
+            'topArticles' => fn() => ArticleController::getTopArticles(),
             'availableTestCategories' => fn () => TestController::getAvailableTestCategories(),
             'auth' => function () {
                 return [
