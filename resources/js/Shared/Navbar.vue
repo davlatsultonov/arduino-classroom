@@ -1,7 +1,7 @@
 <template>
-    <nav class="navbar navbar-expand-lg mb-3 ac-navbar rounded mt-2">
+    <nav class="navbar navbar-expand-lg ac-navbar">
         <div class="container">
-            <Link class="navbar-brand" href="/">Arduino<span class="d-block d-sm-inline"><b>CLASSROOM</b></span></Link>
+            <Logo class="navbar-brand" />
             <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -32,10 +32,11 @@
 
 <script>
 import {Link, useForm} from "@inertiajs/inertia-vue3";
+import Logo from "./Logo.vue";
 
 export default {
     name: "Navbar",
-    components: {Link},
+    components: {Logo, Link},
     computed: {
         isAuth() {
             return this.$page.props.auth.check;
