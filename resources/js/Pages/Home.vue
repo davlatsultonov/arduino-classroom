@@ -2,7 +2,7 @@
     <Head>
         <title>Home Page</title>
     </Head>
-    <div class="row gx-5">
+    <div class="row">
         <div class="col-lg-8">
             <img src="/images/arduino-logo.png" class="rounded float-start" alt="arduino logo"
                  style="margin-right: 20px; margin-bottom: 20px;">
