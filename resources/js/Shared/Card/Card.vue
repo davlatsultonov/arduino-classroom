@@ -8,7 +8,7 @@
                 </CardImage>
             </div>
             <div class="col-md-8">
-                <div class="card-body">
+                <div class="card-body py-0">
                     <Link :href="`/${card.category_slug}/` + card.slug" as="h5"
                           class="card-title mb-3 text-truncate">
                         {{ card.name }}
