@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Test;
 use App\Models\TestResult;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TestController extends Controller
 {
@@ -60,9 +61,9 @@ class TestController extends Controller
         });
     }
 
-    public static function getUserTestCategories($id)
+    public static function getUserTestCategories()
     {
-        return TestResult::where('user_id', $id)
+        return Auth::check() ? TestResult::where('user_id', Auth::user()->id)
             ->join('test_questions', 'test_results.test_question_id', 'test_questions.id')
             ->join('tests', 'test_questions.test_id', 'tests.id')
             ->join('categories', 'tests.category_id', 'categories.id')
@@ -71,6 +72,6 @@ class TestController extends Controller
             ->get()
             ->map(function ($category) {
                 return $category;
-            });
+            }) : [];
     }
 }

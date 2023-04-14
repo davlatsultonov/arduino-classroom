@@ -14,7 +14,10 @@
 
                     <p>We hope you will continue to learn with us.</p>
 
-                    <ResultCard class="position-absolute" />
+                    <ResultCard class="position-absolute"
+                                :total-points-count="totalPointsCount"
+                                :current-points-count="currentPointsCount"
+                    />
                 </div>
             </div>
         </div>
@@ -33,7 +36,7 @@ import ProgressListRow from "./ProgressBlock/ProgressListRow.vue";
 export default {
     name: "Index",
     components: {ProgressListRow, ResultCard, CircleProgress, Link},
-    props: ['name'],
+    props: ['name', 'totalPointsCount', 'currentPointsCount'],
     data() {
         return {
             form: useForm({}),

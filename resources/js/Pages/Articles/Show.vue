@@ -35,6 +35,7 @@ export default {
     props: ['article', 'breadcrumbs'],
     data() {
         return {
+            readingTime: 4,
             time: 0,
             intervalId: null,
             pageLoadTime: Date.now(),
@@ -48,7 +49,7 @@ export default {
         },
         formattedTime() {
             const minutes = Math.floor(this.time / 60000);
-            const seconds = ((this.time % 60000) / 1000).toFixed(0);
+            const seconds = parseInt(((this.time % 60000) / 1000).toFixed(0));
             return {
                 minutes, seconds
             };
@@ -78,23 +79,28 @@ export default {
                 }
             });
 
-            window.addEventListener("scroll", this.throttle(this.handleScroll, 1000));
+            const footer = document.querySelector(".footer");
+
+            if (footer) {
+                window.addEventListener("scroll", this.throttle(() => {
+                    this.handleScroll(footer)
+                }, 1000));
+            }
         }
     },
     methods: {
-        handleScroll() {
-            const footer = document.querySelector(".footer");
+        handleScroll(footer) {
             const footerPosition = footer.getBoundingClientRect().top + window.scrollY;
             const scrolled = window.scrollY + window.innerHeight;
 
             if (scrolled >= footerPosition) {
-                if (parseInt(this.formattedTime.seconds) >= 1 && !this.hasScrolled) {
+                if (this.formattedTime.minutes >= this.readingTime && !this.hasScrolled) {
                     this.$inertia.visit(this.$page.url, {
                         method: 'post',
                         preserveScroll: true,
                         preserveState: true,
                         data: {
-                          id: this.article.id
+                            id: this.article.id
                         }
                     })
 
