@@ -10,7 +10,12 @@
                 </button>
             </div>
         </div>
-        <Link class="btn btn-outline-danger" :href="route('profile.test.index')" @click="() => handleQuizResult('reset')">Restart</Link>
+        <div class="d-flex align-items-center justify-content-between">
+            <Link class="btn btn-outline-danger" :href="route('profile.test.index')" @click="() => handleQuizResult('reset')">Restart</Link>
+            <div class="badge text-bg-dark">
+                <span class="fw-bold">{{ currentQuestionIndex + 1 }}</span> of {{ tests.length }}
+            </div>
+        </div>
     </div>
 </template>
 
@@ -36,7 +41,6 @@ export default {
     },
     methods: {
         nextQuestion: function (currentTestAnswer) {
-            console.log(123)
             this.quizResult.push({
                 question: this.currentTest.question,
                 ...currentTestAnswer
@@ -49,9 +53,6 @@ export default {
             }
 
         }
-    },
-    created() {
-        console.log(12123)
     }
 }
 </script>

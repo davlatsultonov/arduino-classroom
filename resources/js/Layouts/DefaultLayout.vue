@@ -3,7 +3,7 @@
        <Navbar class="flex-shrink-0" />
 
        <div class="container-fluid flex-grow-1">
-           <div :class="`container mt-${hasMoreMargin ? '5' : '4'}`">
+           <div class="container h-100">
                <slot/>
            </div>
        </div>
@@ -19,13 +19,6 @@ import Footer from "../Shared/Footer.vue";
 
 export default {
     components: {Footer, Link, Navbar},
-    computed: {
-        hasMoreMargin() {
-            const routes = ['Home', 'Profile/Index'];
-
-            return routes.indexOf(this.$page.component) !== -1;
-        }
-    },
     methods: {
         logout() {
             this.$inertia.delete(route('logout'))

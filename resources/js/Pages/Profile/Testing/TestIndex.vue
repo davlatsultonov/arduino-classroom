@@ -1,5 +1,5 @@
 <template>
-    <div class="row justify-content-center">
+    <div class="row justify-content-center d-flex align-items-center h-100">
         <div class="col-5">
             <h1 class="mb-5 text-center">Test yourself</h1>
             <TestCategorySelector
