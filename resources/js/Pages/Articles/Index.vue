@@ -21,9 +21,6 @@ import CardGroup from "../../Shared/Card/CardGroup.vue";
 import Breadcrumb from "../../Shared/Breadcrumb.vue";
 export default {
     components: {Breadcrumb, Head, Link, CardGroup},
-    props: ['articles', 'breadcrumbs', 'topArticles'],
-    created() {
-        console.log(this.topArticles)
-    }
+    props: ['articles', 'breadcrumbs', 'topArticles']
 }
 </script>

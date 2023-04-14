@@ -6,7 +6,7 @@ use \App\Http\Controllers\ProfileController;
 use \App\Http\Controllers\TestController;
 use \App\Http\Controllers\Auth\RegisterController;
 
-Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth:web'])->group(function () {
     // Test
     Route::controller(TestController::class)->group(static function () {
         Route::get('/profile/test', 'index')->name('profile.test.index');
@@ -17,6 +17,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::controller(ProfileController::class)->group(static function () {
         Route::get('/profile', 'index')->name('profile.index');
     });
+    Route::post('/{slug}/{article_slug}', ['App\Http\Controllers\ArticleController', 'store']);
 });
 // Auth
 Route::controller(RegisterController::class)->group(static function () {
