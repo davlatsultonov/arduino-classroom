@@ -38,7 +38,8 @@ class TestController extends Controller
     }
 
     private function getTestItems($test_id) {
-        return Test::join('test_questions', 'tests.id', '=', 'test_questions.test_id')
+        return Test::findOrFail($test_id)
+            ->testQuestions()
             ->join('test_answers', 'test_questions.id', '=', 'test_answers.test_question_id')
             ->select(
                 'test_questions.id as test_question_id',
@@ -47,22 +48,17 @@ class TestController extends Controller
                 'test_answers.answer',
                 'test_answers.is_correct',
             )
-            ->where('tests.id', $test_id)
             ->get();
     }
 
     public static function getAvailableCategoriesWithTest()
     {
-        return Category::withCount('tests')->get()->where('tests_count', '>', 0)->values();
+        return Category::has('tests')->get();
     }
 
     public static function getAvailableTests()
     {
-        return Test::withCount(['testAnswers', 'testQuestions'])->get()
-            ->where('test_answers_count', '>', 0)
-            ->where('test_questions_count', '>', 0)
-            ->values();
-
+        return Test::has('testQuestions')->has('testAnswers')->get();
     }
 
     public static function getUserTestCategories()
