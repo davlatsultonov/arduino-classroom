@@ -4,6 +4,8 @@
             <h1 class="mb-5 text-center">Test yourself</h1>
             <TestCategorySelector
                 v-if="quizState === 'start'"
+                :available-categories="availableCategories"
+                :available-tests="availableTests"
                 :quiz-state="quizState"
                 @set-quiz-state="(state) => quizState = state"
             />
@@ -33,7 +35,9 @@ export default {
     name: "TestIndex",
     components: {TestResultBox, TestCategorySelector, TestBox, Link},
     props: {
-        tests: Array,
+        currentTest: Array,
+        availableTests: Array,
+        availableCategories: Array
     },
     data() {
         return {
@@ -45,11 +49,11 @@ export default {
     },
     computed: {
         filteredTests: function () {
-            if (!(this.tests && this.tests.length)) return null;
+            if (!(this.currentTest && this.currentTest.length)) return null;
 
             const result = {};
 
-            this.tests.forEach((test, index, array) => {
+            this.currentTest.forEach((test, index, array) => {
                 if (!result.hasOwnProperty(test.question)) {
                     result[test.question] = array
                         .filter(item => item.question === test.question)
@@ -105,7 +109,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

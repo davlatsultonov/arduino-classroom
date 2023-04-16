@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Test;
 use App\Models\TestResult;
 use Illuminate\Http\Request;
@@ -11,18 +12,17 @@ class TestController extends Controller
 {
     public function index()
     {
-        return inertia('Profile/Testing/TestIndex');
+        return inertia('Profile/Testing/TestIndex', [
+            'availableCategories' => self::getAvailableCategoriesWithTest(),
+            'availableTests' => self::getAvailableTests()
+        ]);
     }
 
     public function show(Request $request)
     {
-        $request->validate([
-            'category_id' => 'required'
+        return inertia('Profile/Testing/TestIndex', [
+            'currentTest' => $this->getTestItems($request->test_id)
         ]);
-
-        $tests = $this->getTestItems($request->category_id);
-
-        return inertia('Profile/Testing/TestIndex', compact('tests'));
     }
 
     public function store(Request $request)
@@ -30,17 +30,15 @@ class TestController extends Controller
         foreach ($request->quizResults as $quizResult) {
             TestResult::updateOrCreate(
                 ['test_question_id' => $quizResult['test_question_id'], 'user_id' => $quizResult['user_id']],
-                [
-                    'test_answer_id' => $quizResult['test_answer_id']
-                ]
+                ['test_answer_id' => $quizResult['test_answer_id']]
             );
         }
 
         return redirect()->route('profile.test.index');
     }
 
-    private function getTestItems($category_id) {
-        return Test::where('category_id', '=', $category_id)->join('test_questions', 'tests.id', '=', 'test_questions.test_id')
+    private function getTestItems($test_id) {
+        return Test::join('test_questions', 'tests.id', '=', 'test_questions.test_id')
             ->join('test_answers', 'test_questions.id', '=', 'test_answers.test_question_id')
             ->select(
                 'test_questions.id as test_question_id',
@@ -49,16 +47,22 @@ class TestController extends Controller
                 'test_answers.answer',
                 'test_answers.is_correct',
             )
+            ->where('tests.id', $test_id)
             ->get();
     }
 
-    public static function getAvailableTestCategories()
+    public static function getAvailableCategoriesWithTest()
     {
-        return Test::all()->filter(function ($test) {
-            return count($test->testQuestions);
-        })->map(function ($test) {
-            return $test->category;
-        });
+        return Category::withCount('tests')->get()->where('tests_count', '>', 0)->values();
+    }
+
+    public static function getAvailableTests()
+    {
+        return Test::withCount(['testAnswers', 'testQuestions'])->get()
+            ->where('test_answers_count', '>', 0)
+            ->where('test_questions_count', '>', 0)
+            ->values();
+
     }
 
     public static function getUserTestCategories()

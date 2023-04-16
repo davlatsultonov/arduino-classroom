@@ -17,7 +17,7 @@ class ProfileController extends Controller
 
     public static function getTotalPointsCount()
     {
-        return Article::all()->count() + (TestController::getAvailableTestCategories()->count() * 2);
+        return Article::all()->count() + (TestController::getAvailableCategoriesWithTest()->count() * 2);
     }
 
     public static function getCurrentPointsCount()

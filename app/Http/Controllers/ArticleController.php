@@ -14,8 +14,7 @@ class ArticleController extends Controller
         $breadcrumbs = Breadcrumbs::render('article.show', $request->slug, $request->article_slug)->getData();
         $article = Article::where('slug', $request->article_slug)->firstOrFail();
         $article->timestamps = false;
-        $article->views++;
-        $article->save();
+        $article->increment('views');
         return inertia('Articles/Show', compact('article', 'breadcrumbs'));
     }
 
@@ -32,6 +31,7 @@ class ArticleController extends Controller
         return Article::where('views','>', 10)
             ->join('categories', 'articles.category_id', '=', 'categories.id')
             ->select('articles.*', 'categories.slug as category_slug', 'categories.name as category_name')
+            ->orderBy('views', 'desc')
             ->limit(10)->get();
     }
 

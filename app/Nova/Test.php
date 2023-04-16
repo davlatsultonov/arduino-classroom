@@ -42,10 +42,11 @@ class Test extends Resource
     {
         return [
             Text::make('Description')
+                ->rules('unique:tests,description,{{resourceId}}')
                 ->sortable()
                 ->required(),
 
-            BelongsTo::make('Category')->rules('unique:tests,category_id,{{resourceId}}'),
+            BelongsTo::make('Category'),
 
             HasMany::make('TestQuestions'),
             HasMany::make('TestAnswers'),
