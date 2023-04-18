@@ -22,4 +22,14 @@ class Category extends Model
     {
         return $this->hasMany(Article::class);
     }
+
+    public function scopeHasCompletedTests($q)
+    {
+        $q->whereHas('tests.testQuestions.testResults', fn($q) => $q->whereUserId(auth()->id()));
+    }
+
+    public function scopeSlug($q, $slug)
+    {
+        return $q->whereSlug($slug)->first()->name;
+    }
 }

@@ -18,6 +18,11 @@ class Test extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function testResults()
+    {
+        return $this->hasMany(TestResult::class);
+    }
+
     public function testQuestions()
     {
         return $this->hasMany(TestQuestion::class);

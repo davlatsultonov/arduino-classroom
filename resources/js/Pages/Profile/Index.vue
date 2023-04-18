@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <ProgressListRow v-if="$page.props.auth.solved_tests.length" :list="$page.props.auth.solved_tests" />
+        <ProgressListRow v-if="$page.props.shared.auth.solved_tests.length" :list="$page.props.shared.auth.solved_tests" />
 
 
     </div>

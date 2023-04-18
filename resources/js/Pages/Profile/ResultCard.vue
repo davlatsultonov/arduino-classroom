@@ -17,7 +17,7 @@
                 <div class="col-6">
                     <div class="card result-card__inner-card rounded-3">
                         <div class="card-body py-2 px-3">
-                            <div class="card-title fw-bold mb-0">{{ this.$page.props.auth.read_articles.length }}</div>
+                            <div class="card-title fw-bold mb-0">{{ this.$page.props.shared.auth.read_articles.length }}</div>
                             <small>lessons read</small>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
                 <div class="col-6">
                     <div class="card rounded-3">
                         <div class="card-body py-2 px-3">
-                            <div class="card-title fw-bold mb-0">{{ this.$page.props.auth.solved_tests.length }}</div>
+                            <div class="card-title fw-bold mb-0">{{ this.$page.props.shared.auth.solved_tests.length }}</div>
                             <small>quiz finished</small>
                         </div>
                     </div>

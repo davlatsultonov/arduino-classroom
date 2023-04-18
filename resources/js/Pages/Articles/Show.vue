@@ -1,17 +1,15 @@
 <template>
     <div class="article"  ref="article">
         <Head>
-            <title>Article</title>
+            <title>{{ article.name }}</title>
         </Head>
 
-        <Breadcrumb :breadcrumbs="breadcrumbs.breadcrumbs" />
+        <Breadcrumb v-if="breadcrumbs" :breadcrumbs="breadcrumbs.breadcrumbs" />
 
-        <div class="row justify-content-center " >
-            <div class="col-md-8">
-                <h2 class="mb-3">{{ article.name }}</h2>
+        <div>
+            <h1 class="mb-3">{{ article.name }}</h1>
 
-                <p v-html="parsedText"></p>
-            </div>
+            <p v-html="parsedText"></p>
         </div>
     </div>
 </template>
@@ -55,17 +53,17 @@ export default {
             };
         },
         auth() {
-            return this.$page.props.auth;
+            return this.$page.props.shared.auth;
         },
         isNewArticle() {
-            return this.auth.read_articles.indexOf(this.article.id) === -1
+            return this.auth?.read_articles.indexOf(this.article.id) === -1
         }
     },
     beforeUnmount() {
         this.stopScrollInit();
     },
     mounted() {
-        if (this.auth.check && this.isNewArticle) {
+        if (this.auth && this.isNewArticle) {
             this.intervalId = setInterval(() => {
                 if (this.isActive) {
                     this.time = Date.now() - this.pageLoadTime;

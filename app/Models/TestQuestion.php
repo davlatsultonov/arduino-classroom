@@ -18,9 +18,9 @@ class TestQuestion extends Model
         return $this->belongsTo(Test::class);
     }
 
-    public function testResult()
+    public function testResults()
     {
-        return $this->hasOne(TestResult::class);
+        return $this->hasMany(TestResult::class);
     }
 
     public function testAnswers()

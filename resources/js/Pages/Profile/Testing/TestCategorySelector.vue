@@ -42,8 +42,8 @@ export default {
     data() {
       return {
           quizCategorySelectionForm: useForm({
-              category_id: null,
-              test_id: null,
+              category_id: 1,
+              test_id: 1,
           })
       }
     },

@@ -64,7 +64,7 @@
             <CardGroup v-for="(category, key) in articles" :title="key" :cards="category" :cards-in-row="3"/>
         </div>
         <div class="col-lg-4">
-            <CardGroup :cards="topArticles" title="Top" :cards-in-row="1"/>
+            <CardGroup :cards="shared.topArticles" title="Top" :cards-in-row="1"/>
         </div>
     </div>
 </template>
@@ -78,7 +78,7 @@ export default {
     components: {Accordion, CardGroup, Navbar, Head, Link},
     props: {
         articles: Object,
-        topArticles: Array
+        shared: Array
     }
 }
 </script>

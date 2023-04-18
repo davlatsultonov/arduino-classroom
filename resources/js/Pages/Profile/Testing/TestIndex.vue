@@ -11,7 +11,7 @@
             />
             <TestBox v-else-if="quizState === 'process'"
                      @test-state-changed="handleTestStateChange"
-                     :tests="Object.entries(filteredTests)"
+                     :current-test="currentTest"
                      :handle-quiz-result="handleQuizResult"
             />
             <TestResultBox v-else-if="quizState === 'finish'"
@@ -19,7 +19,7 @@
                            :showQuizResults="showQuizResults"
                            :quiz-results="quizResults"
                            :handle-quiz-result="handleQuizResult"
-                           :filtered-tests-length="Object.keys(filteredTests).length"
+                           :filtered-tests-length="currentTest.test_questions.length"
             />
         </div>
     </div>
@@ -35,7 +35,8 @@ export default {
     name: "TestIndex",
     components: {TestResultBox, TestCategorySelector, TestBox, Link},
     props: {
-        currentTest: Array,
+        data: Array,
+        currentTest: Object,
         availableTests: Array,
         availableCategories: Array
     },
@@ -45,28 +46,6 @@ export default {
             quizResults: null,
             showQuizResults: false,
             correctAnswersCount: null,
-        }
-    },
-    computed: {
-        filteredTests: function () {
-            if (!(this.currentTest && this.currentTest.length)) return null;
-
-            const result = {};
-
-            this.currentTest.forEach((test, index, array) => {
-                if (!result.hasOwnProperty(test.question)) {
-                    result[test.question] = array
-                        .filter(item => item.question === test.question)
-                        .map(({
-                          answer,
-                          is_correct,
-                          test_question_id,
-                          test_answer_id
-                      }) => ({answer, is_correct, test_question_id, test_answer_id}))
-                }
-            })
-
-            return result;
         }
     },
     methods: {
@@ -98,11 +77,9 @@ export default {
             this.$inertia.visit('/profile/test', {
                 method: 'post',
                 data: {
-                    quizResults: this.quizResults.map(({test_question_id, test_answer_id}) => {
-                        return {
-                            test_question_id, test_answer_id, 'user_id': this.$page.props.auth.user.id
-                        }
-                    })
+                    quizResults: this.quizResults.map(({id, test_question_id}) => ({
+                        test_question_id, test_answer_id: id, 'user_id': this.$page.props.shared.auth.userId
+                    }))
                 }
             })
         }

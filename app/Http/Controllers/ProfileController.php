@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Services\TestService;
 
 class ProfileController extends Controller
 {
@@ -15,14 +16,14 @@ class ProfileController extends Controller
         ]);
     }
 
-    public static function getTotalPointsCount()
+    public function getTotalPointsCount()
     {
-        return Article::all()->count() + (TestController::getAvailableCategoriesWithTest()->count() * 2);
+        return Article::count() + (TestService::getAvailableCategoriesWithTest()->count() * 2);
     }
 
-    public static function getCurrentPointsCount()
+    public function getCurrentPointsCount()
     {
-        return (count(TestController::getUserTestCategories()) * 2) + count(ArticleController::getReadArticles());
+        return (count(TestService::getUserTestCategories()) * 2) + count(ArticleController::getReadArticles());
     }
 
 

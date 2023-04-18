@@ -21,7 +21,7 @@
             </ul>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav mt-4 mt-lg-0">
-                    <li :class="['nav-item', { 'active': $page.url.startsWith('/' + slug) }]" v-for="{id, name, slug} in this.$page.props.categories" :key="id">
+                    <li :class="['nav-item', { 'active': $page.url.startsWith('/' + slug) }]" v-for="{id, name, slug} in this.$page.props.shared.categories" :key="id">
                         <Link class="nav-link px-3" aria-current="page" :href="'/' + slug">{{ name }}</Link>
                     </li>
                 </ul>
@@ -39,7 +39,7 @@ export default {
     components: {Logo, Link},
     computed: {
         isAuth() {
-            return this.$page.props.auth.check;
+            return this.$page.props.shared.auth;
         }
     },
     data() {

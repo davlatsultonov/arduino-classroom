@@ -3,13 +3,13 @@
         <div class="row g-3">
             <div class="col-md-4">
                 <CardImage class="img-fluid w-100 h-100 position-relative rounded-end rounded-top" :image="card.image">
-                    <CardTag :category-slug="card.category_slug" :badge-text="badgeText" />
+                    <CardTag :category-slug="card.category.slug" :badge-text="badgeText" />
                     <CardView v-if="card.views" :views="card.views" />
                 </CardImage>
             </div>
             <div class="col-md-8">
                 <div class="card-body py-0">
-                    <Link :href="`/${card.category_slug}/` + card.slug" as="h5"
+                    <Link :href="`/${card.category.slug}/` + card.slug" as="h5"
                           class="card-title mb-3 text-truncate">
                         {{ card.name }}
                     </Link>
@@ -21,11 +21,11 @@
     </div>
     <div class="card border-0 mb-3" v-else>
         <CardImage class="img-fluid position-relative rounded-end rounded-top" :image="card.image" image-height="200">
-            <CardTag :category-slug="card.category_slug" :badge-text="badgeText" />
+            <CardTag :category-slug="card.category.slug" :badge-text="badgeText" />
             <CardView v-if="card.views" :views="card.views" />
         </CardImage>
         <div class="card-body">
-            <Link :href="`/${card.category_slug}/` + card.slug" as="h5"
+            <Link :href="`/${card.category.slug}/` + card.slug" as="h5"
                   class="card-title mb-3 text-truncate">
                 {{ card.name }}
             </Link>
@@ -54,7 +54,7 @@ export default {
             return moment(this.card.updated_at).fromNow();
         },
         badgeText() {
-            return this.card.category_name
+            return this.card.category.name
         },
         cardImage() {
             let img = this.card.image;

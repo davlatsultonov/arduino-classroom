@@ -30,7 +30,3 @@ export default {
     props: ['correctAnswersCount', 'showQuizResults', 'filteredTestsLength', 'quizResults', 'handleQuizResult']
 }
 </script>
-
-<style scoped>
-
-</style>
