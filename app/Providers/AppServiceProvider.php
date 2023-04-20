@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\BaseService;
+use App\Services\ProfileService;
 use App\Services\TestService;
 use Illuminate\Support\ServiceProvider;
 
@@ -19,6 +20,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(TestService::class, function ($app) {
             return new TestService();
+        });
+
+        $this->app->bind(ProfileService::class, function ($app) {
+            return new ProfileService();
         });
     }
 

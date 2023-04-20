@@ -3,7 +3,7 @@
         <li class="list-group-item p-0 border-0" v-for="({slug, name}, index) in tutorials">
             <Link class="list-group-item list-group-item-action" :class="{
                 'border-top-0': index !== 0
-            }" :href="'/uroki/' + slug">{{ name }}</Link>
+            }" :href="'/tutorial/' + slug">{{ name }}</Link>
         </li>
     </ul>
 </template>
