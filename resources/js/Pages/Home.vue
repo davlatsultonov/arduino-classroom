@@ -78,7 +78,7 @@ export default {
     components: {Accordion, CardGroup, Navbar, Head, Link},
     props: {
         articles: Object,
-        shared: Array
+        shared: Object
     }
 }
 </script>

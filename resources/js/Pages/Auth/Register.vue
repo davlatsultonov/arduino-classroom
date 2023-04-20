@@ -41,7 +41,7 @@
         </div>
         <button type="submit" class="btn btn-primary btn w-100">Зарегистрироваться</button>
         <div class="text-center mt-4">
-            <Link :href="route('login')" class="btn btn-link">Войти</Link>
+            <Link :href="route('login.create')" class="btn btn-link">Войти</Link>
         </div>
     </form>
 </template>

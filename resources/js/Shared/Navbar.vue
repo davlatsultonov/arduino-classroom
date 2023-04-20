@@ -7,7 +7,7 @@
             </button>
             <ul class="navbar-nav ps-3 flex-row order-lg-1">
                 <li>
-                    <Link class="nav-link px-2" :href="route(isAuth ? 'profile.index' : 'login')">
+                    <Link class="nav-link px-2" :href="route(isAuth ? 'profile.index' : 'login.create')">
                         <img  width="25" :src="'/images/' + (isAuth ? 'auth-stub.svg' : 'sign_in.svg')" :alt="'icon' + (isAuth ? 'auth' : 'sign in')">
                     </Link>
                 </li>

@@ -28,7 +28,7 @@
         </div>
         <button type="submit" class="btn btn-primary btn w-100">Войти</button>
         <div class="text-center mt-4">
-            <Link :href="route('register')" class="btn btn-link">Регистрация</Link>
+            <Link :href="route('register.create')" class="btn btn-link">Регистрация</Link>
         </div>
     </form>
 </template>
