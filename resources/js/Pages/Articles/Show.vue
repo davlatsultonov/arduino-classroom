@@ -6,24 +6,27 @@
 
         <Breadcrumb v-if="breadcrumbs" :breadcrumbs="breadcrumbs.breadcrumbs" />
 
+        <h1 class="mb-4">{{ article.name }}</h1>
+
+        <slot name="page-navigation-buttons"></slot>
+
+        <div class="border-bottom mb-3"></div>
+
         <div class="row">
             <div :class="`col${ headingIds.length ? '-lg-9' : null }`">
-                <h1 class="mb-3">{{ article.name }}</h1>
 
                 <p v-html="parsedText"></p>
             </div>
             <div class="col-md-3 headings-content" v-if="headingIds.length">
                 <button class="d-lg-none btn btn-secondary fw-bold border-0" @click="headingsContentActive = !headingsContentActive">Содержание</button>
 
-                <div class="position-sticky headings-content-body mt-2 p-3 rounded-1" style="top: 15px;" v-if="headingsContentActive">
+                <div class="position-sticky headings-content-body pt-0 p-3 rounded-1" style="top: 15px;" v-if="headingsContentActive">
                     <h5 class="pt-0 pb-2 border-bottom border-2 border-dark">На этой странице</h5>
-                    <nav id="navbar-example3" class="flex-column align-items-stretch pe-4">
-                        <nav class="nav nav-pills flex-column">
-                            <a class="nav-link fw-semibold text-secondary text-sm ps-1 py-1" v-for="id in headingIds"
-                               :href="`#${id}`">
-                                {{ stringUpperFirstLetter(id.slice(3)).split('-').join(' ') }}
-                            </a>
-                        </nav>
+                    <nav id="navbar-example3" class="flex-column align-items-stretch ps-2">
+                        <a class="nav-link text-secondary text-sm py-1" v-for="id in headingIds"
+                           :href="`#${id}`">
+                            {{ stringUpperFirstLetter(id.slice(3)).split('-').join(' ') }}
+                        </a>
                     </nav>
                 </div>
             </div>
@@ -167,6 +170,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+    .headings-content {
+
+        .nav-link {
+            font-size: 14px;
+        }
+    }
+
     @media screen and (max-width: 992px) {
         .headings-content {
             position: fixed;

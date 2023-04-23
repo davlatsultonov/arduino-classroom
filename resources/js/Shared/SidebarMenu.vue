@@ -1,5 +1,5 @@
 <template>
-    <ul class="list-group rounded-0 sidebar">
+    <ul class="list-group rounded-0 sidebar position-sticky" style="top: 15px">
         <li class="list-group-item p-0 border-0" v-for="({slug, name}, index) in tutorials">
             <Link class="list-group-item list-group-item-action" :class="{
                 'border-top-0': index !== 0

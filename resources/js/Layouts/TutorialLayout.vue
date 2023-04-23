@@ -1,7 +1,6 @@
 <template>
-    <div>
-        <Navbar class="flex-shrink-0"/>
-        <div class="container">
+    <BaseLayout>
+        <template v-slot:container>
             <div class="row">
                 <div class="col-3">
                     <SidebarMenu :tutorials="tutorials"/>
@@ -10,17 +9,23 @@
                     <slot>Main content</slot>
                 </div>
             </div>
-        </div>
-    </div>
+        </template>
+
+        <template v-slot:footer>
+            <Footer class="mt-auto"/>
+        </template>
+    </BaseLayout>
 </template>
 
 <script>
 import SidebarMenu from "../Shared/SidebarMenu.vue";
 import Navbar from "../Shared/Navbar.vue";
+import Footer from "../Shared/Footer.vue";
+import BaseLayout from "./BaseLayout.vue";
 
 export default {
     name: "TutorialLayout",
-    components: {Navbar, SidebarMenu},
+    components: {BaseLayout, Footer, Navbar, SidebarMenu},
     props: ['tutorials']
 }
 </script>

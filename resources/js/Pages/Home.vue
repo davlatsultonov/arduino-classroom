@@ -3,7 +3,7 @@
         <title>Home Page</title>
     </Head>
     <div class="row">
-        <div class="col-lg-8">
+        <div class="col-lg-9 pe-4">
             <img src="/images/arduino-logo.png" class="rounded float-start" alt="arduino logo"
                  style="margin-right: 20px; margin-bottom: 20px;">
             <p>Arduino – это название сразу нескольких технологий, с помощью которых можно научиться создавать умные
@@ -12,8 +12,8 @@
                 можно легко и дешево купить электронную плату Arduino в интернете на многочисленных интернет-магазинах.
                 А программы и все необходимые библиотеки можно скачать бесплатно с официального сайта, на нашем сайте
                 arduinomaster.ru или найти на сотнях других ресурсов в интернете.</p>
-            <figure class="figure mt-4 mb-4">
-                <img src="/images/ARDUINO_UNO_DIP_01.png" class="figure-img img-fluid rounded" alt="plata arduino">
+            <figure class="figure mt-4 mb-4 text-center">
+                <img src="/images/ARDUINO_UNO_DIP_01.png" class="figure-img img-fluid rounded mx-auto d-block w-75" alt="plata arduino">
                 <figcaption class="figure-caption fst-italic mt-3">Оригинальный и официальный Arduino Uno</figcaption>
             </figure>
             <p>
@@ -63,8 +63,12 @@
 
             <CardGroup v-for="(category, key) in articles" :title="key" :cards="category" :cards-in-row="3"/>
         </div>
-        <div class="col-lg-4">
-            <CardGroup :cards="shared.topArticles" title="Top" :cards-in-row="1"/>
+        <div class="col-lg-3 ps-4 border-start">
+            <CardGroup :cards="shared.topArticles"
+                       title="Top"
+                       type="top"
+                       :cards-in-row="1"
+            />
         </div>
     </div>
 </template>

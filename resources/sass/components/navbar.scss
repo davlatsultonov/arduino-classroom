@@ -1,6 +1,7 @@
 .ac-navbar {
     background-color: $accent-color;
     min-height: 80px;
+    z-index: 1000;
 
 
     .navbar-brand {

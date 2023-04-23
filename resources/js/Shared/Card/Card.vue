@@ -13,24 +13,26 @@
                           class="card-title mb-3 text-truncate">
                         {{ card.name }}
                     </Link>
-                    <p class="card-text card-description">{{ card.description }}</p>
+                    <p class="card-text card-description" style="-webkit-line-clamp: 4">{{ card.description }}</p>
                     <p class="card-text"><small class="text-muted">Last updated {{ formattedTime }}</small></p>
                 </div>
             </div>
         </div>
     </div>
-    <div class="card border-0 mb-3" v-else>
-        <CardImage class="img-fluid position-relative rounded-end rounded-top" :image="card.image" image-height="250">
+    <div class="card border-0 mb-3" :class="{'border-bottom pb-2 rounded-0': hideBody}" v-else>
+        <CardImage class="img-fluid position-relative rounded-end rounded-top" :image="card.image" :image-height="hideBody ? 160 : 200">
             <CardTag :category-slug="card.category.slug" :badge-text="badgeText" />
             <CardView v-if="card.views" :views="card.views" />
         </CardImage>
-        <div class="card-body">
+        <div class="card-body" :class="{ 'pb-1': hideBody }">
             <Link :href="`/${card.category.slug}/` + card.slug" as="h5"
-                  class="card-title mb-3 text-truncate">
+                  class="card-title text-truncate" :class="{ 'mb-3': !hideBody }">
                 {{ card.name }}
             </Link>
-            <p class="card-text card-description">{{ card.description }}</p>
-            <p class="card-text"><small class="text-muted">Last updated {{ formattedTime }}</small></p>
+            <template v-if="!hideBody">
+                <p class="card-text card-description" style="-webkit-line-clamp: 3">{{ card.description }}</p>
+                <p class="card-text"><small class="text-muted">Last updated {{ formattedTime }}</small></p>
+            </template>
         </div>
     </div>
 </template>
@@ -47,7 +49,8 @@ export default {
     components: {CardTag, CardView, CardImage, Link},
     props: {
         card: Object,
-        horizontal: Boolean
+        horizontal: Boolean,
+        hideBody: Boolean
     },
     computed: {
         formattedTime() {
@@ -56,13 +59,6 @@ export default {
         badgeText() {
             return this.card.category.name
         },
-        cardImage() {
-            let img = this.card.image;
-
-            img = !img ? '/images/photo_placement_wide.jpg' : '/storage/' + img;
-
-            return img;
-        }
     }
 }
 </script>

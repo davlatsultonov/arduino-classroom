@@ -1,13 +1,13 @@
 <template>
-    <div>
-        <div :class="['card-group-title mb-4', {
-            'mt-4 ': title.toLocaleLowerCase() !== 'top'
+    <div class="cards-group">
+        <div :class="['card-group-title d-flex fw-semibold mb-4', {
+            'mt-4 ': type !== 'top'
         }]" v-if="title">
             <span>{{ title }}</span>
         </div>
         <div :class="`row row-cols-1 row-cols-md-2 row-cols-lg-${cardsInRow} gy-${horizontal ? 4 : 2} mb-2 card-group`">
             <div v-for="card in cards" class="col">
-                <Card :card="card" :horizontal="horizontal"/>
+                <Card :card="card" :horizontal="horizontal" :hide-body="type === 'top'"/>
             </div>
         </div>
     </div>
@@ -32,6 +32,12 @@ export default {
             type: String,
             default() {
                 return '';
+            }
+        },
+        type: {
+            type: String,
+            default() {
+                return ''
             }
         }
     }
