@@ -20,7 +20,7 @@
         </div>
     </div>
     <div class="card border-0 mb-3" v-else>
-        <CardImage class="img-fluid position-relative rounded-end rounded-top" :image="card.image" image-height="200">
+        <CardImage class="img-fluid position-relative rounded-end rounded-top" :image="card.image" image-height="250">
             <CardTag :category-slug="card.category.slug" :badge-text="badgeText" />
             <CardView v-if="card.views" :views="card.views" />
         </CardImage>
@@ -62,14 +62,6 @@ export default {
             img = !img ? '/images/photo_placement_wide.jpg' : '/storage/' + img;
 
             return img;
-        },
-        cardImageStyles() {
-            return {
-                backgroundImage: `url('${this.cardImage}')`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-                backgroundRepeat: 'no-repeat'
-            };
         }
     }
 }

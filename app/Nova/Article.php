@@ -7,6 +7,7 @@ use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Markdown;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Article extends Resource
@@ -56,7 +57,7 @@ class Article extends Resource
             Text::make('Title', 'name')
                 ->placeholder('Type your article title...')
                 ->required(),
-            Markdown::make('Description', 'description')
+            Markdown::make('Description', 'description')->withFiles('public')
                 ->required(),
             Image::make('Photo', 'image')->disk('public'),
             BelongsTo::make('Choose a user', 'user', User::class)

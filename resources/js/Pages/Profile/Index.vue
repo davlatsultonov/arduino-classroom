@@ -6,7 +6,7 @@
             <div class="row position-relative">
                 <div class="col-7">
                     <h3 class="mb-4">
-                        Hi, {{ userName }}
+                        Hi, {{ stringUpperFirstLetter(name) }}
                     </h3>
                     <p>
                         Welcome to the new "My learning" here at W3schools. This will be your hub to all the tutorials we offer and your learning progress.
@@ -33,18 +33,16 @@ import {Link, useForm} from "@inertiajs/inertia-vue3";
 import CircleProgress from "../../Shared/CircleProgress.vue";
 import ResultCard from "./ResultCard.vue";
 import ProgressListRow from "./ProgressBlock/ProgressListRow.vue";
+import utilityMixins from "../../mixins/utility-mixins";
+
 export default {
     name: "Index",
     components: {ProgressListRow, ResultCard, CircleProgress, Link},
     props: ['name', 'totalPointsCount', 'currentPointsCount'],
+    mixins: [utilityMixins],
     data() {
         return {
             form: useForm({}),
-        }
-    },
-    computed: {
-        userName: function () {
-            return this.name[0].toUpperCase() + this.name.slice(1)
         }
     },
     methods: {
