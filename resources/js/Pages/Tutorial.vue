@@ -25,7 +25,7 @@ export default {
     props: ['currentTutorial', 'tutorials'],
     computed: {
         tutorialLinks: function () {
-            const links = this.tutorials.map(tutorial => tutorial.slug);
+            const links = (Object.values(this.tutorials).flat()).map(tutorial => tutorial.slug);
             const indexOf = links.indexOf(this.currentTutorial.slug);
             const isFirst = indexOf === 0;
 

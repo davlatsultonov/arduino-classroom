@@ -18,7 +18,10 @@ class TutorialController extends Controller
     {
         return inertia('Tutorial', [
             'currentTutorial' => Article::where('slug', $slug)->first(),
-            'tutorials' => Category::firstWhere('slug', 'uroki')->articles
+            'tutorials' => Article::with('sub_category', 'category')
+                            ->get()
+                            ->where('category.slug', 'uroki')
+                            ->groupBy('sub_category.name')
         ]);
     }
 }

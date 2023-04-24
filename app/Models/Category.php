@@ -23,6 +23,11 @@ class Category extends Model
         return $this->hasMany(Article::class);
     }
 
+    public function subCategories()
+    {
+        return $this->hasMany(SubCategory::class);
+    }
+
     public function scopeHasCompletedTests($q)
     {
         $q->whereHas('tests.testQuestions.testResults', fn($q) => $q->whereUserId(auth()->id()));

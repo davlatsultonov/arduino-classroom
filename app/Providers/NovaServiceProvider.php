@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Nova\Article;
 use App\Nova\Category;
+use App\Nova\SubCategory;
 use App\Nova\Test;
 use App\Nova\TestAnswer;
 use App\Nova\TestQuestion;
@@ -107,6 +108,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::resource(User::class)->icon('user'),
                 MenuSection::resource(Article::class)->icon('document-text'),
                 MenuSection::resource(Category::class)->icon('view-grid-add'),
+                MenuSection::resource(SubCategory::class)->icon('view-grid-add'),
                 MenuSection::make('Tests', [
                     MenuItem::resource(Test::class),
                     MenuItem::resource(TestQuestion::class),

@@ -2,22 +2,22 @@
 
 namespace App\Nova;
 
+use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
-use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\Markdown;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Article extends Resource
+class SubCategory extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Article>
+     * @var class-string<\App\Models\SubCategory>
      */
-    public static $model = \App\Models\Article::class;
+    public static $model = \App\Models\SubCategory::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -32,7 +32,7 @@ class Article extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name'
+        'name',
     ];
 
     /**
@@ -44,28 +44,14 @@ class Article extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            Slug::make('Slug')
+            ID::make()->sortable(),
+            Slug::make('slug')
                 ->from('name')
-                ->onlyOnForms()
-                ->withMeta([
-                    'extraAttributes' => [
-                        'readonly' => true
-                    ]
-                ])
-                ->hideFromIndex()
+                ->sortable(),
+            Text::make('Name')
                 ->required(),
-            Text::make('Title', 'name')
-                ->placeholder('Type your article title...')
-                ->required(),
-            Markdown::make('Description', 'description')->withFiles('public')
-                ->required(),
-            Image::make('Photo', 'image')->disk('public'),
-            BelongsTo::make('Choose a user', 'user', User::class)
-                ->required(),
-            BelongsTo::make('Choose a category', 'category', Category::class)
-                ->required(),
-            BelongsTo::make('Choose a sub category', 'sub_category', SubCategory::class)
-                ->nullable()
+            BelongsTo::make('Category'),
+            HasMany::make('Articles')
         ];
     }
 
