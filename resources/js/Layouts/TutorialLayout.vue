@@ -2,10 +2,10 @@
     <BaseLayout>
         <template v-slot:container>
             <div class="row">
-                <div class="col-3">
+                <div class="col-2 border-end">
                     <SidebarMenu :tutorials="tutorials"/>
                 </div>
-                <div class="col-9">
+                <div class="col-10">
                     <slot>Main content</slot>
                 </div>
             </div>

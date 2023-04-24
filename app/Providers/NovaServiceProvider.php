@@ -107,8 +107,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 MenuSection::dashboard(Main::class)->icon('presentation-chart-bar'),
                 MenuSection::resource(User::class)->icon('user'),
                 MenuSection::resource(Article::class)->icon('document-text'),
-                MenuSection::resource(Category::class)->icon('view-grid-add'),
-                MenuSection::resource(SubCategory::class)->icon('view-grid-add'),
+                MenuSection::make('Categories', [
+                    MenuItem::resource(Category::class)->name('Main category'),
+                    MenuItem::resource(SubCategory::class)->name('Subcategory'),
+                ])->collapsable()->icon('view-grid-add'),
                 MenuSection::make('Tests', [
                     MenuItem::resource(Test::class),
                     MenuItem::resource(TestQuestion::class),

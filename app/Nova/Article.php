@@ -59,12 +59,12 @@ class Article extends Resource
                 ->required(),
             Markdown::make('Description', 'description')->withFiles('public')
                 ->required(),
-            Image::make('Photo', 'image')->disk('public'),
-            BelongsTo::make('Choose a user', 'user', User::class)
+            Image::make('Thumbnail', 'image')->disk('public'),
+            BelongsTo::make('User', 'user', User::class)
                 ->required(),
-            BelongsTo::make('Choose a category', 'category', Category::class)
+            BelongsTo::make('Category', 'category', Category::class)
                 ->required(),
-            BelongsTo::make('Choose a sub category', 'sub_category', SubCategory::class)
+            BelongsTo::make('Subcategory', 'sub_category', SubCategory::class)
                 ->nullable()
         ];
     }

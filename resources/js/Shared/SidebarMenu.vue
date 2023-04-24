@@ -65,20 +65,29 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.accordion-button:not(.collapsed) {
-    background-color: transparent;
-    color: #00979d;
-    box-shadow: none;
-    border-color: #00979d;
+.accordion-button {
+    font-size: 14px;
 
-    &::after {
-        content: '';
-        background-image: url("/public/images/arrow_down_blue.svg");
+    &:not(.collapsed) {
+        background-color: transparent;
+        color: #00979d;
+        box-shadow: none;
+        border-color: #00979d;
+
+        &::after {
+            content: '';
+            background-image: url("/public/images/arrow_down_blue.svg");
+        }
     }
 }
 
-.accordion-body .list-group-item.active {
-    background-color: transparent;
-    color: #00979d;
+.accordion-body .list-group-item {
+    font-size: 12px;
+    line-height: 16px;
+
+    &.active {
+        background-color: transparent;
+        color: #00979d;
+    }
 }
 </style>

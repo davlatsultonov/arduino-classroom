@@ -19,7 +19,7 @@
             </div>
         </div>
     </div>
-    <div class="card border-0 mb-3" :class="{'border-bottom pb-2 rounded-0': hideBody}" v-else>
+    <div class="card border-0" :class="{'border-bottom rounded-0': hideBody}" v-else>
         <CardImage class="img-fluid position-relative rounded" :image="card.image" :image-height="hideBody ? 160 : 200">
             <CardTag :category-slug="card.category.slug" :badge-text="badgeText" />
             <CardView v-if="card.views" :views="card.views" />
