@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
-use App\Models\Category;
 class TutorialController extends Controller
 {
     public function index()
@@ -16,9 +15,10 @@ class TutorialController extends Controller
 
     public function show($slug)
     {
-        return inertia('Tutorial', [
+        return inertia('Tutorial/Tutorial', [
             'currentTutorial' => Article::where('slug', $slug)->first(),
             'tutorials' => Article::with('sub_category', 'category')
+                            ->latest()
                             ->get()
                             ->where('category.slug', 'uroki')
                             ->groupBy('sub_category.name')

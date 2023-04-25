@@ -19,13 +19,23 @@
             <div :class="`col-lg-${headingsContentActive ? '10' : '12'}`">
                 <div class="row justify-content-between pt-4">
                     <div class="col-1 ps-0 d-flex flex-column justify-content-start">
-                        <button class="position-sticky btn btn-link headings-content-btn-toggle fw-bold"
+                        <button class="position-sticky btn btn-link headings-content-btn-toggle"
                                 @click="headingsContentActive = !headingsContentActive"
                                 :style="{
                                     top: '20px'
                                 }"
                         >
                             <img src="/images/hamburger-menu.svg" width="20" alt="hamburger icon">
+                        </button>
+
+                        <button type="button"
+                                :style="{
+                                    top: '70px'
+                                }"
+                                class="position-sticky btn btn-link headings-content-btn-toggle"
+                                data-bs-toggle="modal"
+                                data-bs-target="#tutorial-map">
+                            <img src="/images/map-icon.png" width="30" alt="map icon">
                         </button>
 
                         <Link v-if="tutorialLinks?.prev?.url"

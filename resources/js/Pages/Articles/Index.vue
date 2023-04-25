@@ -2,7 +2,7 @@
     <Head>
         <title>Articles list</title>
     </Head>
-    <div class="row">
+    <div class="row h-100">
         <div class="col-lg-9 pe-4 py-4">
             <Breadcrumb :breadcrumbs="breadcrumbs.breadcrumbs" />
 

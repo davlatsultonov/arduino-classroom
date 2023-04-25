@@ -2,8 +2,6 @@
     <BaseLayout>
         <template v-slot:container>
             <div class="container-fluid flex-grow-1">
-
-<!--                <SidebarMenu :tutorials="tutorials"/>-->
                 <slot>Main content</slot>
             </div>
         </template>
@@ -15,18 +13,13 @@
 </template>
 
 <script>
-import SidebarMenu from "../Shared/SidebarMenu.vue";
+import TutorialMap from "../Pages/Tutorial/TutorialMap.vue";
 import Navbar from "../Shared/Navbar.vue";
 import Footer from "../Shared/Footer.vue";
 import BaseLayout from "./BaseLayout.vue";
 
 export default {
     name: "TutorialLayout",
-    components: {BaseLayout, Footer, Navbar, SidebarMenu},
-    props: ['tutorials']
+    components: {BaseLayout, Footer, Navbar, TutorialMap}
 }
 </script>
-
-<style scoped>
-
-</style>
