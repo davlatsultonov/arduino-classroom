@@ -1,32 +1,62 @@
 <template>
-    <div class="article"  ref="article">
+    <div class="article h-100"  ref="article">
         <Head>
             <title>{{ article.name }}</title>
         </Head>
 
-        <div class="row">
-            <div :class="`col${ headingIds.length ? '-lg-9' : null }`">
-                <Breadcrumb v-if="breadcrumbs" :breadcrumbs="breadcrumbs.breadcrumbs" />
-
-                <h1 class="mb-4">{{ article.name }}</h1>
-
-                <slot name="page-navigation-buttons"></slot>
-
-                <div class="border-bottom mb-3"></div>
-
-                <p v-html="parsedText"></p>
-            </div>
-            <div class="col-md-3 headings-content border-start" v-if="headingIds.length">
-                <button class="d-lg-none btn btn-secondary fw-bold border-0" @click="headingsContentActive = !headingsContentActive">Содержание</button>
-
-                <div class="position-sticky headings-content-body rounded-1" style="top: 15px;" v-if="headingsContentActive">
-                    <h5 class="pt-0 pb-2 border-bottom border-2 border-dark">На этой странице</h5>
-                    <nav id="navbar-example3" class="flex-column align-items-stretch ps-2">
-                        <a class="nav-link text-secondary text-sm py-1" v-for="id in headingIds"
+        <div class="row h-100">
+            <div class="col-md-2 headings-content text-bg-light" v-if="headingsContentActive">
+                <div class="position-sticky headings-content-body rounded-1 pt-4 top-0">
+                    <h5 class="pt-0 text-secondary">На этой странице</h5>
+                    <nav id="navbar-example3" class="flex-column align-items-stretch">
+                        <a class="nav-link text-sm pt-2" v-for="id in headingIds"
                            :href="`#${id}`">
                             {{ stringUpperFirstLetter(id.slice(3)).split('-').join(' ') }}
                         </a>
                     </nav>
+                </div>
+            </div>
+            <div :class="`col-lg-${headingsContentActive ? '10' : '12'}`">
+                <div class="row justify-content-between pt-4">
+                    <div class="col-1 ps-0 d-flex flex-column justify-content-start">
+                        <button class="position-sticky btn btn-link headings-content-btn-toggle fw-bold"
+                                @click="headingsContentActive = !headingsContentActive"
+                                :style="{
+                                    top: '20px'
+                                }"
+                        >
+                            <img src="/images/hamburger-menu.svg" width="20" alt="hamburger icon">
+                        </button>
+
+                        <Link v-if="tutorialLinks?.prev?.url"
+                              :href="tutorialLinks.prev.url"
+                              :title="tutorialLinks.prev.title"
+                              class="position-sticky top-50 btn btn-link page-pagination-btn rounded-0">
+                            <img src="/images/arrow_left_single.svg" alt="arrow icon">
+                        </Link>
+                    </div>
+                    <div class="col-7">
+                        <div class="d-flex mb-4"
+                             :class="`justify-content-${breadcrumbs ? 'between' : 'end'}`"
+                        >
+                            <Breadcrumb v-if="breadcrumbs" :breadcrumbs="breadcrumbs.breadcrumbs" />
+                            <div class="fst-italic">
+                                {{ formattedArticleUpdatedDate }}
+                            </div>
+                        </div>
+
+                        <h1 class="mb-4">{{ article.name }}</h1>
+
+                        <p v-html="parsedText"></p>
+                    </div>
+                    <div class="col-1 pe-0">
+                        <Link v-if="tutorialLinks?.next?.url"
+                              :href="tutorialLinks.next.url"
+                              :title="tutorialLinks.next.title"
+                              class="float-end position-sticky top-50 btn btn-link page-pagination-btn rounded-0">
+                            <img src="/images/arrow_right_single.svg" alt="arrow icon">
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -37,8 +67,9 @@ import {Head, Link} from "@inertiajs/inertia-vue3";
 import Breadcrumb from "../../Shared/Breadcrumb.vue";
 import MarkdownIt from 'markdown-it';
 import markdownItGithubHeadings from "markdown-it-github-headings";
-
 import utilityMixins from "../../mixins/utility-mixins";
+import TutorialLayout from "../../Layouts/TutorialLayout.vue";
+import moment from 'moment/min/moment-with-locales';
 const md = new MarkdownIt().use(markdownItGithubHeadings, {
     prefix: 'ac-',
     enableHeadingLinkIcons: false
@@ -48,14 +79,15 @@ md.renderer.rules.image = (tokens, idx, options, env, self) => {
     const token = tokens[idx];
     const src = token.attrs[token.attrIndex('src')][1];
     const alt = token.content;
-    const style = 'display: block; margin: 0 auto; width: 50%; height: auto;';
+    const style = 'display: block; margin: 24px auto; width: 50%; height: auto;';
     const className = 'my-custom-class';
     return `<img src="${src}"  alt="${alt}" style="${style}" class="${className}">`;
 };
 
 export default {
+    layout: TutorialLayout,
     components: {Head, Link, Breadcrumb},
-    props: ['article', 'breadcrumbs'],
+    props: ['article', 'breadcrumbs', 'tutorials'],
     mixins: [utilityMixins],
     data() {
         return {
@@ -74,6 +106,10 @@ export default {
         parsedText () {
             return md.render(this.article.description)
         },
+        formattedArticleUpdatedDate() {
+            moment.locale('tg');
+            return moment(this.article.updated_at).format('LLLL');
+        },
         formattedTime() {
             const minutes = Math.floor(this.time / 60000);
             const seconds = parseInt(((this.time % 60000) / 1000).toFixed(0));
@@ -86,7 +122,24 @@ export default {
         },
         isNewArticle() {
             return this.auth?.read_articles.indexOf(this.article.id) === -1
-        }
+        },
+        tutorialLinks: function () {
+            if (!this.tutorials) return {};
+            const links = (Object.values(this.tutorials).flat()).map(tutorial => tutorial.slug);
+            const indexOf = links.indexOf(this.article.slug);
+            const isFirst = indexOf === 0;
+
+            return {
+                prev: {
+                    url: isFirst ? '/' : links[indexOf - 1],
+                    title: isFirst ? 'Домой' : Object.values(this.tutorials).flat()[indexOf - 1].name
+                },
+                next: {
+                    url: links[indexOf + 1] ? links[indexOf + 1] : links[0],
+                    title: Object.values(this.tutorials).flat()[links[indexOf + 1] ? indexOf + 1 : 0].name
+                }
+            }
+        },
     },
     beforeUnmount() {
         this.stopScrollInit();
@@ -116,16 +169,6 @@ export default {
                 }, 1000));
             }
         }
-
-        if (window.innerWidth < 992) {
-            this.headingsContentActive = false;
-        }
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth >= 992) {
-                this.headingsContentActive = true
-            }
-        })
     },
     methods: {
         handleScroll(footer) {
@@ -172,7 +215,39 @@ export default {
     .headings-content {
 
         .nav-link {
-            font-size: 14px;
+            font-size: 0.875rem;
+            line-height: 1.3;
+        }
+
+        &-btn-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 100%;
+            margin-left: 15px;
+
+            &:hover {
+                background-color: #eee;
+            }
+        }
+    }
+
+    .page-pagination-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 80px;
+        height: 60px;
+
+        img {
+            width: 40px;
+        }
+
+        &:hover {
+
+            background-color: #eee;
         }
     }
 

@@ -1,17 +1,5 @@
 <template>
-    <div>
-        <Show :article="currentTutorial">
-            <template v-slot:page-navigation-buttons>
-                <div class="d-flex mb-4 justify-content-between">
-                    <template v-for="{url, title} in tutorialLinks">
-                        <Link v-if="url" :href="url" class="btn btn-outline-dark">
-                            {{ title[0].toUpperCase() + title.slice(1) }}
-                        </Link>
-                    </template>
-                </div>
-            </template>
-        </Show>
-    </div>
+    <Show :article="currentTutorial" :tutorials="tutorials"/>
 </template>
 
 <script>
@@ -23,23 +11,5 @@ export default {
     components: {Show, Link},
     layout: TutorialLayout,
     props: ['currentTutorial', 'tutorials'],
-    computed: {
-        tutorialLinks: function () {
-            const links = (Object.values(this.tutorials).flat()).map(tutorial => tutorial.slug);
-            const indexOf = links.indexOf(this.currentTutorial.slug);
-            const isFirst = indexOf === 0;
-
-            return {
-                prev: {
-                    url: isFirst ? '/' : links[indexOf - 1],
-                    title: isFirst ? 'Home' : 'Previous'
-                },
-                next: {
-                    url: links[indexOf + 1] ? links[indexOf + 1] : links[0],
-                    title: 'Next'
-                }
-            }
-        },
-    }
 }
 </script>

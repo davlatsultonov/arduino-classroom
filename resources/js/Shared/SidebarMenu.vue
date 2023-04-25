@@ -1,5 +1,5 @@
 <template>
-    <div class="accordion position-sticky" style="top: 15px;">
+    <div class="accordion position-sticky pt-4" style="top: 15px;">
         <div class="accordion-item border-0" v-for="(item, key, index) in tutorials">
             <h2 class="accordion-header" :id="accordionId(index, 'heading')">
                 <button :class="[
@@ -25,7 +25,7 @@
                     <ul class="list-group">
                         <Link
                             :class="[
-                                  'list-group-item list-group-item-action fw-semibold rounded-2 ps-3 py-1 border-0 small',
+                                  'list-group-item list-group-item-action fw-semibold rounded-2 ps-3 pe-0 py-1 border-0',
                                   currentPageUrl === link.slug ? 'active' : null
                               ]"
                             v-for="link in item"
@@ -82,7 +82,7 @@ export default {
 }
 
 .accordion-body .list-group-item {
-    font-size: 12px;
+    font-size: 14px;
     line-height: 16px;
 
     &.active {

@@ -14,7 +14,7 @@
                         {{ card.name }}
                     </Link>
                     <p class="card-text card-description">{{ card.description }}</p>
-                    <p class="card-text"><small class="text-muted">Last updated {{ formattedTime }}</small></p>
+                    <p class="card-text"><small class="text-muted">Охирин навсозӣ {{ formattedTime }}</small></p>
                 </div>
             </div>
         </div>
@@ -31,7 +31,7 @@
             </Link>
             <template v-if="!hideBody">
                 <p class="card-text card-description">{{ card.description }}</p>
-                <p class="card-text"><small class="text-muted">Last updated {{ formattedTime }}</small></p>
+                <p class="card-text"><small class="text-muted">Охирин навсозӣ {{ formattedTime }}</small></p>
             </template>
         </div>
     </div>
@@ -39,7 +39,7 @@
 
 <script>
 import {Link} from "@inertiajs/inertia-vue3";
-import moment from 'moment';
+import moment from 'moment/min/moment-with-locales';
 import CardImage from "./CardImage.vue";
 import CardView from "./CardView.vue";
 import CardTag from "./CardTag.vue";

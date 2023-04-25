@@ -3,7 +3,7 @@
         <title>Home Page</title>
     </Head>
     <div class="row">
-        <div class="col-lg-9 pe-4">
+        <div class="col-lg-9 pe-4 py-4">
             <img src="/images/arduino-logo.png" class="rounded float-start" alt="arduino logo"
                  style="margin-right: 20px; margin-bottom: 20px;">
             <p>Arduino – это название сразу нескольких технологий, с помощью которых можно научиться создавать умные
@@ -63,7 +63,7 @@
 
             <CardGroup v-for="(category, key) in articles" :title="key" :cards="category" :cards-in-row="3"/>
         </div>
-        <div class="col-lg-3 ps-4 border-start">
+        <div class="col-lg-3 ps-4 py-4 border-start">
             <CardGroup :cards="shared.topArticles"
                        title="Top"
                        type="top"

@@ -1,7 +1,9 @@
 <template>
    <BaseLayout>
        <template v-slot:container>
-           <slot/>
+           <div class="container flex-grow-1">
+               <slot/>
+           </div>
        </template>
        <template v-slot:footer>
            <Footer class="mt-auto" v-if="!this.$page.component.startsWith('Profile')"/>

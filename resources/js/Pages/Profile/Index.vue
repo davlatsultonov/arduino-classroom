@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="py-4">
         <h2 class="fw-bold mb-5">My learning</h2>
 
         <div id="welcome-block" class="border rounded-4 py-5 px-4">

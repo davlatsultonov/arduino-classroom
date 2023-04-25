@@ -10,22 +10,17 @@ use \App\Http\Controllers\ArticleController;
 use \App\Http\Controllers\TutorialController;
 use \App\Http\Controllers\Auth\RegisterController;
 
-Route::middleware('guest')->group(static function () {
-    Route::prefix('register')
-        ->controller(RegisterController::class)
-        ->name('register.')->group(static function () {
-            Route::get('/', 'create')->name('create');
-            Route::post('/', 'store')->name('store');
-        });
+Route::prefix('register')->controller(RegisterController::class)->middleware('guest')->name('register.')->group(static function () {
+    Route::get('/', 'create')->name('create');
+    Route::post('/', 'store')->name('store');
+});
 
-    Route::controller(LoginController::class)->group(static function () {
-        Route::prefix('login')
-            ->name('login.')->group(static function () {
-                Route::get('/', 'create')->name('create');
-                Route::post('/', 'store')->name('store');
-            });
-        Route::delete('logout', 'destroy')->name('logout');
+Route::controller(LoginController::class)->group(static function () {
+    Route::prefix('login')->name('login.')->middleware('guest')->group(static function () {
+        Route::get('/', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
     });
+    Route::delete('logout', 'destroy')->name('logout');
 });
 
 Route::prefix('tutorial')

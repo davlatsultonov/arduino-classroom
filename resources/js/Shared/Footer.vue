@@ -1,6 +1,6 @@
 <template>
     <div class="footer">
-        <div class="container">
+<!--        <div class="container">
             <div class="row py-4 align-items-center">
                 <div class="col-4">
                     <Logo dark-theme />
@@ -17,7 +17,7 @@
                     </p>
                 </div>
             </div>
-        </div>
+        </div>-->
 
         <div class="footer-copyright text-center text-white py-3">
             <div class="container">

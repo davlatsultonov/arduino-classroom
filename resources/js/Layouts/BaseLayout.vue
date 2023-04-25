@@ -2,9 +2,7 @@
     <div class="d-flex flex-column h-100">
         <Navbar class="flex-shrink-0"/>
 
-        <div class="container flex-grow-1 pb-4">
-            <slot name="container"/>
-        </div>
+        <slot name="container"/>
 
         <slot name="footer" />
     </div>
