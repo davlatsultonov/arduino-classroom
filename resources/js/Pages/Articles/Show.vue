@@ -99,7 +99,7 @@ import {Head, Link} from "@inertiajs/inertia-vue3";
 import Breadcrumb from "../../Shared/Breadcrumb.vue";
 import MarkdownIt from 'markdown-it';
 import markdownItGithubHeadings from "markdown-it-github-headings";
-import utilityMixins from "../../mixins/utilities-mixin";
+import utilitiesMixin from "../../mixins/utilities-mixin";
 import TutorialLayout from "../../Layouts/TutorialLayout.vue";
 import moment from 'moment/min/moment-with-locales';
 import tooltipMixin from "../../mixins/tooltip-mixin";
@@ -121,7 +121,7 @@ export default {
     layout: TutorialLayout,
     components: {Head, Link, Breadcrumb},
     props: ['article', 'breadcrumbs', 'tutorials'],
-    mixins: [utilityMixins, tooltipMixin],
+    mixins: [utilitiesMixin, tooltipMixin],
     data() {
         return {
             readingTime: 4,

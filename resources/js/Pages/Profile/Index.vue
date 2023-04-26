@@ -33,13 +33,13 @@ import {Link, useForm} from "@inertiajs/inertia-vue3";
 import CircleProgress from "../../Shared/CircleProgress.vue";
 import ResultCard from "./ResultCard.vue";
 import ProgressListRow from "./ProgressBlock/ProgressListRow.vue";
-import utilityMixins from "../../mixins/utilities-mixin";
+import utilitiesMixin from "../../mixins/utilities-mixin";
 
 export default {
     name: "Index",
     components: {ProgressListRow, ResultCard, CircleProgress, Link},
     props: ['name', 'totalPointsCount', 'currentPointsCount'],
-    mixins: [utilityMixins],
+    mixins: [utilitiesMixin],
     data() {
         return {
             form: useForm({}),

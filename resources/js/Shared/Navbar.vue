@@ -10,7 +10,7 @@
                     <Link
                         class="nav-link px-2" :href="route(isAuth ? 'profile.index' : 'login.create')">
                         <img
-                            data-bs-title="Профил"
+                            :data-bs-title="isAuth ? 'Профил' : 'Воридшавӣ'"
                             data-bs-placement="bottom"
                             @click="handleTooltipDispose"
                             data-bs-toggle="tooltip"
@@ -29,7 +29,7 @@
                                 data-bs-toggle="tooltip"
                                 data-bs-offset="0,8"
                         >
-                            <img src="/images/sign_out.svg" width="23" alt="icon sing out">
+                            <img src="/images/sign_out.svg" width="25" alt="icon sing out">
                         </button>
                     </form>
                 </li>
