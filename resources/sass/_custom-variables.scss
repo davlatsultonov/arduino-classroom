@@ -6,3 +6,13 @@
 );*/
 
 $accent-color: #00979d;
+
+.custom-tooltip {
+    --bs-tooltip-bg: #005b60 !important;
+    --bs-tooltip-opacity: 1 !important;
+
+    .tooltip-inner {
+        box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+        font-weight: 500;
+    }
+}

@@ -7,7 +7,7 @@
         <div class="row h-100">
             <div class="col-md-2 headings-content text-bg-light" v-if="headingsContentActive">
                 <div class="position-sticky headings-content-body rounded-1 pt-4 top-0">
-                    <h5 class="pt-0 text-secondary">На этой странице</h5>
+                    <h6 class="pt-0 text-secondary">На этой странице</h6>
                     <nav id="navbar-example3" class="flex-column align-items-stretch">
                         <a class="nav-link text-sm pt-2" v-for="id in headingIds"
                            :href="`#${id}`">
@@ -35,12 +35,25 @@
                                 class="position-sticky btn btn-link headings-content-btn-toggle"
                                 data-bs-toggle="modal"
                                 data-bs-target="#tutorial-map">
-                            <img src="/images/map-icon.png" width="30" alt="map icon">
+                            <img
+                                data-bs-toggle="tooltip"
+                                data-bs-title="Харитаи дарс"
+                                data-bs-offset="0,10"
+                                data-bs-custom-class="custom-tooltip"
+                                data-bs-placement="right"
+                                @click="handleTooltipDispose"
+                                src="/images/map-icon.png"
+                                width="30"
+                                alt="map icon">
                         </button>
 
                         <Link v-if="tutorialLinks?.prev?.url"
                               :href="tutorialLinks.prev.url"
-                              :title="tutorialLinks.prev.title"
+                              data-bs-toggle="tooltip"
+                              :data-bs-title="tutorialLinks.prev.title"
+                              data-bs-placement="right"
+                              data-bs-custom-class="custom-tooltip"
+                              @click.native="handleTooltipDispose"
                               class="position-sticky top-50 btn btn-link page-pagination-btn rounded-0">
                             <img src="/images/arrow_left_single.svg" alt="arrow icon">
                         </Link>
@@ -50,7 +63,12 @@
                              :class="`justify-content-${breadcrumbs ? 'between' : 'end'}`"
                         >
                             <Breadcrumb v-if="breadcrumbs" :breadcrumbs="breadcrumbs.breadcrumbs" />
-                            <div class="fst-italic">
+                            <div class="fst-italic"
+                                 data-bs-toggle="tooltip"
+                                 data-bs-title="Охирин навсозӣ"
+                                 data-bs-placement="bottom"
+                                 data-bs-custom-class="custom-tooltip"
+                            >
                                 {{ formattedArticleUpdatedDate }}
                             </div>
                         </div>
@@ -62,7 +80,11 @@
                     <div class="col-1 pe-0">
                         <Link v-if="tutorialLinks?.next?.url"
                               :href="tutorialLinks.next.url"
-                              :title="tutorialLinks.next.title"
+                              data-bs-toggle="tooltip"
+                              :data-bs-title="tutorialLinks.next.title"
+                              data-bs-placement="left"
+                              data-bs-custom-class="custom-tooltip"
+                              @click.native="handleTooltipDispose"
                               class="float-end position-sticky top-50 btn btn-link page-pagination-btn rounded-0">
                             <img src="/images/arrow_right_single.svg" alt="arrow icon">
                         </Link>
@@ -77,9 +99,10 @@ import {Head, Link} from "@inertiajs/inertia-vue3";
 import Breadcrumb from "../../Shared/Breadcrumb.vue";
 import MarkdownIt from 'markdown-it';
 import markdownItGithubHeadings from "markdown-it-github-headings";
-import utilityMixins from "../../mixins/utility-mixins";
+import utilityMixins from "../../mixins/utilities-mixin";
 import TutorialLayout from "../../Layouts/TutorialLayout.vue";
 import moment from 'moment/min/moment-with-locales';
+import tooltipMixin from "../../mixins/tooltip-mixin";
 const md = new MarkdownIt().use(markdownItGithubHeadings, {
     prefix: 'ac-',
     enableHeadingLinkIcons: false
@@ -98,7 +121,7 @@ export default {
     layout: TutorialLayout,
     components: {Head, Link, Breadcrumb},
     props: ['article', 'breadcrumbs', 'tutorials'],
-    mixins: [utilityMixins],
+    mixins: [utilityMixins, tooltipMixin],
     data() {
         return {
             readingTime: 4,
@@ -108,8 +131,8 @@ export default {
             isActive: true,
             hasScrolled: false,
             headingIds: [],
-            headingsContentActive: true
-
+            headingsContentActive: true,
+            url: ''
         };
     },
     computed: {

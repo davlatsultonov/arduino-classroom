@@ -4,7 +4,7 @@
             <div class="modal-content">
                 <div class="modal-header shadow-sm">
                     <div class="container d-flex justify-content-end">
-                        <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-outline-light" data-bs-dismiss="modal" @click="handleTooltipDispose">
                             <img src="/images/close-icon.svg" width="15" alt="close icon">
                         </button>
                     </div>
@@ -44,11 +44,13 @@
 
 <script>
 import {Link} from '@inertiajs/inertia-vue3';
+import tooltipMixin from "../../mixins/tooltip-mixin";
 
 export default {
     name: "TutorialMap",
     components: {Link},
     props: ['tutorials'],
+    mixins: [tooltipMixin],
     data() {
         return {
             chunkSize: 3

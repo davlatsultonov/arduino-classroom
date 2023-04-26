@@ -33,7 +33,7 @@ import {Link, useForm} from "@inertiajs/inertia-vue3";
 import CircleProgress from "../../Shared/CircleProgress.vue";
 import ResultCard from "./ResultCard.vue";
 import ProgressListRow from "./ProgressBlock/ProgressListRow.vue";
-import utilityMixins from "../../mixins/utility-mixins";
+import utilityMixins from "../../mixins/utilities-mixin";
 
 export default {
     name: "Index",
