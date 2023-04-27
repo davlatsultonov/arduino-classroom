@@ -34,7 +34,9 @@
                                 }"
                                 class="position-sticky btn btn-link headings-content-btn-toggle"
                                 data-bs-toggle="modal"
-                                data-bs-target="#tutorial-map">
+                                data-bs-target="#tutorial-map"
+                                v-if="$page.component.startsWith('Tutorial')"
+                        >
                             <img
                                 data-bs-toggle="tooltip"
                                 data-bs-title="Харитаи дарс"
