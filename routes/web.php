@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\HomeController;
 use \App\Http\Controllers\ProfileController;
@@ -9,6 +10,8 @@ use \App\Http\Controllers\TestController;
 use \App\Http\Controllers\ArticleController;
 use \App\Http\Controllers\TutorialController;
 use \App\Http\Controllers\Auth\RegisterController;
+
+Route::post('/comments', [CommentController::class, 'store'])->name('comment.store');
 
 Route::prefix('register')->controller(RegisterController::class)->middleware('guest')->name('register.')->group(static function () {
     Route::get('/', 'create')->name('create');

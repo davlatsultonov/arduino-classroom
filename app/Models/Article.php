@@ -29,6 +29,11 @@ class Article extends Model
        return $this->belongsTo(SubCategory::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->whereNull('parent_id');
+    }
+
     public function scopePopular($q)
     {
         return $q->where('views','>', 40);

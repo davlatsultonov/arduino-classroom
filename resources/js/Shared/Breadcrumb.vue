@@ -1,6 +1,6 @@
 <template>
-    <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '';" class="mb-4">
-        <ol class="breadcrumb">
+    <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '';">
+        <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item badge" :class="{ 'active': index === (breadcrumbs.length - 1) }" v-for="(breadcrumb, index) in breadcrumbs" :aria-current="index === (breadcrumbs.length - 1) ? 'page' : null">
                 <Link class="text-decoration-none text-black" v-if="index !== (breadcrumbs.length - 1)" :href="breadcrumb.url">{{ breadcrumb.title }}</Link>
                 <span v-else>{{ breadcrumb.title }}</span>

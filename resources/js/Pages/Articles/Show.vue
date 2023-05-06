@@ -78,6 +78,27 @@
                         <h1 class="mb-4">{{ article.name }}</h1>
 
                         <p v-html="parsedText"></p>
+
+                        <div class="d-flex align-items-center border-bottom w-100 mt-5 mb-3 pb-1 fw-bold">
+                            Comments <div class="badge text-bg-dark ms-2">{{ article.comments_count  }}</div>
+                        </div>
+
+
+                        <div class="mt-4 mb-4">
+                            <CommentAdd
+                                :user-name="$page.props.shared.auth?.userName"
+                                :article-id="article.id"
+                                :can-leave-comment="$page.props.shared.auth"
+                            />
+                        </div>
+
+                        <div class="my-4">
+                            <CommentDisplay
+                                :comments="article.comments"
+                                :article-id="article.id"
+                            />
+                        </div>
+
                     </div>
                     <div class="col-1 pe-0">
                         <Link v-if="tutorialLinks?.next?.url"
@@ -105,6 +126,8 @@ import utilitiesMixin from "../../mixins/utilities-mixin";
 import TutorialLayout from "../../Layouts/TutorialLayout.vue";
 import moment from 'moment/min/moment-with-locales';
 import tooltipMixin from "../../mixins/tooltip-mixin";
+import CommentDisplay from "../Comments/CommentsDisplay.vue";
+import CommentAdd from "../Comments/CommentAdd.vue";
 const md = new MarkdownIt().use(markdownItGithubHeadings, {
     prefix: 'ac-',
     enableHeadingLinkIcons: false
@@ -121,7 +144,7 @@ md.renderer.rules.image = (tokens, idx, options, env, self) => {
 
 export default {
     layout: TutorialLayout,
-    components: {Head, Link, Breadcrumb},
+    components: {CommentAdd, CommentDisplay, Head, Link, Breadcrumb},
     props: ['article', 'breadcrumbs', 'tutorials'],
     mixins: [utilitiesMixin, tooltipMixin],
     data() {
@@ -134,7 +157,7 @@ export default {
             hasScrolled: false,
             headingIds: [],
             headingsContentActive: true,
-            url: ''
+            url: '',
         };
     },
     computed: {
@@ -241,7 +264,7 @@ export default {
                     }, wait);
                 }
             }
-        }
+        },
     }
 }
 </script>

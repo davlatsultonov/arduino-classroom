@@ -45,6 +45,7 @@ class HandleInertiaRequests extends Middleware
                'topArticles' => fn() => ArticleController::getTopArticles(),
                'auth' => fn() => auth()->check() ? [
                    'userId' => auth()->id(),
+                   'userName' => auth()->user()->name,
                    'solved_tests' =>  TestService::getUserTestCategories(),
                    'read_articles' => ArticleController::getReadArticles()
                ] : null,

@@ -6,7 +6,10 @@
         <div class="col-lg-9 pe-4 py-4">
             <Breadcrumb :breadcrumbs="breadcrumbs.breadcrumbs" />
 
-            <CardGroup v-if="articles.length" :cards="articles" :horizontal="true" :cards-in-row="1"/>
+            <div class="mt-4" v-if="articles.length" >
+                <CardGroup :cards="articles" :horizontal="true" :cards-in-row="1"/>
+            </div>
+
             <div class="mt-3 text-center" v-else>
                 No data.
             </div>
