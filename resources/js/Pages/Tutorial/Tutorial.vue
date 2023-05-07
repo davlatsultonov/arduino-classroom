@@ -1,7 +1,7 @@
 <template>
-    <Show :article="currentTutorial" :tutorials="tutorials"/>
+    <Show :article="currentTutorial" :tutorials="$page.props.shared.tutorials"/>
     <Teleport to="body">
-        <TutorialMap :tutorials="tutorials"/>
+        <TutorialMap :tutorials="$page.props.shared.tutorials"/>
     </Teleport>
 </template>
 
@@ -14,6 +14,6 @@ export default {
     name: "Tutorial",
     components: {TutorialMap, Show, Link},
     layout: TutorialLayout,
-    props: ['currentTutorial', 'tutorials'],
+    props: ['currentTutorial']
 }
 </script>

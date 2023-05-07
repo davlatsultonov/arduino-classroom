@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -45,12 +46,15 @@ class SubCategory extends Resource
     {
         return [
             ID::make()->sortable(),
-            Slug::make('slug')
+            Slug::make('Slug')
                 ->from('name')
                 ->sortable(),
             Text::make('Name')
                 ->required(),
-            BelongsTo::make('Category'),
+            Number::make('Subcategory order', 'order')
+                ->sortable()
+                ->required(),
+            BelongsTo::make('Select a category', 'category', Category::class),
             HasMany::make('Articles')
         ];
     }

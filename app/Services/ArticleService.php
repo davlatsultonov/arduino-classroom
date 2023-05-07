@@ -11,7 +11,7 @@ class ArticleService extends Facade
     public static function getTopArticles()
     {
         return Article::popular()
-            ->withWhereHas('category', fn($q) => $q->where('slug', '!=', 'uroki'))
+            ->withWhereHas('category', fn($q) => $q->where('slug', '!=', 'tutorials'))
             ->take(10)
             ->orderBy('views', 'desc')
             ->get();
@@ -20,6 +20,17 @@ class ArticleService extends Facade
     public static function getReadArticles()
     {
         return ArticleRead::where('user_id', auth()->user()->id)->pluck('article_id');
+    }
+
+    public static function getTutorialPageArticles()
+    {
+        return Article::with(['sub_category', 'category' => fn($q) => $q->whereSlug('tutorials')])
+            ->orderByOrder()
+            ->get()
+            ->sortBy(function ($item) {
+                return $item->sub_category->order;
+            })
+            ->groupBy('sub_category.name');
     }
 }
 

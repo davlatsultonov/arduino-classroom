@@ -3,8 +3,10 @@
 namespace App\Nova;
 
 use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\Markdown;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Slug;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
@@ -65,7 +67,14 @@ class Article extends Resource
             BelongsTo::make('Category', 'category', Category::class)
                 ->required(),
             BelongsTo::make('Subcategory', 'sub_category', SubCategory::class)
-                ->nullable()
+                ->nullable(),
+            Date::make('created_at')
+                ->sortable()
+                ->readonly()
+                ->showOnIndex(),
+            Number::make('Subcategory order', 'order')
+                ->sortable()
+                ->required(),
         ];
     }
 

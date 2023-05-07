@@ -44,6 +44,7 @@ class HandleInertiaRequests extends Middleware
            'shared' => [
                'categories' => fn () => Category::whereHas('articles')->get(),
                'topArticles' => fn() => ArticleService::getTopArticles(),
+               'tutorials' => fn() => ArticleService::getTutorialPageArticles(),
                'auth' => fn() => auth()->check() ? [
                    'userId' => auth()->id(),
                    'userName' => auth()->user()->name,

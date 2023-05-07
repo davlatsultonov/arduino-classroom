@@ -38,4 +38,9 @@ class Article extends Model
     {
         return $q->where('views','>', 40);
     }
+
+    public function scopeOrderByOrder($q)
+    {
+        return $q->orderBy('order');
+    }
 }

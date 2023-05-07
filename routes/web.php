@@ -26,8 +26,8 @@ Route::controller(LoginController::class)->group(static function () {
     Route::delete('logout', 'destroy')->name('logout');
 });
 
-Route::prefix('tutorial')
-    ->name('tutorial.')
+Route::prefix('tutorials')
+    ->name('tutorials.')
     ->controller(TutorialController::class)->group(static function () {
         Route::get('/{slug}', 'show')->name('show');
         Route::get('/', 'index')->name('index');

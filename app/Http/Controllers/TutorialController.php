@@ -4,32 +4,25 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use App\Models\Comment;
+use App\Models\SubCategory;
 
 class TutorialController extends Controller
 {
     public function index()
     {
-        $articleName = Article::whereHas('category', fn($q) => $q->whereSlug('uroki'))
-            ->first()->slug;
+        $articleSlug = SubCategory::orderBy('order')->withWhereHas('articles', fn($q) => $q->orderByOrder())->first()->articles->first()->slug;
 
-        return to_route('tutorial.show', [$articleName]);
+        return to_route('tutorials.show', [$articleSlug]);
     }
 
     public function show($slug)
     {
-        $currentArticle = Article::where('slug', $slug)
+        $currentTutorial = Article::where('slug', $slug)
                             ->with('comments', fn($q) => $q->latest())
                             ->first();
 
-        $currentArticle->comments_count = Comment::without(['user', 'replies'])->where('article_id', $currentArticle->id)->get()->count();
+        $currentTutorial->comments_count = Comment::without(['user', 'replies'])->where('article_id', $currentTutorial->id)->get()->count();
 
-        return inertia('Tutorial/Tutorial', [
-            'currentTutorial' => $currentArticle,
-            'tutorials' => Article::with('sub_category', 'category')
-                            ->latest()
-                            ->get()
-                            ->where('category.slug', 'uroki')
-                            ->groupBy('sub_category.name')
-        ]);
+        return inertia('Tutorial/Tutorial', compact('currentTutorial'));
     }
 }
