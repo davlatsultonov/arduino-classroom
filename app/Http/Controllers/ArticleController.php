@@ -32,18 +32,4 @@ class ArticleController extends Controller
             'user_id' => auth()->user()->id,
         ]);
     }
-
-    public static function getTopArticles()
-    {
-        return Article::popular()
-            ->with('category')
-            ->take(10)
-            ->orderBy('views', 'desc')
-            ->get();
-    }
-
-    public static function getReadArticles()
-    {
-        return ArticleRead::where('user_id', auth()->user()->id)->pluck('article_id');
-    }
 }

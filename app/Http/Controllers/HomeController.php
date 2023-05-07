@@ -8,7 +8,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $articles = Article::with('category')
+        $articles = Article::withWhereHas('category', fn($q) => $q->where('slug', '!=', 'uroki'))
             ->orderBy('created_at', 'DESC')
             ->get()
             ->groupBy('category.name');

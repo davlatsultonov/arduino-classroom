@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Http\Controllers\ArticleController;
 use App\Models\Category;
+use App\Services\ArticleService;
 use App\Services\TestService;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -42,12 +43,12 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
            'shared' => [
                'categories' => fn () => Category::whereHas('articles')->get(),
-               'topArticles' => fn() => ArticleController::getTopArticles(),
+               'topArticles' => fn() => ArticleService::getTopArticles(),
                'auth' => fn() => auth()->check() ? [
                    'userId' => auth()->id(),
                    'userName' => auth()->user()->name,
                    'solved_tests' =>  TestService::getUserTestCategories(),
-                   'read_articles' => ArticleController::getReadArticles()
+                   'read_articles' => ArticleService::getReadArticles()
                ] : null,
            ]
         ]);
