@@ -41,7 +41,7 @@ class HandleInertiaRequests extends Middleware
     {
         return array_merge(parent::share($request), [
            'shared' => [
-               'categories' => fn () => Category::all(),
+               'categories' => fn () => Category::whereHas('articles')->get(),
                'topArticles' => fn() => ArticleController::getTopArticles(),
                'auth' => fn() => auth()->check() ? [
                    'userId' => auth()->id(),
