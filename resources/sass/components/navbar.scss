@@ -1,6 +1,6 @@
 .ac-navbar {
-    background-color: $accent-color;
-    min-height: 80px;
+    min-height: 60px;
+    border-bottom: 5px solid $accent-color;
     z-index: 1000;
 
 
@@ -21,14 +21,9 @@
         .nav {
             &-item {
                 border-radius: 3px;
-
-                &:hover, &.active {
-                    background-color: #00696E;
-                }
             }
 
             &-link {
-                color: #fff;
                 text-transform: uppercase;
                 font-weight: bold;
                 font-size: 14px;
@@ -42,10 +37,6 @@
     @media (min-width: 992px) {
         align-items: unset;
         padding: 0;
-
-        .navbar-collapse {
-            border-left: 1px solid #178589;
-        }
 
         .navbar-nav {
             margin-top: unset;
