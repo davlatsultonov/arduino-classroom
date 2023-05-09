@@ -49,11 +49,6 @@ class Article extends Resource
             Slug::make('Slug')
                 ->from('name')
                 ->onlyOnForms()
-                ->withMeta([
-                    'extraAttributes' => [
-                        'readonly' => true
-                    ]
-                ])
                 ->hideFromIndex()
                 ->required(),
             Text::make('Title', 'name')

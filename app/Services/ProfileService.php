@@ -15,7 +15,7 @@ class ProfileService extends Facade
 
     public static function getCurrentPointsCount(): float|int
     {
-        return (count(TestService::getUserTestCategories()) * 2) + count(ArticleController::getReadArticles());
+        return (count(TestService::getUserTestCategories()) * 2) + count(ArticleService::getReadArticles());
     }
 }
 

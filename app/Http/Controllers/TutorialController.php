@@ -10,7 +10,7 @@ class TutorialController extends Controller
 {
     public function index()
     {
-        $articleSlug = SubCategory::orderBy('order')->withWhereHas('articles', fn($q) => $q->orderByOrder())->first()->articles->first()->slug;
+        $articleSlug = SubCategory::orderBy('order')->withWhereHas('articles', fn($q) => $q->orderByOrder())->firstOrFail()->articles->firstOrFail()->slug;
 
         return to_route('tutorials.show', [$articleSlug]);
     }
@@ -19,7 +19,7 @@ class TutorialController extends Controller
     {
         $currentTutorial = Article::where('slug', $slug)
                             ->with('comments', fn($q) => $q->latest())
-                            ->first();
+                            ->firstOrFail();
 
         $currentTutorial->comments_count = Comment::without(['user', 'replies'])->where('article_id', $currentTutorial->id)->get()->count();
 

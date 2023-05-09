@@ -1,7 +1,7 @@
 <template>
     <Show :article="currentTutorial" :tutorials="$page.props.shared.tutorials"/>
     <Teleport to="body">
-        <TutorialMap :tutorials="$page.props.shared.tutorials"/>
+        <TutorialMap/>
     </Teleport>
 </template>
 

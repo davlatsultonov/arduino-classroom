@@ -1452,6 +1452,7 @@ export default {
 <style lang="scss" scoped>
 
 #usb, #uno-r3, #BlueCabel, #BlackUSBCabel {
+    pointer-events: none;
     opacity: 0;
     transition-property: all;
     transition-duration: 300ms;

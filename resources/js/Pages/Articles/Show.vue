@@ -7,9 +7,9 @@
         <div class="row h-100">
             <div class="col-md-2 headings-content text-bg-light" v-if="headingsContentActive">
                 <div class="position-sticky headings-content-body rounded-1 pt-4 top-0">
-                    <h6 class="pt-0 text-secondary">На этой странице</h6>
+                    <h6 class="pt-0 text-secondary">Дар ин саҳифа</h6>
                     <nav id="navbar-example3" class="flex-column align-items-stretch">
-                        <a class="nav-link text-sm pt-2" v-for="id in headingIds"
+                        <a class="nav-link pt-2" v-for="id in headingIds"
                            :href="`#${id}`">
                             {{ stringUpperFirstLetter(id.slice(3)).split('-').join(' ') }}
                         </a>
@@ -182,7 +182,7 @@ export default {
             return this.auth?.read_articles.indexOf(this.article.id) === -1
         },
         tutorialLinks: function () {
-            if (!this.tutorials) return {};
+            if (!this.tutorials || Object.values(this.tutorials).length < 2) return {};
             const links = (Object.values(this.tutorials).flat()).map(tutorial => tutorial.slug);
             const indexOf = links.indexOf(this.article.slug);
             const isFirst = indexOf === 0;

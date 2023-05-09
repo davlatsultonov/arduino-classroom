@@ -1,5 +1,5 @@
 <template>
-    <div class="circle-progress mx-auto" :style="{width:size+'px',height:size+'px'}" :data-pct="progressNumber" data-pct-subtitle="points">
+    <div class="circle-progress mx-auto" :style="{width:size+'px',height:size+'px'}" :data-pct="progressNumber" data-pct-subtitle="хол">
         <svg :width="size" :height="size" :viewPort="'0 0 '+ size + ' ' + size" version="1.1" xmlns="http://www.w3.org/2000/svg">
             <circle class="ring" :stroke="ringColor" :r="r" :cx="size/2" :cy="size/2" :stroke-width="strokeWidth" fill="none">
             </circle>

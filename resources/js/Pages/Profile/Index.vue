@@ -1,18 +1,19 @@
 <template>
     <div class="py-4">
-        <h2 class="fw-bold mb-5">My learning</h2>
+        <h2 class="fw-bold mb-5">Омӯзиши ман</h2>
 
         <div id="welcome-block" class="border rounded-4 py-5 px-4">
             <div class="row position-relative">
                 <div class="col-7">
                     <h3 class="mb-4">
-                        Hi, {{ stringUpperFirstLetter(name) }}
+                        Салом, {{ stringUpperFirstLetter(name) }}
                     </h3>
                     <p>
-                        Welcome to the new "My learning" here at W3schools. This will be your hub to all the tutorials we offer and your learning progress.
+                        Хуш омадед ба саҳифаи "Омӯзиши ман".
+                        Ин маркази шумо барои ҳама дарсҳои пешниҳодкардаи мо ва пешрафти омӯзиши шумо хоҳад буд.
                     </p>
 
-                    <p>We hope you will continue to learn with us.</p>
+                    <p>Мо умедворем, ки шумо бо мо омӯхтанро идома медиҳед.</p>
 
                     <ResultCard class="position-absolute"
                                 :total-points-count="totalPointsCount"
@@ -22,7 +23,7 @@
             </div>
         </div>
 
-        <ProgressListRow v-if="$page.props.shared.auth.solved_tests.length" :list="$page.props.shared.auth.solved_tests" />
+        <ProgressListRow :list="$page.props.shared.auth.solved_tests" />
 
 
     </div>

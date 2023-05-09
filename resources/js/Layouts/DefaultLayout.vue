@@ -2,7 +2,11 @@
    <BaseLayout>
        <template v-slot:container>
            <div class="container flex-grow-1">
-               <slot/>
+               <div class="row justify-content-center">
+                   <div class="col-10">
+                       <slot/>
+                   </div>
+               </div>
            </div>
        </template>
        <template v-slot:footer>
