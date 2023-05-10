@@ -11,7 +11,7 @@
                 </p>
             </div>
             <div class="col col-lg-6">
-                <div class="d-flex justify-content-end mb-5 small">
+                <div class="d-flex justify-content-end mt-2 mb-5 small">
                     Охирин навсозӣ 9 майи 2023
                 </div>
 

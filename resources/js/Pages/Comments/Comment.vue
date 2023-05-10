@@ -20,13 +20,13 @@
                     <img src="/images/reply-icon.svg" class="comment-block__parent-name" width="13" alt="reply icon">{{ parentName }}
                 </span>
                 </h5>
-                <div class="mb-2" style="font-size: 12px;">{{ formattedCommentCreationDate }}</div>
-                <p class="text-secondary small mb-2">{{ comment.body }}</p>
+                <div class="mb-2 text-secondary comment-block__date">{{ formattedCommentCreationDate }}</div>
+                <p class="small mb-2">{{ comment.body }}</p>
                 <button
                     class="btn btn-outline-dark btn-sm py-0 rounded-pill"
                     style="font-size: 12px"
                     @click="showReplySection = !showReplySection"
-                >reply</button>
+                >ҷавоб</button>
                 <form
                     class="mt-3"
                     @submit.prevent="submit"
@@ -160,6 +160,10 @@ export default {
     &__parent-name {
         padding-bottom: 3px;
         padding-right: 3px;
+    }
+
+    &__date {
+        font-size: 12px;
     }
 }
 </style>

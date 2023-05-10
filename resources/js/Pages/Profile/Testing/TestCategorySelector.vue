@@ -1,13 +1,13 @@
 <template>
     <form @submit.prevent="submit">
-        <label for="test-category-select" class="form-label">Choose category:</label>
+        <label for="test-category-select" class="form-label">Категорияро интихоб кунед:</label>
         <select id="test-category-select" class="form-select"
                 :class="{'is-invalid': quizCategorySelectionForm.errors.category_id }"
                 name="category"
                 v-model="quizCategorySelectionForm.category_id"
                 aria-label="Default select example">
             <option value=""></option>
-            <option v-for="{id, name} in availableCategories" :value="id">
+            <option v-for="{id, name} in $page.props.shared.availableCategories" :value="id">
                 {{ name }}
             </option>
         </select>
@@ -16,7 +16,7 @@
         </div>
 
         <div v-if="quizCategorySelectionForm.category_id" class="mt-3">
-            <label for="test-category-select" class="form-label">Choose test:</label>
+            <label for="test-category-select" class="form-label">Зеркатегорияро интихоб кунед:</label>
             <select id="test-category-select" class="form-select"
                     :class="{'is-invalid': quizCategorySelectionForm.errors.test_id }"
                     name="category"
@@ -28,7 +28,11 @@
             </select>
         </div>
         <div class="text-center my-4">
-            <button class="btn btn-dark" type="submit" :disabled="!quizCategorySelectionForm.category_id || !quizCategorySelectionForm.test_id">Start</button>
+            <button class="btn btn-dark"
+                    type="submit"
+                    :disabled="!quizCategorySelectionForm.category_id || !quizCategorySelectionForm.test_id"
+                    data-bs-dismiss="modal"
+            >Оғоз кунед</button>
         </div>
     </form>
 </template>
@@ -38,25 +42,38 @@ import {useForm} from "@inertiajs/inertia-vue3";
 
 export default {
     name: "TestCategorySelector",
-    props: ['availableCategories', 'availableTests'],
+    props: {
+        currentArticleTestSettings: {
+            type: Object,
+            default() {
+                return {}
+            }
+        }
+    },
     data() {
       return {
           quizCategorySelectionForm: useForm({
-              category_id: 1,
-              test_id: 1,
+              category_id: null,
+              test_id: null,
           })
       }
     },
+    created() {
+        if (Object.keys(this.currentArticleTestSettings).length > 1) {
+            this.quizCategorySelectionForm.category_id = this.currentArticleTestSettings.category_id
+            this.quizCategorySelectionForm.test_id = this.currentArticleTestSettings.sub_category_id
+        }
+    },
     computed: {
         filteredAvailableTests: function () {
-            return (this.availableTests && this.availableTests.length)
-                    ? this.availableTests.filter(test => test.category_id === this.quizCategorySelectionForm.category_id)
+            return (this.$page.props.shared.availableTests && this.$page.props.shared.availableTests.length)
+                    ? this.$page.props.shared.availableTests.filter(test => test.category_id === this.quizCategorySelectionForm.category_id)
                     : [];
         }
     },
     methods: {
         submit: function () {
-            this.quizCategorySelectionForm.post('test/' + this.quizCategorySelectionForm.category_id, {
+            this.quizCategorySelectionForm.post('/profile/test/' + this.quizCategorySelectionForm.category_id, {
                 data: {
                     'test_id': this.quizCategorySelectionForm.test_id
                 },

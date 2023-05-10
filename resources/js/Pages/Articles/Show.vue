@@ -49,6 +49,43 @@
                                 alt="map icon">
                         </button>
 
+                        <button type="button"
+                                v-if="$page.props.shared.auth"
+                                :style="{
+                                    top: '120px'
+                                }"
+                                data-bs-toggle="modal"
+                                data-bs-target="#test-modal"
+                                class="position-sticky btn btn-link headings-content-btn-toggle"
+
+                        >
+                            <img
+                                data-bs-toggle="tooltip"
+                                data-bs-title="Худро бисанч"
+                                data-bs-offset="0,10"
+                                data-bs-custom-class="custom-tooltip"
+                                data-bs-placement="right"
+                                @click="handleTooltipDispose"
+                                src="/images/test-icon.svg"
+                                width="30"
+                                alt="map icon">
+                        </button>
+
+                        <div class="modal fade" id="test-modal" tabindex="-1" role="dialog" aria-labelledby="test-modal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                        <TestBody
+                                            :current-article-test-settings="{
+                                                category_id: article.category_id,
+                                                sub_category_id: article.sub_category_id
+                                            }"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <Link v-if="tutorialLinks?.prev?.url"
                               :href="tutorialLinks.prev.url"
                               data-bs-toggle="tooltip"
@@ -128,6 +165,8 @@ import moment from 'moment/min/moment-with-locales';
 import tooltipMixin from "../../mixins/tooltip-mixin";
 import CommentDisplay from "../Comments/CommentsDisplay.vue";
 import CommentAdd from "../Comments/CommentAdd.vue";
+import TestIndex from "../Profile/Testing/TestIndex.vue";
+import TestBody from "../Profile/Testing/TestBody.vue";
 const md = new MarkdownIt().use(markdownItGithubHeadings, {
     prefix: 'ac-',
     enableHeadingLinkIcons: false
@@ -144,7 +183,7 @@ md.renderer.rules.image = (tokens, idx, options, env, self) => {
 
 export default {
     layout: TutorialLayout,
-    components: {CommentAdd, CommentDisplay, Head, Link, Breadcrumb},
+    components: {TestBody, TestIndex, CommentAdd, CommentDisplay, Head, Link, Breadcrumb},
     props: ['article', 'breadcrumbs', 'tutorials'],
     mixins: [utilitiesMixin, tooltipMixin],
     data() {
@@ -264,7 +303,7 @@ export default {
                     }, wait);
                 }
             }
-        },
+        }
     }
 }
 </script>

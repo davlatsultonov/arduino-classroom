@@ -11,12 +11,20 @@ use \App\Http\Controllers\ArticleController;
 use \App\Http\Controllers\TutorialController;
 use \App\Http\Controllers\Auth\RegisterController;
 
-Route::post('/comments', [CommentController::class, 'store'])->name('comment.store');
+Route::prefix('comments')
+    ->group(static function () {
+        Route::redirect('/', '/');
+        Route::post('/', [CommentController::class, 'store'])->name('comment.store');
+    });
 
-Route::prefix('register')->controller(RegisterController::class)->middleware('guest')->name('register.')->group(static function () {
-    Route::get('/', 'create')->name('create');
-    Route::post('/', 'store')->name('store');
-});
+Route::prefix('register')
+    ->controller(RegisterController::class)
+    ->middleware('guest')
+    ->name('register.')
+    ->group(static function () {
+        Route::get('/', 'create')->name('create');
+        Route::post('/', 'store')->name('store');
+    });
 
 Route::controller(LoginController::class)->group(static function () {
     Route::prefix('login')->name('login.')->middleware('guest')->group(static function () {
@@ -35,11 +43,12 @@ Route::prefix('tutorials')
 
 Route::middleware(['auth:web'])
     ->prefix('profile')
-    ->name('profile.')->group(static function () {
+    ->name('profile.')
+    ->group(static function () {
         Route::prefix('test')
             ->name('test.')
             ->controller(TestController::class)->group(static function () {
-                Route::get('/', 'index')->name('index');
+                Route::inertia('/', 'Profile/Testing/TestIndex')->name('index');
                 Route::post('/{id}', 'show')->name('show');
                 Route::post('/', 'store')->name('store');
             });
@@ -48,10 +57,10 @@ Route::middleware(['auth:web'])
 
 Route::prefix('{slug}')->group(static function () {
     Route::prefix('{article_slug}')
-        ->controller(ArticleController::class)->group(static function () {
+        ->controller(ArticleController::class)
+        ->group(static function () {
             Route::get('', 'show')->name('article.show');
-            Route::post('', 'store')->name('article.store')
-                ->middleware('auth:web');
+            Route::post('', 'store')->name('article.store')->middleware('auth:web');
         });
     Route::get('/', [CategoryController::class, 'index'])->name('category.index');
 });

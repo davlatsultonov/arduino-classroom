@@ -1,5 +1,5 @@
 <template>
-    <div v-if="currentTest">
+    <div v-if="Object.keys(currentTest).length">
         <div>
             <p>
                 {{ currentQuestion }}
@@ -18,8 +18,8 @@
             </div>
         </div>
     </div>
-    <div v-else>
-        Nothing to show
+    <div v-else class="alert alert-info text-center">
+        Чизе барои нишон додан нест
     </div>
 </template>
 

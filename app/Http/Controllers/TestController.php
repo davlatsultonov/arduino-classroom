@@ -9,17 +9,9 @@ use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
-    public function index()
+    public function show(Request $request)
     {
-        return inertia('Profile/Testing/TestIndex', [
-            'availableCategories' => TestService::getAvailableCategoriesWithTest(),
-            'availableTests' => TestService::getAvailableTests()
-        ]);
-    }
-
-    public function show($test_id)
-    {
-        $currentTest = Test::whereId($test_id)->with('testQuestions.testAnswers')->first();
+        $currentTest = Test::whereId($request->test_id)->with('testQuestions.testAnswers')->first();
 
         return inertia('Profile/Testing/TestIndex', compact('currentTest'));
     }

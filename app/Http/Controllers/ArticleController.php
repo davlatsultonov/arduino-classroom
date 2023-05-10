@@ -14,7 +14,6 @@ class ArticleController extends Controller
     {
         $breadcrumbs = Breadcrumbs::render('article.show', $request->slug, $request->article_slug)->getData();
 
-
         $article = Article::whereSlug($request->article_slug)
             ->with('comments', fn($q) => $q->latest())
             ->firstOrFail();
