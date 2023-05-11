@@ -25,6 +25,8 @@ class TestAnswer extends Resource
      */
     public static $title = 'answer';
 
+    public static $clickAction = 'edit';
+
     /**
      * The columns that should be searched.
      *
@@ -48,7 +50,7 @@ class TestAnswer extends Resource
                 ->required(),
             Boolean::make('Is correct', 'is_correct'),
             BelongsTo::make('Test'),
-            BelongsTo::make('TestQuestion')
+            BelongsTo::make('TestQuestion')->sortable()
         ];
     }
 

@@ -5,6 +5,7 @@
                 :class="{'is-invalid': quizCategorySelectionForm.errors.sub_category_id }"
                 name="category"
                 v-model="quizCategorySelectionForm.sub_category_id"
+                :disabled="currentArticleTestSettings.test_id"
                 aria-label="Default select example">
             <option value=""></option>
             <option v-for="{id, name} in $page.props.shared.availableCategories" :value="id">
@@ -21,6 +22,7 @@
                     :class="{'is-invalid': quizCategorySelectionForm.errors.test_id }"
                     name="category"
                     v-model="quizCategorySelectionForm.test_id"
+                    :disabled="currentArticleTestSettings.test_id"
                     aria-label="Default select example">
                 <option v-for="{id, description} in filteredAvailableTests" :value="id">
                     {{ description }}

@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -45,6 +46,10 @@ class Test extends Resource
                 ->rules('unique:tests,description,{{resourceId}}')
                 ->sortable()
                 ->required(),
+
+            Number::make('Questions count', function () {
+                return $this->testQuestions()->count();
+            }),
 
             BelongsTo::make('Category')->default(8),
             BelongsTo::make('Sub Category','subcategory', SubCategory::class)->default(1),

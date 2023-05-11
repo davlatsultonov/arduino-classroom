@@ -342,7 +342,7 @@ export default {
         align-items: center;
         justify-content: center;
         width: 80px;
-        height: 60px;
+        height: 80px;
 
         img {
             width: 40px;

@@ -4,6 +4,7 @@ namespace App\Nova;
 
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -15,6 +16,8 @@ class TestQuestion extends Resource
      * @var class-string<\App\Models\TestQuestion>
      */
     public static $model = \App\Models\TestQuestion::class;
+
+    public static $clickAction = 'edit';
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -44,6 +47,9 @@ class TestQuestion extends Resource
             Text::make('Question')
                 ->sortable()
                 ->required(),
+            Number::make('Answers count', function () {
+                return $this->testAnswers()->count();
+            }),
             BelongsTo::make('Test'),
             HasMany::make('TestAnswers'),
         ];

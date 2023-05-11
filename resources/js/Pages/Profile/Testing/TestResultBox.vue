@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="mb-5">
         <div>
             You have answered to {{ correctAnswersCount }} out of {{ filteredTestsLength }}
         </div>
