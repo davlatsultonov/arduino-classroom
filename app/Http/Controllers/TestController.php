@@ -4,14 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Test;
 use App\Models\TestResult;
-use App\Services\TestService;
+use App\Models\TestQuestion;
 use Illuminate\Http\Request;
 
 class TestController extends Controller
 {
     public function show(Request $request)
     {
-        $currentTest = Test::whereId($request->test_id)->with('testQuestions.testAnswers')->first();
+        $test_id = $request->test_id;
+
+        if ($test_id === '*') {
+            $currentTest = Test::whereId(1)->first();
+
+            $currentTest->test_questions = TestQuestion::with('testAnswers')
+                ->whereHas('test', fn($q) => $q->where('sub_category_id', $request->sub_category_id))
+                ->get()->shuffle();
+        } else {
+            $currentTest = Test::whereId($test_id)->with('testQuestions.testAnswers')->first();
+        }
 
         return inertia('Profile/Testing/TestIndex', compact('currentTest'));
     }

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="Object.keys(currentTest).length">
+    <div v-if="currentTestQuestions.length">
         <div>
             <p>
                 {{ currentQuestion }}
@@ -27,7 +27,7 @@
 import {Link} from "@inertiajs/inertia-vue3";
 export default {
     name: "TestBox",
-    props: ['currentTest', 'handleQuizResult'],
+    props: ['currentTestQuestions', 'handleQuizResult'],
     components: {Link},
     data() {
         return {
@@ -37,13 +37,13 @@ export default {
     },
     computed: {
         currentQuestionsLength: function () {
-            return this.currentTest.test_questions.length
+            return this.currentTestQuestions.length
         },
         currentQuestion: function () {
-            return this.currentTest.test_questions[this.currentQuestionIndex].question
+            return this.currentTestQuestions[this.currentQuestionIndex].question
         },
         currentQuestionAnswers: function () {
-            return this.currentTest.test_questions[this.currentQuestionIndex].test_answers
+            return this.currentTestQuestions[this.currentQuestionIndex].test_answers
         },
     },
     methods: {

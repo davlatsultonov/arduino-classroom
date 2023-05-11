@@ -58,8 +58,9 @@ class Article extends Resource
                 ->required(),
             Image::make('Thumbnail', 'image')->disk('public'),
             BelongsTo::make('User', 'user', User::class)
+                ->default(1)
                 ->required(),
-            BelongsTo::make('Category', 'category', Category::class)
+            BelongsTo::make('Category', 'category', Category::class)->default(8)
                 ->required(),
             BelongsTo::make('Subcategory', 'sub_category', SubCategory::class)
                 ->nullable(),

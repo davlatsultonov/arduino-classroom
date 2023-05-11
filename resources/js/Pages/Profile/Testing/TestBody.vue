@@ -7,7 +7,7 @@
         />
         <TestBox v-else-if="quizState === 'process'"
                  @test-state-changed="handleTestStateChange"
-                 :current-test="currentTest"
+                 :current-test-questions="currentTest.test_questions"
                  :handle-quiz-result="handleQuizResult"
         />
         <TestResultBox v-else-if="quizState === 'finish'"

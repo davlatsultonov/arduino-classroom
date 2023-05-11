@@ -27,6 +27,7 @@
                 <option v-for="{id, description} in filteredAvailableTests" :value="id">
                     {{ description }}
                 </option>
+                <option value="*" class="fw-bold fst-italic">ҳамаи мақолаҳо</option>
             </select>
         </div>
         <div class="text-center my-4">

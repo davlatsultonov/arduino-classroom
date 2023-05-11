@@ -172,6 +172,7 @@ const md = new MarkdownIt().use(markdownItGithubHeadings, {
     enableHeadingLinkIcons: false
 });
 
+// TODO set image width to 100%
 md.renderer.rules.image = (tokens, idx, options, env, self) => {
     const token = tokens[idx];
     const src = token.attrs[token.attrIndex('src')][1];
