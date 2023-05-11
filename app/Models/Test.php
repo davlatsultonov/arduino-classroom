@@ -10,12 +10,18 @@ class Test extends Model
     use HasFactory;
 
     protected $fillable = [
-        'description'
+        'description',
+        'sub_category_id'
     ];
 
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function subCategory()
+    {
+        return $this->belongsTo(SubCategory::class);
     }
 
     public function testResults()

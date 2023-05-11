@@ -48,7 +48,7 @@ export default {
     },
     data() {
         return {
-            chunkSize: 2
+            chunkSize: 1
         }
     },
     computed: {
@@ -59,7 +59,12 @@ export default {
             return (items) => {
                 const result = [];
 
-                this.chunkSize = Math.ceil(items.length / (items.length > 6 ? 3 : 2));
+                if (items.length > 9) {
+                    this.chunkSize = Math.ceil(items.length / 3);
+                } else {
+                    this.chunkSize = Math.ceil(items.length / (items.length <= 3) ? 3 : 2);
+                }
+
 
                 if (this.chunkSize > 0) {
                     for (let i = 0; i < items.length; i += this.chunkSize) {

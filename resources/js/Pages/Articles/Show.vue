@@ -50,7 +50,7 @@
                         </button>
 
                         <button type="button"
-                                v-if="$page.props.shared.auth"
+                                v-if="$page.props.shared.auth && hasCurrentArticleTests"
                                 :style="{
                                     top: '120px'
                                 }"
@@ -77,8 +77,8 @@
                                     <div class="modal-body">
                                         <TestBody
                                             :current-article-test-settings="{
-                                                category_id: article.category_id,
-                                                sub_category_id: article.sub_category_id
+                                                sub_category_id: article.sub_category_id,
+                                                test_id: getTestId
                                             }"
                                         />
                                     </div>
@@ -125,7 +125,7 @@
                             <CommentAdd
                                 :user-name="$page.props.shared.auth?.userName"
                                 :article-id="article.id"
-                                :can-leave-comment="$page.props.shared.auth"
+                                :can-leave-comment="$page.props.shared.auth !== null"
                             />
                         </div>
 
@@ -221,7 +221,7 @@ export default {
             return this.auth?.read_articles.indexOf(this.article.id) === -1
         },
         tutorialLinks: function () {
-            if (!this.tutorials || Object.values(this.tutorials).length < 2) return {};
+            if (Object.values(this.tutorials).flat(1).length < 2) return {};
             const links = (Object.values(this.tutorials).flat()).map(tutorial => tutorial.slug);
             const indexOf = links.indexOf(this.article.slug);
             const isFirst = indexOf === 0;
@@ -237,6 +237,12 @@ export default {
                 }
             }
         },
+        hasCurrentArticleTests() {
+            return this.$page.props.shared.availableTests.find(test => test.description === this.article.name)
+        },
+        getTestId() {
+            return (this.$page.props.shared.availableTests.find(test => test.description === this.article.name))?.id
+        }
     },
     beforeUnmount() {
         this.stopScrollInit();

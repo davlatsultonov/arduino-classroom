@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Category;
 use App\Models\Test;
 use App\Models\TestResult;
+use App\Models\SubCategory;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Facade;
 
@@ -12,7 +13,7 @@ class TestService extends Facade
 {
     public static function getAvailableCategoriesWithTest()
     {
-        return Category::has('tests')->get();
+        return SubCategory::has('tests')->get();
     }
 
     public static function getAvailableTests()
