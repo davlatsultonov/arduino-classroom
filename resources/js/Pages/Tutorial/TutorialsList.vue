@@ -1,8 +1,8 @@
 <template>
-    <template v-if="Object.keys(tutorials).length">
+    <div v-if="Object.keys(tutorials).length">
         <div class="my-4" v-for="(tutorial, key, index) in tutorials">
             <div class="row">
-                <h6 class="fw-bold">{{ key }}</h6>
+                <h6 class="fw-semibold">{{ key }}</h6>
 
                 <div class="col" v-for="(chunkItem, chunkItemIndex) in chunkItems(tutorial)">
                     <ul class="list-group mt-2 tutorial-list">
@@ -26,7 +26,7 @@
             </div>
 
         </div>
-    </template>
+    </div>
     <div v-else class="alert alert-info text-center mt-4">
         Дар айни замон ягон мақола вуҷуд надорад
     </div>

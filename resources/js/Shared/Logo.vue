@@ -1,6 +1,6 @@
 <template>
     <Link class="text-decoration-none fs-4" :class="{ 'text-white': darkTheme }" href="/">
-        <svg width="335" height="67" viewBox="0 0 335 67" fill="none" xmlns="http://www.w3.org/2000/svg" v-if="type === 'black'">
+        <svg width="335" height="67" id="logo" viewBox="0 0 335 67" fill="none" xmlns="http://www.w3.org/2000/svg" v-if="type === 'black'">
             <g id="LogoWithHouse2" :class="{
                 'active-house': animate
             }">
@@ -1451,6 +1451,13 @@ export default {
 
 <style lang="scss" scoped>
 
+#logo {
+
+    @media screen and (max-width: 576px) {
+        width: 250px;
+    }
+}
+
 #usb, #uno-r3, #BlueCabel, #BlackUSBCabel {
     pointer-events: none;
     opacity: 0;
@@ -1470,6 +1477,10 @@ export default {
 
 #uno-r3 {
     transition-delay: 200ms;
+
+    @media screen and (max-width: 576px) {
+        display: none;
+    }
 }
 
 #BlueCabel, #BlackUSBCabel {

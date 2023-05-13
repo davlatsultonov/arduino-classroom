@@ -2,9 +2,6 @@
     <nav class="navbar navbar-expand-lg ac-navbar">
         <div class="container-fluid">
             <Logo class="navbar-brand" />
-            <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
             <ul class="navbar-nav ps-3 flex-row">
                 <li class="nav-item">
                     <Link

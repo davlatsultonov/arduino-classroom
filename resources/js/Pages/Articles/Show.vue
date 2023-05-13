@@ -172,14 +172,13 @@ const md = new MarkdownIt().use(markdownItGithubHeadings, {
     enableHeadingLinkIcons: false
 });
 
-// TODO set image width to 100%
+md.options.html = true;
+
 md.renderer.rules.image = (tokens, idx, options, env, self) => {
     const token = tokens[idx];
     const src = token.attrs[token.attrIndex('src')][1];
     const alt = token.content;
-    const style = 'display: block; margin: 24px auto; width: 50%; height: auto;';
-    const className = 'my-custom-class';
-    return `<img src="${src}"  alt="${alt}" style="${style}" class="${className}">`;
+    return `<img src="${src}"  alt="${alt}" class="d-block w-75 my-5 mx-auto border rounded shadow-sm">`;
 };
 
 export default {

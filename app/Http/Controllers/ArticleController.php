@@ -12,6 +12,7 @@ class ArticleController extends Controller
 {
     public function show(Request $request)
     {
+        // TODO fix breadcrumbs appearance in tutorial page
         $breadcrumbs = Breadcrumbs::render('article.show', $request->slug, $request->article_slug)->getData();
 
         $article = Article::whereSlug($request->article_slug)
