@@ -13,8 +13,7 @@
                 </div>
                 <div class="col-12 col-lg-6 d-flex justify-content-end align-items-start">
                     <div
-                        class="d-inline-flex justify-content-end mt-2 mb-4 mb-lg-5 small badge text-bg-warning rounded-1"
-                        style="background-color: #00979d !important; color: #fff !important;"
+                        class="d-inline-flex justify-content-end mt-2 mb-4 mb-lg-5 small badge text-dark border border-secondary fw-semibold rounded-1"
                     >
                         Охирин навсозӣ 9 майи 2023
                     </div>
@@ -55,11 +54,9 @@
         <ContentContainer>
             <div class="row mt-4 mb-5">
                 <div class="col col-lg-9">
-                    <div data-bs-spy="scroll" data-bs-target="#navbar-example2" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
-                        <h4 id="scroll-spy-heading-1">First heading</h4>
-                        <div class="tutorials-list-container">
-                            <TutorialsList :tutorials="$page.props.shared.tutorials"/>
-                        </div>
+                    <h5 id="scroll-spy-heading-1" class="mt-3">Системаи Arduino</h5>
+                    <div class="tutorials-list-container">
+                        <TutorialsList :tutorials="$page.props.shared.tutorials"/>
                     </div>
                 </div>
             </div>

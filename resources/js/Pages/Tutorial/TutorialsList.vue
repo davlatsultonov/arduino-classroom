@@ -2,7 +2,7 @@
     <div v-if="Object.keys(tutorials).length">
         <div class="my-4" v-for="(tutorial, key, index) in tutorials">
             <div class="row">
-                <h6 class="fw-semibold">{{ key }}</h6>
+                <h6 class="fw-semibold mb-2">{{ key }}</h6>
 
                 <div class="col" v-for="(chunkItem, chunkItemIndex) in chunkItems(tutorial)">
                     <ul class="list-group mt-2 tutorial-list">
@@ -84,10 +84,11 @@ export default {
 
 
     &__link {
-
+        color: #436ebd;
 
         &:hover {
             color: #c4433a;
+            text-decoration: underline !important;
         }
     }
 }
