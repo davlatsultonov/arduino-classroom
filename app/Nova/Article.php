@@ -60,15 +60,19 @@ class Article extends Resource
             BelongsTo::make('User', 'user', User::class)
                 ->default(1)
                 ->required(),
-            BelongsTo::make('Category', 'category', Category::class)->default(8)
+            BelongsTo::make('Category', 'category', Category::class)
+                /*->default(8)*/
                 ->required(),
             BelongsTo::make('Subcategory', 'sub_category', SubCategory::class)
+                /*->default(1)*/
                 ->nullable(),
             Date::make('created_at')
                 ->sortable()
                 ->readonly()
                 ->showOnIndex(),
-            Number::make('Subcategory order', 'order')
+            Number::make('Article order', 'order')
+                ->default(\App\Models\Article::max('order') + 1)
+                ->placeholder('type in which order should article be placed in: 0, 1, 2')
                 ->sortable()
                 ->required(),
         ];

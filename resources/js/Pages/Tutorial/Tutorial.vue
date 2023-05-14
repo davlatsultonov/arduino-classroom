@@ -6,6 +6,8 @@
 </template>
 
 <script>
+// TODO check if views counter working in tutorial page
+
 import {Link} from "@inertiajs/inertia-vue3";
 import TutorialLayout from "../../Layouts/TutorialLayout.vue";
 import Show from "../Articles/Show.vue";

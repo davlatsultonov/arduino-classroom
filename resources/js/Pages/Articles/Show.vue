@@ -7,13 +7,33 @@
         <div class="row h-100">
             <div class="col-md-2 headings-content text-bg-light" v-if="headingsContentActive">
                 <div class="position-sticky headings-content-body rounded-1 pt-4 top-0">
+                    <h6>
+                        <div class="text-secondary mb-1">Мавзӯъ:</div>
+                    </h6>
+                    <h5 class="mb-4 text-secondary">
+                        <a class="nav-link fs-6 fw-semibold" :href="`#${article.slug}`">
+                            {{ article.name }}
+                        </a>
+                    </h5>
+
+                    <h6 class="text-secondary">Бахш</h6>
+                    <div class="mb-4">
+                        <p class="text-dark nav-link text-decoration-none">{{ article.sub_category.name }}</p>
+                    </div>
                     <h6 class="pt-0 text-secondary">Дар ин саҳифа</h6>
                     <nav id="navbar-example3" class="flex-column align-items-stretch">
-                        <a class="nav-link pt-2" v-for="id in headingIds"
-                           :href="`#${id}`">
-                            {{ stringUpperFirstLetter(id.slice(3)).split('-').join(' ') }}
+                        <a class="nav-link pt-2"
+                           :class="{
+                                'ps-3': ['H3', 'H4', 'H5'].includes(item.tagName)
+                           }"
+                           v-for="item in headingIds" :href="`#${item.id}`"
+                        >
+                            {{ stringUpperFirstLetter(item.id.slice(3)).split('-').join(' ') }}
                         </a>
                     </nav>
+                    <div class="mt-4 border-top pt-3">
+                        <a href="#comments" class="text-dark nav-link text-decoration-none">Шарҳҳо</a>
+                    </div>
                 </div>
             </div>
             <div :class="`col-lg-${headingsContentActive ? '10' : '12'}`">
@@ -98,11 +118,11 @@
                         </Link>
                     </div>
                     <div class="col-7">
-                        <div class="d-flex mb-4"
+                        <div class="d-flex mb-5"
                              :class="`justify-content-${breadcrumbs ? 'between' : 'end'}`"
                         >
                             <Breadcrumb v-if="breadcrumbs" :breadcrumbs="breadcrumbs.breadcrumbs" />
-                            <div class="fst-italic"
+                            <div class="border-bottom"
                                  data-bs-toggle="tooltip"
                                  data-bs-title="Охирин навсозӣ"
                                  data-bs-placement="bottom"
@@ -112,11 +132,11 @@
                             </div>
                         </div>
 
-                        <h1 class="mb-4">{{ article.name }}</h1>
+                        <h1 :id="article.slug" class="mb-4">{{ article.name }}</h1>
 
                         <p v-html="parsedText"></p>
 
-                        <div class="d-flex align-items-center border-bottom w-100 mt-5 mb-3 pb-1 fw-bold">
+                        <div id="comments" class="d-flex align-items-center border-bottom w-100 mt-5 mb-3 pb-1 fw-bold">
                             Comments <div class="badge text-bg-dark ms-2">{{ article.comments_count  }}</div>
                         </div>
 
@@ -167,19 +187,23 @@ import CommentDisplay from "../Comments/CommentsDisplay.vue";
 import CommentAdd from "../Comments/CommentAdd.vue";
 import TestIndex from "../Profile/Testing/TestIndex.vue";
 import TestBody from "../Profile/Testing/TestBody.vue";
+
+// Cоздается экземпляр класса MarkdownIt и настраиваются его опции и правила рендеринга.
 const md = new MarkdownIt().use(markdownItGithubHeadings, {
-    prefix: 'ac-',
-    enableHeadingLinkIcons: false
+    prefix: 'ac-', // Префикс для идентификаторов заголовков
+    enableHeadingLinkIcons: false // Отключение иконок для ссылок на заголовки
 });
 
-md.options.html = true;
+md.options.html = true; // Включение обработки HTML-тегов в Markdown
 
 md.renderer.rules.image = (tokens, idx, options, env, self) => {
+    // Переопределение правила рендеринга для тега изображения
     const token = tokens[idx];
-    const src = token.attrs[token.attrIndex('src')][1];
-    const alt = token.content;
-    return `<img src="${src}"  alt="${alt}" class="d-block w-75 my-5 mx-auto border rounded shadow-sm">`;
+    const src = token.attrs[token.attrIndex('src')][1]; // Получение значения атрибута src
+    const alt = token.content; // Получение содержимого тега
+    return `<img src="${src}"  alt="${alt}" class="d-block w-75 my-5 mx-auto border rounded shadow-sm">`; // Возврат HTML-кода для изображения с заданными классами
 };
+
 
 export default {
     layout: TutorialLayout,
@@ -200,29 +224,36 @@ export default {
         };
     },
     computed: {
-        parsedText () {
-            return md.render(this.article.description)
+        parsedText() {
+            // Возвращает отрендеренный Markdown текст статьи
+            return md.render(this.article.description);
         },
         formattedArticleUpdatedDate() {
-            moment.locale('tg');
+            // Форматирует дату обновления статьи в заданном формате
+            moment.locale('tg'); // Устанавливает локаль для moment.js
             return moment(this.article.updated_at).format('LLLL');
         },
         formattedTime() {
+            // Форматирует время в минуты и секунды на основе значения переменной time
             const minutes = Math.floor(this.time / 60000);
             const seconds = parseInt(((this.time % 60000) / 1000).toFixed(0));
             return {
-                minutes, seconds
+                minutes,
+                seconds
             };
         },
         auth() {
+            // Возвращает значение свойства auth из общих свойств страницы
             return this.$page.props.shared.auth;
         },
         isNewArticle() {
-            return this.auth?.read_articles.indexOf(this.article.id) === -1
+            // Проверяет, является ли статья новой (не прочитанной)
+            return this.auth?.read_articles.indexOf(this.article.id) === -1;
         },
-        tutorialLinks: function () {
+        tutorialLinks() {
+            // Возвращает объект с ссылками на предыдущую и следующую статьи в учебнике
             if (Object.values(this.tutorials).flat(1).length < 2) return {};
-            const links = (Object.values(this.tutorials).flat()).map(tutorial => tutorial.slug);
+            const links = Object.values(this.tutorials).flat().map(tutorial => tutorial.slug);
             const indexOf = links.indexOf(this.article.slug);
             const isFirst = indexOf === 0;
 
@@ -235,51 +266,81 @@ export default {
                     url: links[indexOf + 1] ? links[indexOf + 1] : links[0],
                     title: Object.values(this.tutorials).flat()[links[indexOf + 1] ? indexOf + 1 : 0].name
                 }
-            }
+            };
         },
         hasCurrentArticleTests() {
-            return this.$page.props.shared.availableTests.find(test => test.description === this.article.name)
+            // Проверяет, есть ли тесты для текущей статьи
+            return this.$page.props.shared.availableTests.find(test => test.description === this.article.name);
         },
         getTestId() {
-            return (this.$page.props.shared.availableTests.find(test => test.description === this.article.name))?.id
+            // Возвращает идентификатор теста для текущей статьи
+            return (this.$page.props.shared.availableTests.find(test => test.description === this.article.name))?.id;
         }
     },
     beforeUnmount() {
+        // Выполняется перед удалением компонента
         this.stopScrollInit();
     },
     mounted() {
-        document.querySelectorAll(`[id^="ac-"]`).forEach(item => this.headingIds.push(item.id));
+        // Находим все элементы, у которых id начинается с "ac-"
+        document.querySelectorAll(`[id^="ac-"]`).forEach($item => {
+            const $itemParent = $item.parentElement;
 
+            // Добавляем классы к родительскому элементу $item
+            // Если $itemParent является элементом H2, добавляем классы 'border-bottom', 'pb-2', 'mt-5'
+            // В противном случае добавляем классы 'mt-4' и 'mb-3'
+            [$itemParent.tagName === 'H2' ? ['border-bottom', 'pb-2', 'mt-5'] : ['mt-4'], 'mb-3'].flat(1).forEach(className => {
+                $itemParent.classList.add(className);
+            })
+
+            // Добавляем объект с id и tagName в массив headingIds
+            this.headingIds.push({
+                id: $item.id,
+                tagName: $itemParent.tagName
+            })
+        });
+
+        // Проверяем, авторизован ли пользователь и является ли статья новой
         if (this.auth && this.isNewArticle) {
+            // Устанавливаем интервал для обновления времени, если статья активна
             this.intervalId = setInterval(() => {
                 if (this.isActive) {
                     this.time = Date.now() - this.pageLoadTime;
                 }
             }, 1000);
 
+            // Слушаем событие изменения видимости документа
             document.addEventListener("visibilitychange", () => {
+                // Обновляем флаг активности в зависимости от видимости документа
                 this.isActive = !document.hidden;
                 if (this.isActive) {
                     this.pageLoadTime = Date.now() - this.time;
                 }
             });
 
+            // Находим элемент .footer
             const footer = document.querySelector(".footer");
 
+            // Если элемент .footer найден, добавляем обработчик прокрутки
             if (footer) {
                 window.addEventListener("scroll", this.throttle(() => {
-                    this.handleScroll(footer)
+                    this.handleScroll(footer);
                 }, 1000));
             }
         }
     },
     methods: {
         handleScroll(footer) {
+            // Получаем позицию нижнего колонтитула относительно верхнего края окна просмотра, учитывая прокрутку
             const footerPosition = footer.getBoundingClientRect().top + window.scrollY;
+            // Получаем значение прокрутки плюс высота окна просмотра
             const scrolled = window.scrollY + window.innerHeight;
 
+            // Проверяем, достигла ли прокрутка нижней части страницы
             if (scrolled >= footerPosition) {
+                // Проверяем, выполняются ли условия для выполнения дальнейших действий
                 if (this.formattedTime.minutes >= this.readingTime && !this.hasScrolled) {
+                    // Используем Inertia.js для отправки POST-запроса и обновления страницы
                     this.$inertia.visit(this.$page.url, {
                         method: 'post',
                         preserveScroll: true,
@@ -287,28 +348,35 @@ export default {
                         data: {
                             id: this.article.id
                         }
-                    })
+                    });
 
+                    // Устанавливаем флаг hasScrolled в значение true
                     this.hasScrolled = true;
+                    // Останавливаем инициализацию прокрутки
                     this.stopScrollInit();
                 }
             }
         },
         stopScrollInit() {
+            // Удаляем обработчик прокрутки
             window.removeEventListener("scroll", this.handleScroll);
+            // Очищаем интервал, если он был установлен
             clearInterval(this.intervalId);
         },
         throttle(fn, wait) {
             let throttled = false;
-            return function(...args){
-                if(!throttled){
-                    fn.apply(this,args);
+            return function(...args) {
+                if (!throttled) {
+                    // Выполняем функцию
+                    fn.apply(this, args);
+                    // Устанавливаем флаг throttled в значение true
                     throttled = true;
-                    setTimeout(()=>{
+                    setTimeout(() => {
+                        // Сбрасываем флаг throttled после заданной задержки
                         throttled = false;
                     }, wait);
                 }
-            }
+            };
         }
     }
 }

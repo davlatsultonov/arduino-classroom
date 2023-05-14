@@ -18,7 +18,7 @@ class TutorialController extends Controller
     public function show($slug)
     {
         $currentTutorial = Article::where('slug', $slug)
-                            ->with('comments', fn($q) => $q->latest())
+                            ->with(['comments' => fn($q) => $q->latest(), 'sub_category'])
                             ->firstOrFail();
 
         $currentTutorial->comments_count = Comment::without(['user', 'replies'])->where('article_id', $currentTutorial->id)->get()->count();
