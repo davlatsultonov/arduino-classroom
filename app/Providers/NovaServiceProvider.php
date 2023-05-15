@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Nova\Article;
 use App\Nova\Category;
+use App\Nova\Sensor;
 use App\Nova\SubCategory;
 use App\Nova\Test;
 use App\Nova\TestAnswer;
@@ -115,7 +116,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                     MenuItem::resource(Test::class),
                     MenuItem::resource(TestQuestion::class),
                     MenuItem::resource(TestAnswer::class),
-                ])->collapsable()->icon('light-bulb')
+                ])->collapsable()->icon('light-bulb'),
+                MenuSection::resource(Sensor::class)->icon('eye'),
             ];
         });
     }

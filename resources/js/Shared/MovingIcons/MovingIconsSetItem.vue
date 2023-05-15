@@ -29,11 +29,15 @@ export default {
         handleMouseLeave(e) {
             e.stopPropagation();
             e.target.classList.remove('active');
+            this.resetClick();
         },
         handleArduinoInfoPanelActivation() {
             this.emitter.emit(EMITTER_EVENT_NAMES['info-panel'], true);
-            this.clickCount = 0;
+            this.resetClick();
         },
+        resetClick() {
+            this.clickCount = 0;
+        }
     }
 }
 </script>

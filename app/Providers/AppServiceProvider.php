@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Services\ArticleService;
 use App\Services\BaseService;
 use App\Services\ProfileService;
+use App\Services\SensorService;
 use App\Services\TestService;
 use Illuminate\Support\ServiceProvider;
 
@@ -29,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->bind(ArticleService::class, function ($app) {
             return new ArticleService();
+        });
+
+        $this->app->bind(SensorService::class, function ($app) {
+            return new SensorService();
         });
     }
 

@@ -30,9 +30,7 @@
                     <p>Курси асосӣ аз 2 қисм иборат аст, Ки JavaScript-ро ҳамчун забони барномасозӣ ва таҷрибаи браузер фаро мегиранд. Инчунин як силсилаи иловагии мақолаҳои мавзӯӣ мавҷуданд.</p>
                 </div>
             </div>
-        </ContentContainer>
-        <div id="tutorial-map-nav-container" class="position-sticky top-0">
-            <ContentContainer>
+            <div id="tutorial-map-nav-container" class="position-sticky top-0 bg-white">
                 <nav id="tutorial-map-nav" class="navbar py-0 border-bottom">
                     <ul class="nav">
                         <li class="nav-item">
@@ -49,9 +47,7 @@
                         </li>
                     </ul>
                 </nav>
-            </ContentContainer>
-        </div>
-        <ContentContainer>
+            </div>
             <div class="row mt-4 mb-5">
                 <div class="col col-lg-9">
                     <h5 id="scroll-spy-heading-1" class="mt-3">Системаи Arduino</h5>
@@ -63,7 +59,7 @@
         </ContentContainer>
         <MovingIconsSetContainer />
         <Transition>
-            <InfoPanel v-if="isInfoPaneOpen" />
+            <InfoPanel v-if="isInfoPanelOpen" />
         </Transition>
     </div>
 </template>
@@ -86,26 +82,25 @@ export default {
             hasReachedTarget: null,
             tutorialListHeadings: {},
             firstLoad: true,
-            isInfoPaneOpen: false,
+            isInfoPanelOpen: false,
         }
     },
     mounted() {
         this.emitter.on(EMITTER_EVENT_NAMES['info-panel'], isInfoPanelOpen => {
-            this.isInfoPaneOpen = isInfoPanelOpen;
+            this.isInfoPanelOpen = isInfoPanelOpen;
         });
 
         // Получаем ссылки на необходимые элементы
-        const $tutorialMapNavContainer = document.getElementById('tutorial-map-nav-container');
         const $tutorialMapNav = document.getElementById('tutorial-map-nav');
         const $scrollSpyHeadings = document.querySelectorAll('[id^="scroll-spy-heading-"]');
         const $tutorialListContainer = document.querySelectorAll('.tutorials-list-container');
 
         // Вызываем функцию scrollSpyCheck для инициализации пользовательского интерфейса на основе начальной позиции прокрутки
-        this.scrollSpyCheck($tutorialMapNavContainer, $tutorialMapNav, $scrollSpyHeadings, $tutorialListContainer);
+        this.scrollSpyCheck($tutorialMapNav, $scrollSpyHeadings, $tutorialListContainer);
 
         // Добавляем слушателя события прокрутки, если есть несколько заголовков scrollSpyHeadings
         if ($scrollSpyHeadings.length > 1) {
-            window.onscroll = () => this.scrollSpyCheck($tutorialMapNavContainer, $tutorialMapNav, $scrollSpyHeadings, $tutorialListContainer);
+            window.onscroll = () => this.scrollSpyCheck($tutorialMapNav, $scrollSpyHeadings, $tutorialListContainer);
         }
     },
     computed: {
@@ -118,7 +113,7 @@ export default {
         }
     },
     methods: {
-        scrollSpyCheck(tutorialMapNavContainer, tutorialMapNav, scrollSpyHeadings, tutorialListContainer) {
+        scrollSpyCheck(tutorialMapNav, scrollSpyHeadings, tutorialListContainer) {
             // Получаем значения смещения для tutorialMapNav и всего документа
             const tutorialMapNavOffsetTop = tutorialMapNav.getBoundingClientRect().top;
             const documentBodyOffsetTop = document.body.getBoundingClientRect().top;
@@ -143,8 +138,12 @@ export default {
 
             // Включаем или отключаем CSS-класс в зависимости от того, достигнута цель или нет
             tutorialMapNav.classList[this.hasReachedTarget ? 'remove' : 'add']('border-bottom');
-            tutorialMapNavContainer.classList[this.hasReachedTarget ? 'add' : 'remove']('border-bottom');
         },
+    },
+    watch: {
+        isInfoPanelOpen(value) {
+            document.body.style.overflow = !value ? 'visible' : 'hidden'
+        }
     }
 }
 </script>

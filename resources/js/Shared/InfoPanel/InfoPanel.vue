@@ -1,83 +1,109 @@
 <template>
     <div class="info-panel">
-        <div class="info-panel__sidebar">
-            <div v-for="(item, index) in panelData"
-                 :class="{
-                    'info-panel__item_active': index === activeId
-                 }"
-                 class="info-panel__item border-bottom" @click.stop="handleClick(index)">
-                <img src="../../../../public/images/info-panel/ultra-sound.png" alt="ultra-sound icon">
+        <div class="row h-100">
+            <div class="col-12 col-sm-8 col-md-6 col-lg-6 h-100 pe-sm-0">
+                <div class="info-panel__content">
+                    <div class="d-flex align-items-center info-panel__title">
+                        <button class="btn btn-light text-uppercase ms-3 d-inline-flex align-items-center border-3"
+                                style="border-color: rgba(41, 120, 130, 1)"
+                                @click="handleInfoPanelClose">
+                            <code class="fw-bold pt-1">ESC</code>
+                            <span class="vr mx-2"></span>
+                            Close
+                        </button>
+                        <button class="ms-2 btn btn-light text-uppercase d-inline-flex d-sm-none align-items-center border-3"
+                                style="border-color: rgba(41, 120, 130, 1)"
+                                @click="toggleSideBarInMobile = !toggleSideBarInMobile">
+                            Open sidebar
+                        </button>
+                    </div>
 
-                <button class="d-inline-flex align-items-center justify-content-center p-1 btn btn-light info-panel__item-btn border"
-                        @click="initModel"
-                        :disabled="index !== activeId"
-                        v-if="item.hasModel">
-                    <img src="../../../../public/images/3d-model-icon.svg" width="20" alt="3d model icon">
-                </button>
-            </div>
-        </div>
-        <div class="info-panel__content p-4 pl-5">
-            <div class="mb-5 d-flex justify-content-end align-items-center">
-                <span class="text-muted fw-semibold text-uppercase"><code class="px-2 fw-bold fs-6">ESC</code> to close</span>
-                <button class="btn btn-light text-uppercase ms-3" @click="handleInfoPanelClose">
-                    Close
-                </button>
-            </div>
+                    <div class="mt-5 p-4">
+                        <h2 class="mb-4 px-2 rounded text-uppercase" style="background-color: rgba(41, 120, 130, 1)">{{ currentSensor.name }}</h2>
 
-            {{ panelData[activeId].content }}
+                        <iframe
+                                v-if="isUserOnline && currentSensor.youtube"
+                                class="rounded info-panel__video"
+                                :src="currentSensor.youtube"
+                                title="YouTube video player"
+                                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe>
+
+                        <p style="text-align: justify" class="mt-4" v-html="parsedText"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-4 col-md-6 col-lg-6 h-100 ps-0">
+                <div class="info-panel__sidebar d-sm-block h-100" :class="{
+                        'd-none': toggleSideBarInMobile
+                    }">
+                    <div class="info-panel__sidebar-overlay" @click="toggleSideBarInMobile = true"></div>
+
+                    <div class="info-panel__sidebar-inner h-100">
+                        <div v-for="(item, index) in sensors"
+                             :class="{
+                            'info-panel__item_active': index === activeId
+                         }"
+                             class="info-panel__item border-bottom" @click.stop="handleClick(index)">
+                            <div
+                                class="info-panel__item-img"
+                                :style="{
+                                backgroundImage: `url('storage/${item.image}')`
+                            }"
+                                alt="ultra-sound icon">
+                            </div>
+
+                            <h6 class="info-panel__item-title d-none d-lg-block">
+                                {{ item.name }}
+                            </h6>
+                            <button
+                                class="d-inline-flex align-items-center justify-content-center p-1 btn btn-light info-panel__item-btn border"
+                                @click="initModel"
+                                :disabled="index !== activeId"
+                                v-if="isUserOnline && item.hasModel">
+                                <img src="../../../../public/images/3d-model-icon.svg" width="20" alt="3d model icon">
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-
 import {EMITTER_EVENT_NAMES} from "../../constants";
+import MarkdownIt from "markdown-it";
+
+const md = new MarkdownIt()
 
 export default {
     name: "InfoPanel",
     data() {
-      return {
-          activeId: 1,
-          panelData: [
-              {
-                  id: 0,
-                  imgSrc: '../../../../public/images/info-panel/ultra-sound.png',
-                  content: 'Ultrasonic sensor for arduino',
-                  hasModel: true
-              },
-              {
-                  id: 1,
-                  imgSrc: '../../../../public/images/info-panel/ultra-sound.png',
-                  content: '13123',
-                  hasModel: false
-              },
-              {
-                  id: 2,
-                  imgSrc: '../../../../public/images/info-panel/ultra-sound.png',
-                  content: '234324',
-                  hasModel: true
-              },
-              {
-                  id: 3,
-                  imgSrc: '../../../../public/images/info-panel/ultra-sound.png',
-                  content: '13123',
-                  hasModel: false
-              },
-              {
-                  id: 4,
-                  imgSrc: '../../../../public/images/info-panel/ultra-sound.png',
-                  content: '435345345',
-                  hasModel: false
-              },
-          ]
-      }
+        return {
+            activeId: 0,
+            toggleSideBarInMobile: false
+        }
     },
     computed: {
-        imgSources() {
-            return this.panelData.map(item => item.imgSrc)
+        isUserOnline() {
+            return navigator.onLine
+        },
+        parsedText() {
+            // Возвращает отрендеренный Markdown текст статьи
+            return md.render(this.currentSensor.description);
+        },
+        sensors() {
+            return this.$page.props.shared.sensors
+        },
+        currentSensor() {
+            return this.sensors[this.activeId]
         }
     },
     methods: {
+        log() {
+            console.log(21)
+        },
         handleClick(id) {
             this.activeId = id;
         },
@@ -104,26 +130,77 @@ export default {
 
 <style scoped lang="scss">
 .info-panel {
-    display: grid;
-    grid-template-columns: 20% 1fr;
     z-index: 9999;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(12, 12, 13, 0.95);
+    background-color: rgba(41, 120, 130, 1);
+
+    &__title {
+        position: fixed;
+        top: 10px;
+    }
 
     &__sidebar {
-        background-color: #fff;
-        overflow-y: auto;
+        position: relative;
+
+        &-overlay {
+            display: none;
+            position: absolute;
+            left: -100px;
+            top: 0;
+            bottom: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.70);
+        }
+
+        &-inner {
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background-color: #fff;
+
+            @media screen and (max-width: 768px) {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            position: fixed;
+            top: 0;
+            right: 0;
+            left: 100px;
+            z-index: 200;
+
+            &-overlay {
+                display: block;
+                z-index: 1;
+            }
+        }
     }
 
     &__content {
         width: 100%;
         height: 100%;
-        background-color: rgba(35, 78, 91, 0.70);
+        overflow-x: hidden;
+        overflow-y: auto;
         color: #fff;
+    }
+
+    &__video {
+        width: 100%;
+        height: 400px;
+
+        @media screen and (max-width: 1200px) {
+            height: 300px;
+        }
+
+        @media screen and (max-width: 576px) {
+            height: 250px;
+        }
     }
 
     &__item {
@@ -131,13 +208,29 @@ export default {
         align-items: center;
         justify-content: center;
         position: relative;
+        z-index: 2;
         cursor: pointer;
         width: 100%;
-        height: 350px;
+        min-height: 320px;
+        overflow: hidden;
 
-        img {
+        &-img {
             width: 100%;
-            user-select: none;
+            height: 100%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+        }
+
+        &-title {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            text-transform: uppercase;
+            color: white;
+            transition: transform .3s ease;
+            transform: translateY(-100px);
+            font-weight: bold;
         }
 
         &-btn {
@@ -161,15 +254,35 @@ export default {
             transition: background-color .2s ease-in-out;
         }
 
-        &:hover::before {
-            background-color: rgba(44, 67, 68, 0.4);
+        &:hover {
+
+            &::before {
+                background-color: rgba(44, 67, 68, 0.4);
+            }
+
+            .info-panel__item-title {
+                transform: translateY(0);
+            }
         }
+
 
         &_active {
 
             &::before, &:hover::before {
                 background-color: transparent;
             }
+
+            .info-panel__item-title {
+                opacity: 0;
+            }
+        }
+
+        @media screen and (max-width: 1200px) {
+            min-height: 250px;
+        }
+
+        @media screen and (max-width: 992px) {
+            min-height: 200px;
         }
     }
 }
