@@ -6,7 +6,7 @@
 
                 <div class="col" v-for="(chunkItem, chunkItemIndex) in chunkItems(tutorial)">
                     <ul class="list-group mt-2 tutorial-list">
-                        <li class="list-group-item px-0 py-1 border-0 d-flex align-items-start"
+                        <li class="list-group-item px-0 py-1 border-0 d-flex align-items-start bg-transparent"
                             v-for="(link, itemIndex) in chunkItem"
                             data-bs-dismiss="modal"
                         >

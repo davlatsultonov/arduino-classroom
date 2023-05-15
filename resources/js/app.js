@@ -4,6 +4,8 @@ import {InertiaProgress} from '@inertiajs/progress'
 import {resolvePageComponent} from 'laravel-vite-plugin/inertia-helpers';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import DefaultLayout from "./Layouts/DefaultLayout.vue";
+import mitt from "mitt";
+const emitter = mitt();
 
 InertiaProgress.init()
 
@@ -18,8 +20,10 @@ createInertiaApp({
         return page;
     },
     setup({ el, App, props, plugin }) {
-        createApp({ render: () => h(App, props) })
-            .mixin({ methods: {route}})
+        const app = createApp({ render: () => h(App, props) })
+        app.config.globalProperties.emitter = emitter;
+
+        app.mixin({ methods: {route}})
             .use(plugin)
             .mount(el)
 

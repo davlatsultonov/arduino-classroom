@@ -3,7 +3,33 @@ import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
+    resolve: {
+        alias: {
+            // Add an alias for SVG imports
+            '@svg': '/src/assets/icons'
+        }
+    },
     plugins: [
+        {
+            name: 'svg-loader',
+            enforce: 'pre',
+            apply: 'build',
+            //@ts-ignore
+            configureSvgLoader(options) {
+                options.imports.push(
+                    // Add the SVG alias to the list of imports
+                    {
+                        moduleName: '@svg',
+                        webpackImporter: false,
+                        svgoConfig: {
+                            plugins: [
+                                { prefixIds: true }
+                            ]
+                        }
+                    }
+                );
+            }
+        },
         laravel({
             input: ['resources/sass/app.scss', 'resources/js/app.js'],
             refresh: true,
@@ -24,7 +50,7 @@ export default defineConfig({
                     // reference assets in the public directory as expected.
                     includeAbsolute: false,
                 },
-            },
+            }
         }),
     ],
 });

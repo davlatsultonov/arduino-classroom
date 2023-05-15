@@ -61,6 +61,10 @@
                 </div>
             </div>
         </ContentContainer>
+        <MovingIconsSetContainer />
+        <Transition>
+            <InfoPanel v-if="isInfoPaneOpen" />
+        </Transition>
     </div>
 </template>
 <script>
@@ -70,18 +74,26 @@ import Accordion from "../Shared/Accordion.vue";
 import TutorialsList from "./Tutorial/TutorialsList.vue";
 import HomePageLayout from "../Layouts/HomePageLayout.vue";
 import ContentContainer from "../Shared/ContentContainer.vue";
+import MovingIconsSetContainer from "../Shared/MovingIcons/MovingIconsSetContainer.vue";
+import InfoPanel from "../Shared/InfoPanel/InfoPanel.vue";
+import {EMITTER_EVENT_NAMES} from "../constants";
 
 export default {
     layout: HomePageLayout,
-    components: {ContentContainer, TutorialsList, Accordion, Navbar, Head, Link},
+    components: {InfoPanel, MovingIconsSetContainer, ContentContainer, TutorialsList, Accordion, Navbar, Head, Link},
     data() {
         return {
             hasReachedTarget: null,
             tutorialListHeadings: {},
             firstLoad: true,
+            isInfoPaneOpen: false,
         }
     },
     mounted() {
+        this.emitter.on(EMITTER_EVENT_NAMES['info-panel'], isInfoPanelOpen => {
+            this.isInfoPaneOpen = isInfoPanelOpen;
+        });
+
         // Получаем ссылки на необходимые элементы
         const $tutorialMapNavContainer = document.getElementById('tutorial-map-nav-container');
         const $tutorialMapNav = document.getElementById('tutorial-map-nav');
@@ -132,7 +144,7 @@ export default {
             // Включаем или отключаем CSS-класс в зависимости от того, достигнута цель или нет
             tutorialMapNav.classList[this.hasReachedTarget ? 'remove' : 'add']('border-bottom');
             tutorialMapNavContainer.classList[this.hasReachedTarget ? 'add' : 'remove']('border-bottom');
-        }
+        },
     }
 }
 </script>
@@ -140,7 +152,6 @@ export default {
 <style lang="scss">
 #tutorial-map-nav-container {
     z-index: 100;
-    background-color: #fff;
     border-width: 3px !important;
     border-color: rgba(0, 151, 157, 22%) !important;
 

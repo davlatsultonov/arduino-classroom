@@ -9,7 +9,8 @@
         "laravel-vite-plugin": "^0.7.2",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
-        "vite": "^4.3.3"
+        "vite": "^4.3.3",
+        "vue-svg-loader": "^0.16.0"
     },
     "dependencies": {
         "@babel/plugin-syntax-dynamic-import": "^7.8.3",
@@ -21,6 +22,7 @@
         "markdown-it": "^13.0.1",
         "markdown-it-github-headings": "^2.0.1",
         "maska": "^2.1.7",
+        "mitt": "^3.0.0",
         "moment": "^2.29.4",
         "sass": "^1.58.3",
         "vue": "^3.2.36",
