@@ -7,8 +7,9 @@
             </p>
         </div>
         <div :class="`col-${currentTest ? 8 : 6}`">
-            <h5 class="text-muted">Бахши интихобшуда: <b>{{ currentTest?.sub_category.name }}</b></h5>
-            <h6 v-if="currentTest" class="mb-4 text-muted">Санҷиши дониш дар мавзуи: <b>"{{ currentTest?.description }}"</b></h6>
+            <div class="mb-5" v-if="currentTest">
+                <Link :href="route('profile.test.index')" class="btn btn-outline-dark">Саҳифаи санҷишӣ</Link>
+            </div>
             <TestBody :currentTest="currentTest" />
         </div>
     </div>
@@ -16,10 +17,11 @@
 
 <script>
 import TestBody from "./TestBody.vue";
+import {Link} from "@inertiajs/inertia-vue3";
 
 export default {
     name: "TestIndex",
-    components: {TestBody},
+    components: {Link, TestBody},
     props: {
         currentTest: Object
     },

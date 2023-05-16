@@ -1,22 +1,29 @@
 <template>
-    <div v-if="currentTestQuestions.length">
-        <div>
-            <p>
-                {{ currentQuestion }}
-            </p>
+    <div v-if="currentQuestionsLength">
+        <div class="border p-4 rounded-bottom">
+            <h5 class="mb-4">
+                {{ currentQuestionText }}
+            </h5>
             <div class="list-group mb-3">
                 <button class="list-group-item list-group-item-action" v-for="answer in currentQuestionAnswers"
-                        @click="() => nextQuestion(answer)">
+                        :class="{
+                            'list-group-item-primary': answer.id === currentTestAnswer?.id
+                        }"
+                        @click="() => handleAnswerChoice(answer)">
                     {{ answer.answer }}
                 </button>
             </div>
+           <div :class="`d-flex justify-content-${isFirstQuestion ? 'end' : 'between'}`">
+               <button v-if="!isFirstQuestion" class="btn btn-outline-danger" @click="handleRestart">Бозоғоз</button>
+
+               <button
+                   :disabled="!proceed"
+                   class="btn btn-success"
+                   @click="nextQuestion"
+               >Идома</button>
+           </div>
         </div>
-        <div class="d-flex align-items-center justify-content-between">
-            <Link class="btn btn-outline-danger" :href="route('profile.test.index')" @click="() => handleQuizResult('reset')">Restart</Link>
-            <div class="badge text-bg-dark">
-                <span class="fw-bold">{{ currentQuestionIndex + 1 }}</span> of {{ currentQuestionsLength }}
-            </div>
-        </div>
+        <slot name="test-range"></slot>
     </div>
     <div v-else class="alert alert-info text-center">
         Чизе барои нишон додан нест
@@ -27,38 +34,48 @@
 import {Link} from "@inertiajs/inertia-vue3";
 export default {
     name: "TestBox",
-    props: ['currentTestQuestions', 'handleQuizResult'],
+    props: [
+        'handleQuizState',
+        'currentQuestionIndex',
+        'incrementCurrentQuestionIndex',
+        'currentQuestionText',
+        'currentQuestionAnswers',
+        'currentQuestionsLength'
+    ],
     components: {Link},
     data() {
         return {
-            currentQuestionIndex: 0,
-            quizResult: []
+            currentTestAnswer: null,
+            chosenTestAnswerId: null,
+            proceed: false
         }
     },
     computed: {
-        currentQuestionsLength: function () {
-            return this.currentTestQuestions.length
-        },
-        currentQuestion: function () {
-            return this.currentTestQuestions[this.currentQuestionIndex].question
-        },
-        currentQuestionAnswers: function () {
-            return this.currentTestQuestions[this.currentQuestionIndex].test_answers
-        },
+        isFirstQuestion() {
+            return this.currentQuestionIndex === 0
+        }
     },
     methods: {
-        nextQuestion: function (currentTestAnswer) {
-            this.quizResult.push({
-                question: this.currentQuestion,
-                ...currentTestAnswer
+        handleRestart() {
+            this.currentTestAnswer = null;
+            this.chosenTestAnswerId = null;
+            this.proceed = false;
+            this.$emit('onCurrentTestRestart');
+        },
+        handleAnswerChoice(currentTestAnswer) {
+            this.currentTestAnswer = currentTestAnswer;
+            this.proceed = true;
+        },
+        nextQuestion() {
+            if (!this.proceed) return;
+            this.proceed = true;
+            this.incrementCurrentQuestionIndex();
+            this.$emit('onAnswerToQuestion', {
+                question: this.currentQuestionText,
+                correctAnswer: (this.currentQuestionAnswers.find(answer => answer.is_correct)).answer,
+                ...this.currentTestAnswer
             })
-
-            ++this.currentQuestionIndex;
-
-            if (this.currentQuestionIndex === this.currentQuestionsLength) {
-                this.$emit('testStateChanged', ['finish', this.quizResult])
-            }
-
+            if (this.currentQuestionIndex === this.currentQuestionsLength - 1) this.handleQuizState('result')
         }
     }
 }

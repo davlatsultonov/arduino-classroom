@@ -95,8 +95,8 @@
                             <div class="modal-dialog modal-dialog-centered">
                                 <div class="modal-content">
                                     <div class="modal-body">
-                                        <TestBody
-                                            :current-article-test-settings="{
+                                        <TestCategorySelector
+                                            :external-settings="{
                                                 sub_category_id: article.sub_category_id,
                                                 test_id: getTestId
                                             }"
@@ -187,9 +187,8 @@ import moment from 'moment/min/moment-with-locales';
 import tooltipMixin from "../../mixins/tooltip-mixin";
 import CommentDisplay from "../Comments/CommentsDisplay.vue";
 import CommentAdd from "../Comments/CommentAdd.vue";
-import TestIndex from "../Profile/Testing/TestIndex.vue";
-import TestBody from "../Profile/Testing/TestBody.vue";
 import GoToTopBtn from "../../Shared/GoToTopBtn.vue";
+import TestCategorySelector from "../Profile/Testing/TestCategorySelector.vue";
 
 // Cоздается экземпляр класса MarkdownIt и настраиваются его опции и правила рендеринга.
 const md = new MarkdownIt().use(markdownItGithubHeadings, {
@@ -210,7 +209,9 @@ md.renderer.rules.image = (tokens, idx, options, env, self) => {
 
 export default {
     layout: TutorialLayout,
-    components: {GoToTopBtn, TestBody, TestIndex, CommentAdd, CommentDisplay, Head, Link, Breadcrumb},
+    components: {
+        TestCategorySelector,
+        GoToTopBtn, CommentAdd, CommentDisplay, Head, Link, Breadcrumb},
     props: ['article', 'breadcrumbs', 'tutorials'],
     mixins: [utilitiesMixin, tooltipMixin],
     data() {

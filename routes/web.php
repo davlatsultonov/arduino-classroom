@@ -49,7 +49,7 @@ Route::middleware(['auth:web'])
             ->name('test.')
             ->controller(TestController::class)->group(static function () {
                 Route::inertia('/', 'Profile/Testing/TestIndex')->name('index');
-                Route::post('/{id}', 'show')->name('show');
+                Route::get('/{id}', 'show')->name('show');
                 Route::post('/', 'store')->name('store');
             });
         Route::get('/', [ProfileController::class, 'index'])->name('index');

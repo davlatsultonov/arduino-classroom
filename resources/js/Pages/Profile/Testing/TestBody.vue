@@ -1,25 +1,81 @@
 <template>
-    <template v-if="quizState">
+    <div v-if="quizState">
+        <TestHeading
+            v-if="currentTest"
+            :sub-category-name="currentTest.sub_category.name"
+            :test-name="currentTest.description"
+        >
+            <template v-slot:controls
+                      v-if="quizResults.length < currentQuestionsLength">
+                <button
+                    class="btn btn-sm btn-outline-dark fw-semibold ms-3"
+                    @click="handleTestChoiceChangeModalActivation"
+                >Санҷиши дигар
+                </button>
+            </template>
+        </TestHeading>
         <TestCategorySelector
             v-if="quizState === 'start'"
-            @set-quiz-state="(state) => quizState = state"
-            :current-article-test-settings="currentArticleTestSettings"
+            :handle-quiz-state="handleQuizState"
         />
-        <TestBox v-else-if="quizState === 'process'"
-                 @test-state-changed="handleTestStateChange"
-                 :current-test-questions="currentTest.test_questions"
-                 :handle-quiz-result="handleQuizResult"
-        />
-        <TestResultBox v-else-if="quizState === 'finish'"
-                       :correctAnswersCount="correctAnswersCount"
-                       :showQuizResults="showQuizResults"
+
+        <TestBox
+            v-else-if="quizState === 'process'"
+            @on-current-test-restart="handleCurrentTestRestart"
+            @on-answer-to-question="answerToQuestion"
+            :handle-quiz-state="handleQuizState"
+            :current-question-index="currentQuestionIndex"
+            :increment-current-question-index="incrementCurrentQuestionIndex"
+            :current-question-text="currentQuestionText"
+            :current-question-answers="currentQuestionAnswers"
+            :current-questions-length="currentQuestionsLength"
+        >
+            <template v-slot:test-range>
+                <div class="mt-3">
+                    <TestsRange
+                        :current-question-index="currentQuestionIndex"
+                        :current-questions="currentQuestions"
+                        :quiz-results="quizResults"
+                    />
+                </div>
+            </template>
+        </TestBox>
+        <TestResultBox v-else-if="quizState === 'result'"
+                       :handle-quiz-state="handleQuizState"
                        :quiz-results="quizResults"
-                       :handle-quiz-result="handleQuizResult"
-                       :filtered-tests-length="currentTest.test_questions.length"
+                       :current-questions-length="currentQuestionsLength"
         />
-    </template>
+    </div>
     <div v-else class="alert alert-info text-center">
         Ҳанӯз ягон санҷиш вуҷуд надорад...
+    </div>
+
+    <div class="modal fade" id="test-choice-modal" tabindex="-1" role="dialog" aria-labelledby="test-choice-modal"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div v-if="(quizResults && quizResults.length >= 3) && !agreeToLoseData" class="d-flex flex-column">
+                        <div class="alert alert-danger">
+                            Шумо натиҷаи ҷории худро гум мекунед
+                        </div>
+                        <div class="btn-group-vertical">
+                            <button class="btn btn-outline-secondary" @click="agreeToLoseData = true">Ман розӣ ҳастам
+                            </button>
+                        </div>
+                    </div>
+
+                    <div v-else class="d-flex flex-column justify-content-end">
+                        <button class="btn btn-danger mb-4" @click="handleTestChoiceCancel">Бекор кардан</button>
+
+                        <TestCategorySelector
+                            @set-quiz-state="(state) => quizState = state"
+                            :external-settings="anotherTestSettings"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -27,41 +83,79 @@
 import TestResultBox from "./TestResultBox.vue";
 import TestCategorySelector from "./TestCategorySelector.vue";
 import TestBox from "./TestBox.vue";
+import TestsRange from "./TestsRange.vue";
+import {Modal} from "bootstrap";
+import TestHeading from "./TestHeading.vue";
+import {Link} from "@inertiajs/inertia-vue3";
 
 export default {
     name: "TestBody",
-    components: {TestBox, TestCategorySelector, TestResultBox},
+    components: {Link, TestHeading, TestsRange, TestBox, TestCategorySelector, TestResultBox},
     props: {
-        currentTest: Object,
-        currentArticleTestSettings: {
-            type: Object,
-            default() {
-                return {}
-            }
-        }
+        currentTest: Object
     },
     data() {
         return {
             quizState: '',
-            quizResults: null,
-            showQuizResults: false,
-            correctAnswersCount: null,
+            quizResults: [],
+            testChoiceModal: null,
+            agreeToLoseData: false,
+            currentQuestionIndex: 0,
         }
     },
     created() {
         if (this.$page.props.shared.availableCategories?.length) this.quizState = 'start';
         if (this.currentTest) this.quizState = 'process';
     },
-    methods: {
-        handleTestStateChange: function ([quizState, quizResults]) {
-            this.quizState = quizState;
-            this.quizResults = quizResults;
-            this.correctAnswersCount = this.countCorrectAnswers(quizResults);
+    computed: {
+        anotherTestSettings() {
+            return this.quizState !== 'process' ? {} : {
+                sub_category_id: this.currentTest.sub_category_id,
+                test_id: this.currentTest.id,
+                changedChoice: true,
+            }
         },
-        countCorrectAnswers: (answers) => answers.reduce((acc, curr) => curr.is_correct ? ++acc : acc, 0),
-        handleQuizResult: function (quizState) {
+        currentQuestions() {
+            return this.currentTest.test_questions
+        },
+        currentQuestionText: function () {
+            return this.currentQuestions[this.currentQuestionIndex].question
+        },
+        currentQuestionsLength: function () {
+            return this.currentQuestions.length
+        },
+        currentQuestionAnswers: function () {
+            return this.currentQuestions[this.currentQuestionIndex].test_answers
+        },
+    },
+    mounted() {
+        this.testChoiceModal = new Modal('#test-choice-modal')
+    },
+    methods: {
+        answerToQuestion(answer) {
+            this.quizResults.push(answer)
+        },
+        incrementCurrentQuestionIndex() {
+            ++this.currentQuestionIndex;
+        },
+        handleCurrentTestRestart() {
+            this.quizResults = [];
+            this.currentQuestionIndex = 0;
+        },
+        handleTestChoiceCancel() {
+            this.agreeToLoseData = false;
+            this.testChoiceModal.hide(true);
+        },
+        handleTestChoiceChangeModalActivation() {
+            this.testChoiceModal.show(true)
+        },
+        handleQuizState: function (quizState) {
             if (quizState === 'reset') {
                 this.quizState = 'start';
+            }
+
+            if (quizState === 'process' || quizState === 'result') {
+                this.quizState = quizState;
             }
 
             if (quizState === 'start') {
@@ -90,3 +184,16 @@ export default {
     }
 }
 </script>
+
+<style>
+.v-enter-active,
+.v-leave-active {
+    transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+    opacity: 0;
+}
+
+</style>

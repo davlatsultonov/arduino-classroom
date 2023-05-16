@@ -5,7 +5,7 @@
                 :class="{'is-invalid': quizCategorySelectionForm.errors.sub_category_id }"
                 name="category"
                 v-model="quizCategorySelectionForm.sub_category_id"
-                :disabled="currentArticleTestSettings.test_id"
+                :disabled="externalSettings.test_id"
                 aria-describedby="test-category-select-text-1"
                 aria-label="Default select example">
             <option value=""></option>
@@ -27,7 +27,7 @@
                     :class="{'is-invalid': quizCategorySelectionForm.errors.test_id }"
                     name="category"
                     v-model="quizCategorySelectionForm.test_id"
-                    :disabled="currentArticleTestSettings.test_id"
+                    :disabled="!externalSettings?.changedChoice && externalSettings?.test_id"
                     aria-label="Default select example">
                 <option v-for="{id, description} in filteredAvailableTests" :value="id">
                     {{ description }}
@@ -57,12 +57,13 @@ import {useForm} from "@inertiajs/inertia-vue3";
 export default {
     name: "TestCategorySelector",
     props: {
-        currentArticleTestSettings: {
+        externalSettings: {
             type: Object,
             default() {
                 return {}
             }
-        }
+        },
+        handleQuizState: Function
     },
     data() {
       return {
@@ -73,9 +74,9 @@ export default {
       }
     },
     created() {
-        if (Object.keys(this.currentArticleTestSettings).length > 1) {
-            this.quizCategorySelectionForm.sub_category_id = this.currentArticleTestSettings.sub_category_id
-            this.quizCategorySelectionForm.test_id = this.currentArticleTestSettings.test_id
+        if (Object.keys(this.externalSettings).length > 1) {
+            this.quizCategorySelectionForm.sub_category_id = this.externalSettings.sub_category_id
+            this.quizCategorySelectionForm.test_id = this.externalSettings.test_id
         }
     },
     computed: {
@@ -87,12 +88,9 @@ export default {
     },
     methods: {
         submit: function () {
-            this.quizCategorySelectionForm.post('/profile/test/' + this.quizCategorySelectionForm.sub_category_id, {
-                onSuccess: () => this.handleEmit(),
+            this.quizCategorySelectionForm.get('/profile/test/' + this.quizCategorySelectionForm.sub_category_id, {
+                onSuccess: () => this.handleQuizState('process'),
             });
-        },
-        handleEmit: function () {
-            this.$emit('setQuizState', 'process')
         }
     },
 }
