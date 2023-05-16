@@ -172,6 +172,8 @@
                 </div>
             </div>
         </div>
+
+        <GoToTopBtn />
     </div>
 </template>
 <script>
@@ -187,6 +189,7 @@ import CommentDisplay from "../Comments/CommentsDisplay.vue";
 import CommentAdd from "../Comments/CommentAdd.vue";
 import TestIndex from "../Profile/Testing/TestIndex.vue";
 import TestBody from "../Profile/Testing/TestBody.vue";
+import GoToTopBtn from "../../Shared/GoToTopBtn.vue";
 
 // Cоздается экземпляр класса MarkdownIt и настраиваются его опции и правила рендеринга.
 const md = new MarkdownIt().use(markdownItGithubHeadings, {
@@ -207,7 +210,7 @@ md.renderer.rules.image = (tokens, idx, options, env, self) => {
 
 export default {
     layout: TutorialLayout,
-    components: {TestBody, TestIndex, CommentAdd, CommentDisplay, Head, Link, Breadcrumb},
+    components: {GoToTopBtn, TestBody, TestIndex, CommentAdd, CommentDisplay, Head, Link, Breadcrumb},
     props: ['article', 'breadcrumbs', 'tutorials'],
     mixins: [utilitiesMixin, tooltipMixin],
     data() {
