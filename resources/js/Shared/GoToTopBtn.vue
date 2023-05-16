@@ -1,6 +1,6 @@
 <template>
     <button class="go-to-top-btn rounded" ref="buttonRef" @click="scrollToTop" :class="{ show: showButton }">
-        Go to Top
+        Ба аввали саҳифа
     </button>
 </template>
 
@@ -49,6 +49,7 @@ export default {
     cursor: pointer;
     opacity: 0;
     transition: opacity 0.3s;
+    z-index: 500;
 
     &:active {
         transform: scale(0.95);
