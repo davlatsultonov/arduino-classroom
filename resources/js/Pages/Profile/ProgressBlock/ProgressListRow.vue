@@ -20,7 +20,7 @@
 
 
         <div class="text-center pt-2">
-            <Link :href="route('profile.test.index')" class="btn btn-outline-dark">Худро санҷед</Link>
+            <Link :href="route('profile.test.index')" class="btn btn-outline-dark">Дониши худро санҷед</Link>
         </div>
     </div>
 </template>

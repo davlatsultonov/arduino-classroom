@@ -14,13 +14,13 @@ class TestController extends Controller
         $test_id = $request->test_id;
 
         if ($test_id === '*') {
-            $currentTest = Test::whereId(1)->first();
+            $currentTest = Test::whereId(1)->with('subCategory')->first();
 
             $currentTest->test_questions = TestQuestion::with('testAnswers')
                 ->whereHas('test', fn($q) => $q->where('sub_category_id', $request->sub_category_id))
                 ->get()->shuffle();
         } else {
-            $currentTest = Test::whereId($test_id)->with('testQuestions.testAnswers')->first();
+            $currentTest = Test::whereId($test_id)->with('testQuestions.testAnswers', 'subCategory')->first();
         }
 
         return inertia('Profile/Testing/TestIndex', compact('currentTest'));
