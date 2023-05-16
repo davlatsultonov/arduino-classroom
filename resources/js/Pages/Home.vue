@@ -33,16 +33,10 @@
             <div id="tutorial-map-nav-container" class="position-sticky top-0 bg-white">
                 <nav id="tutorial-map-nav" class="navbar py-0 border-bottom">
                     <ul class="nav">
-                        <li class="nav-item">
-                            <a class="nav-link rounded-0 d-flex flex-column px-2 me-1 me-lg-3" href="#scroll-spy-heading-1">
-                                <small class="d-block text-uppercase mb-1">Қисми 1</small>
-                                <span class="d-block">Системаи Arduino</span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link rounded-0 d-flex flex-column px-2 me-1 me-lg-3" href="#scroll-spy-heading-1">
-                                <small class="d-block text-uppercase mb-1">Қисми 2</small>
-                                <span class="d-block">Хонаи доно созед</span>
+                        <li class="nav-item" v-for="({name, slug}, index) in $page.props.shared.categories">
+                            <a class="nav-link rounded-0 d-flex flex-column px-2 me-1 me-lg-3" :href="`#scroll-spy-heading-${slug}`">
+                                <small class="d-block text-uppercase mb-1">Қисми {{ index + 1 }}</small>
+                                <span class="d-block">{{ name }}</span>
                             </a>
                         </li>
                     </ul>
@@ -50,10 +44,7 @@
             </div>
             <div class="row mt-4 mb-5">
                 <div class="col col-lg-9">
-                    <h5 id="scroll-spy-heading-1" class="mt-3">Системаи Arduino</h5>
-                    <div class="tutorials-list-container">
-                        <TutorialsList :tutorials="$page.props.shared.tutorials"/>
-                    </div>
+                    <TutorialsList/>
                 </div>
             </div>
         </ContentContainer>

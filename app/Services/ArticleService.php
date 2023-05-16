@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Article;
+use App\Models\SubCategory;
 use App\Models\ArticleRead;
 use Illuminate\Support\Facades\Facade;
 
@@ -24,13 +25,8 @@ class ArticleService extends Facade
 
     public static function getTutorialPageArticles()
     {
-        return Article::with(['sub_category', 'category' => fn($q) => $q->whereSlug('tutorials')])
-            ->orderByOrder()
-            ->get()
-            ->sortBy(function ($item) {
-                return $item->sub_category->order;
-            })
-            ->groupBy('sub_category.name');
+        return SubCategory::with('category')->withWhereHas('articles')
+            ->get()->groupBy('category.name');
     }
 }
 

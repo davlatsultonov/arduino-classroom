@@ -1,5 +1,5 @@
 <template>
-    <Show :article="currentTutorial" :tutorials="$page.props.shared.tutorials"/>
+    <Show :article="currentTutorial"/>
     <Teleport to="body">
         <TutorialMap/>
     </Teleport>

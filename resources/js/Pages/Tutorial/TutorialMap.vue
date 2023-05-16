@@ -11,7 +11,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="container">
-                        <TutorialsList :tutorials="$page.props.shared.tutorials"/>
+                        <TutorialsList/>
                     </div>
                 </div>
             </div>

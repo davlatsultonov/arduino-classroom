@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Http\Controllers\ArticleController;
 use App\Models\Category;
 use App\Services\ArticleService;
+use App\Services\CategoryService;
 use App\Services\SensorService;
 use App\Services\TestService;
 use Illuminate\Http\Request;
@@ -46,6 +47,7 @@ class HandleInertiaRequests extends Middleware
                'availableCategories' => TestService::getAvailableCategoriesWithTest(),
                'availableTests' => TestService::getAvailableTests(),
                'tutorials' => fn() => ArticleService::getTutorialPageArticles(),
+               'categories' => fn() => CategoryService::getAllCategories(),
                'sensors' => fn() => SensorService::getAllSensors(),
                'auth' => fn() => auth()->check() ? [
                    'userId' => auth()->id(),

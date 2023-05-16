@@ -1,7 +1,7 @@
 <template>
     <div class="mb-5 border p-3">
         <p class="lead">
-            Шумо аз {{ currentQuestionsLength }} ба <span class="fw-semibold">{{ correctAnswersCount }}</span> савол ҷавоб додед
+            Шумо аз {{ currentQuestionsLength }} ба <span class="fw-semibold">{{ correctAnswersCount }}</span> савол ҷавоби дуруст додед
         </p>
         <div v-if="showQuizResults">
             <ul class="list-group my-4" v-for="result in quizResults">

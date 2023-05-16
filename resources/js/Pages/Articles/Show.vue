@@ -212,7 +212,7 @@ export default {
     components: {
         TestCategorySelector,
         GoToTopBtn, CommentAdd, CommentDisplay, Head, Link, Breadcrumb},
-    props: ['article', 'breadcrumbs', 'tutorials'],
+    props: ['article', 'breadcrumbs'],
     mixins: [utilitiesMixin, tooltipMixin],
     data() {
         return {
@@ -228,6 +228,9 @@ export default {
         };
     },
     computed: {
+        tutorials() {
+            return this.$page.props.shared.tutorials
+        },
         parsedText() {
             // Возвращает отрендеренный Markdown текст статьи
             return md.render(this.article.description);
@@ -255,20 +258,28 @@ export default {
             return this.auth?.read_articles.indexOf(this.article.id) === -1;
         },
         tutorialLinks() {
-            // Возвращает объект с ссылками на предыдущую и следующую статьи в учебнике
-            if (Object.values(this.tutorials).flat(1).length < 2) return {};
-            const links = Object.values(this.tutorials).flat().map(tutorial => tutorial.slug);
-            const indexOf = links.indexOf(this.article.slug);
-            const isFirst = indexOf === 0;
+            let articlesArr = [];
+
+            Object.values(this.tutorials).flat(1).forEach(sub_category => {
+                articlesArr.push(sub_category.articles);
+            })
+
+            articlesArr = articlesArr.flat(1);
+
+            if (articlesArr.length < 2) return {};
+
+            const links = articlesArr.map(tutorial => tutorial.slug);
+            const slugIndex = links.indexOf(this.article.slug);
+            const isFirst = slugIndex === 0;
 
             return {
                 prev: {
-                    url: isFirst ? '/' : links[indexOf - 1],
-                    title: isFirst ? 'Домой' : Object.values(this.tutorials).flat()[indexOf - 1].name
+                    url: isFirst ? '/' : links[slugIndex - 1],
+                    title: isFirst ? 'Домой' : articlesArr[slugIndex - 1].name
                 },
                 next: {
-                    url: links[indexOf + 1] ? links[indexOf + 1] : links[0],
-                    title: Object.values(this.tutorials).flat()[links[indexOf + 1] ? indexOf + 1 : 0].name
+                    url: links[slugIndex + 1] ? links[slugIndex + 1] : links[0],
+                    title: articlesArr[links[slugIndex + 1] ? slugIndex + 1 : 0].name
                 }
             };
         },
