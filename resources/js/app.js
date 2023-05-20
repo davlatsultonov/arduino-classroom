@@ -2,6 +2,7 @@ import {createApp, h} from 'vue'
 import {createInertiaApp} from '@inertiajs/inertia-vue3'
 import {InertiaProgress} from '@inertiajs/progress'
 import {resolvePageComponent} from 'laravel-vite-plugin/inertia-helpers';
+import "@fancyapps/ui/dist/fancybox/fancybox.css";
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import DefaultLayout from "./Layouts/DefaultLayout.vue";
 import mitt from "mitt";

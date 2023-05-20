@@ -188,6 +188,7 @@ import CommentDisplay from "../Comments/CommentsDisplay.vue";
 import CommentAdd from "../Comments/CommentAdd.vue";
 import GoToTopBtn from "../../Shared/GoToTopBtn.vue";
 import TestCategorySelector from "../Profile/Testing/TestCategorySelector.vue";
+import { Fancybox } from "@fancyapps/ui";
 
 // Cоздается экземпляр класса MarkdownIt и настраиваются его опции и правила рендеринга.
 const md = new MarkdownIt().use(markdownItGithubHeadings, {
@@ -202,7 +203,7 @@ md.renderer.rules.image = (tokens, idx, options, env, self) => {
     const token = tokens[idx];
     const src = token.attrs[token.attrIndex('src')][1]; // Получение значения атрибута src
     const alt = token.content; // Получение содержимого тега
-    return `<img src="${src}"  alt="${alt}" class="d-block w-75 my-5 mx-auto border rounded shadow-sm">`; // Возврат HTML-кода для изображения с заданными классами
+    return `<a href="${src}" data-fancybox><img src="${src}"  alt="${alt}" class="d-block w-75 my-5 mx-auto border rounded shadow-sm"></a>`; // Возврат HTML-кода для изображения с заданными классами
 };
 
 
@@ -310,6 +311,10 @@ export default {
         this.stopScrollInit();
     },
     mounted() {
+        Fancybox.bind("[data-fancybox]", {
+            groupAll: true
+        });
+
         // Находим все элементы, у которых id начинается с "ac-"
         document.querySelectorAll(`[id^="ac-"]`).forEach($item => {
             const $itemParent = $item.parentElement;
