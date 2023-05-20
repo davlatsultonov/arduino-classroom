@@ -1,5 +1,10 @@
 <template>
-    <ul class="test-range w-75 px-0 mx-auto border rounded-5 mb-0">
+    <div v-if="allTestSelected"  class="d-flex justify-content-end">
+        <div class="badge fs-6 text-bg-dark">
+            {{ currentQuestionIndex + 1 }} аз {{ currentQuestions.length }}
+        </div>
+    </div>
+    <ul class="test-range w-75 px-0 mx-auto border rounded-5 mb-0" v-else>
         <li v-for="(n, index) in currentQuestions"
             class="d-inline-flex align-items-center justify-content-between test-range__item"
             :class="{
@@ -17,7 +22,7 @@
 <script>
 export default {
     name: "TestsRange",
-    props: ['currentQuestionIndex', 'currentQuestions', 'quizResults']
+    props: ['currentQuestionIndex', 'currentQuestions', 'quizResults', 'allTestSelected']
 }
 </script>
 

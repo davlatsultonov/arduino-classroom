@@ -158,16 +158,15 @@
 
                     </div>
                     <div class="col-1 pe-0">
-                        <Link v-if="tutorialLinks?.next?.url"
-                              :href="tutorialLinks.next.url"
+                        <button v-if="tutorialLinks?.next?.url"
                               data-bs-toggle="tooltip"
                               :data-bs-title="tutorialLinks.next.title"
                               data-bs-placement="left"
                               data-bs-custom-class="custom-tooltip"
-                              @click.native="handleTooltipDispose"
+                              @click="() => handleContinuationToNextArticle(tutorialLinks?.next?.url, tutorialLinks?.next?.isLast)"
                               class="float-end position-sticky top-50 btn btn-link page-pagination-btn rounded-0">
                             <img src="/images/arrow_right_single.svg" alt="arrow icon">
-                        </Link>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -257,29 +256,43 @@ export default {
             // Проверяет, является ли статья новой (не прочитанной)
             return this.auth?.read_articles.indexOf(this.article.id) === -1;
         },
-        tutorialLinks() {
-            let articlesArr = [];
+        currentArticleTest() {
+            return this.$page.props.shared.availableTests.find(item => item.description === this.article.name);
+        },
+        articles() {
+            const articlesArr = []; // Создание пустого массива для статей
+            const lastArticlesIndexes = []; // Создание пустого массива для индексов последних статей
 
             Object.values(this.tutorials).flat(1).forEach(sub_category => {
-                articlesArr.push(sub_category.articles);
-            })
+                // Перебор всех подкатегорий в объекте tutorials
+                const articles = sub_category.articles; // Получение списка статей в текущей подкатегории
+                const lastArticle = articles[articles.length - 1]; // Получение последней статьи в подкатегории
 
-            articlesArr = articlesArr.flat(1);
+                lastArticlesIndexes.push(lastArticle); // Добавление индекса последней статьи в массив
+                articlesArr.push(articles); // Добавление списка статей в массив
+            });
 
-            if (articlesArr.length < 2) return {};
+            return [articlesArr.flat(1), lastArticlesIndexes]; // Возвращение массива статей и массива индексов последних статей
+        },
+        tutorialLinks() {
+            const [articlesArr, lastArticlesIndexes] = this.articles; // Деструктуризация массива статей и массива индексов последних статей
 
-            const links = articlesArr.map(tutorial => tutorial.slug);
-            const slugIndex = links.indexOf(this.article.slug);
-            const isFirst = slugIndex === 0;
+            if (articlesArr.length < 2) return {}; // Если количество статей меньше 2, возвращается пустой объект
+
+            const currentArticleIndex = articlesArr.findIndex(item => item.id === this.article.id); // Нахождение индекса текущей статьи в массиве
+            const prevArticle = articlesArr[currentArticleIndex - 1]; // Получение предыдущей статьи
+            const nextArticle = articlesArr[currentArticleIndex + 1] ?? articlesArr[0]; // Получение следующей статьи или первой статьи, если следующей нет
+            const isFirst = currentArticleIndex === 0; // Проверка, является ли текущая статья первой
 
             return {
                 prev: {
-                    url: isFirst ? '/' : links[slugIndex - 1],
-                    title: isFirst ? 'Домой' : articlesArr[slugIndex - 1].name
+                    url: isFirst ? '/' : prevArticle.slug, // URL предыдущей статьи или главной страницы, если текущая статья первая
+                    title: isFirst ? 'Домой' : prevArticle.name, // Заголовок предыдущей статьи или 'Домой', если текущая статья первая
                 },
                 next: {
-                    url: links[slugIndex + 1] ? links[slugIndex + 1] : links[0],
-                    title: articlesArr[links[slugIndex + 1] ? slugIndex + 1 : 0].name
+                    url: nextArticle.slug, // URL следующей статьи
+                    title: nextArticle.name, // Заголовок следующей статьи
+                    isLast: this.currentArticleTest && lastArticlesIndexes.find(item => item.id === this.article.id) // Проверка, является ли текущая статья последней в списке последних статей
                 }
             };
         },
@@ -345,6 +358,20 @@ export default {
         }
     },
     methods: {
+        handleContinuationToNextArticle(url, isLast) {
+            if (!url) return;
+
+            this.handleTooltipDispose()
+
+            if (isLast && confirm('Ое шумо мехоҳед пеш аз гузаштан ба боби оянда дар ин бахш санҷиш гузаронед?')) {
+                this.$inertia.get(route('profile.test.show', this.article.sub_category_id), {
+                    sub_category_id: this.article.sub_category_id,
+                    test_id: '*'
+                });
+            } else {
+                this.$inertia.get(url);
+            }
+        },
         handleScroll(footer) {
             // Получаем позицию нижнего колонтитула относительно верхнего края окна просмотра, учитывая прокрутку
             const footerPosition = footer.getBoundingClientRect().top + window.scrollY;

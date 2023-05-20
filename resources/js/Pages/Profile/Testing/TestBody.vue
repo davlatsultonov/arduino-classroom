@@ -36,6 +36,7 @@
                         :current-question-index="currentQuestionIndex"
                         :current-questions="currentQuestions"
                         :quiz-results="quizResults"
+                        :all-test-selected="currentQuestionsLength > 5"
                     />
                 </div>
             </template>
