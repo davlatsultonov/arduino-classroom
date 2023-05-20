@@ -6,7 +6,7 @@
 
         <div class="row h-100">
             <div class="col-md-2 headings-content text-bg-light" v-if="headingsContentActive">
-                <div class="position-sticky headings-content-body rounded-1 pt-4 top-0">
+                <div class="position-sticky headings-content-body rounded-1 pt-4 top-0" >
                     <h6>
                         <div class="text-secondary mb-1">Мавзӯъ:</div>
                     </h6>
@@ -21,8 +21,8 @@
                         <p class="text-dark nav-link text-decoration-none">{{ article.sub_category.name }}</p>
                     </div>
                     <h6 class="pt-0 text-secondary">Дар ин саҳифа</h6>
-                    <nav id="navbar-example3" class="flex-column align-items-stretch">
-                        <a class="nav-link pt-2"
+                    <nav id="sidebar-nav" class="flex-column align-items-stretch">
+                        <a class="nav-link pt-3"
                            :class="{
                                 'ps-3': ['H3', 'H4', 'H5'].includes(item.tagName)
                            }"
@@ -31,7 +31,7 @@
                             {{ stringUpperFirstLetter(item.id.slice(3)).split('-').join(' ') }}
                         </a>
                     </nav>
-                    <div class="mt-4 border-top pt-3">
+                    <div class="mt-4 border-top py-3">
                         <a href="#comments" class="text-dark nav-link text-decoration-none">Шарҳҳо</a>
                     </div>
                 </div>
@@ -430,6 +430,12 @@ export default {
 </script>
 
 <style scoped lang="scss">
+    #sidebar-nav {
+        max-height: 55vh;
+        height: 100%;
+        overflow-y: auto;
+    }
+
     .headings-content {
 
         .nav-link {

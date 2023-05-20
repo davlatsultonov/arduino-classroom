@@ -1,5 +1,5 @@
 <template>
-    <button class="go-to-top-btn rounded" ref="buttonRef" @click="scrollToTop" :class="{ show: showButton }">
+    <button class="go-to-top-btn btn-outline-dark rounded" ref="buttonRef" @click="scrollToTop" :class="{ show: showButton }">
         Ба аввали саҳифа
     </button>
 </template>
@@ -44,8 +44,6 @@ export default {
     right: 20px;
     padding: 10px 15px;
     border: none;
-    background-color: #333;
-    color: #fff;
     cursor: pointer;
     opacity: 0;
     transition: opacity 0.3s;
