@@ -2,32 +2,23 @@
     <Head>
         <title>Home Page</title>
     </Head>
-    <div class="my-3 my-lg-5">
-        <ContentContainer>
-            <div class="row">
-                <div class="col-12 order-1 order-lg-0 col-lg-6">
-                    <h2 class="mb-3 fw-bold">Дарси Муосир Оид Ба Arduino</h2>
+    <div class="mb-3 mb-lg-3">
+        <ContentContainer class="py-1 py-lg-4">
+
+            <div class="row align-items-center pb-4 mb-5">
+                <div class="col-12 col-lg-6">
+                    <h1 class="mb-3 fw-bold text-dark fw-semibold">Дарси муосир оид ба системахои <span class="fw-bold" style="color: #00979d">Arduino</span> ва <span class="fw-bold" style="color: #00979d">Raspberry Pi</span></h1>
                     <p class="fs-5">
                         Аз асосҳо то мавзӯъҳои пешрафта бо тавзеҳоти оддӣ, вале муфассал.
                     </p>
-                </div>
-                <div class="col-12 col-lg-6 d-flex justify-content-end align-items-start">
-                    <div
-                        class="d-inline-flex justify-content-end mt-2 mb-4 mb-lg-5 small badge text-dark border border-secondary fw-semibold rounded-1"
-                    >
-                        Охирин навсозӣ 9 майи 2023
-                    </div>
 
-                    <!--                <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Дар дастур ҷустуҷӯ кунед" aria-describedby="button-addon2">
-                                        <button class="btn btn-dark font-monospace" type="button" id="button-addon2">Ҷустуҷӯ</button>
-                                    </div>-->
+                    <div class="mt-4">
+                        <h5 class="mb-3 fw-bold">Мундариҷа</h5>
+                        <p>Курси асосӣ аз 2 қисм иборат аст, Ки JavaScript-ро ҳамчун забони барномасозӣ ва таҷрибаи браузер фаро мегиранд. Инчунин як силсилаи иловагии мақолаҳои мавзӯӣ мавҷуданд.</p>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col mt-4 mb-3 mb-lg-5">
-                    <h5 class="mb-3 fw-bold">Мундариҷа</h5>
-                    <p>Курси асосӣ аз 2 қисм иборат аст, Ки JavaScript-ро ҳамчун забони барномасозӣ ва таҷрибаи браузер фаро мегиранд. Инчунин як силсилаи иловагии мақолаҳои мавзӯӣ мавҷуданд.</p>
+                <div class="col-12 col-lg-6">
+                    <SliderCube />
                 </div>
             </div>
             <div id="tutorial-map-nav-container" class="position-sticky top-0 bg-white">
@@ -64,10 +55,13 @@ import ContentContainer from "../Shared/ContentContainer.vue";
 import MovingIconsSetContainer from "../Shared/MovingIcons/MovingIconsSetContainer.vue";
 import InfoPanel from "../Shared/InfoPanel/InfoPanel.vue";
 import {EMITTER_EVENT_NAMES} from "../constants";
+import SliderCube from "@/Shared/Slider/SliderCube.vue";
 
 export default {
     layout: HomePageLayout,
-    components: {InfoPanel, MovingIconsSetContainer, ContentContainer, TutorialsList, Accordion, Navbar, Head, Link},
+    components: {
+        SliderCube,
+        InfoPanel, MovingIconsSetContainer, ContentContainer, TutorialsList, Accordion, Navbar, Head, Link},
     data() {
         return {
             hasReachedTarget: null,
