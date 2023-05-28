@@ -28,5 +28,9 @@ class ArticleService extends Facade
         return SubCategory::with('category')->withWhereHas('articles')
             ->get()->groupBy('category.name');
     }
+
+    public static function getIoTArticlesThumbnails() {
+        return Article::query()->withWhereHas('sub_category', fn($q) => $q->whereSlug('arduino-iot'))->select('image', 'slug')->get();
+    }
 }
 

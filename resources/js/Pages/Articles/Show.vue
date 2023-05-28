@@ -132,7 +132,7 @@
                             </div>
                         </div>
 
-                        <h3 :id="article.slug" class="mb-4">{{ article.name }}</h3>
+                        <h1 :id="article.slug" class="mb-4">{{ article.name }}</h1>
 
                         <p v-html="parsedText"></p>
 

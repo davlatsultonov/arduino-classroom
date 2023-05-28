@@ -1,11 +1,10 @@
 <script>
 import {defineComponent} from 'vue'
 import {Swiper, SwiperSlide} from "swiper/vue";
-import {Autoplay, EffectCube, Navigation, Pagination} from "swiper";
+import {Autoplay, EffectCube, Pagination} from "swiper";
 import 'swiper/css';
 import 'swiper/css/effect-cube';
 import 'swiper/css/pagination';
-import 'swiper/css/navigation';
 
 export default defineComponent({
     name: "SliderCube",
@@ -13,19 +12,12 @@ export default defineComponent({
     props: {
         items: {
             type: Array,
-            required: true,
-            default() {
-                return [
-                    'https://docs.arduino.cc/static/73702ee121860fa04c7f6db5bc77183b/29114/circuit.png',
-                    'https://docs.arduino.cc/static/f93a41a187e284b2bb22706bd1d25bf4/29114/circuit.png',
-                    'https://docs.arduino.cc/static/9a466cac56df97bcee0389730c663f10/29114/circuit.png',
-                ]
-            }
+            required: true
         }
     },
     data() {
         return {
-            modules: [EffectCube, Pagination, Navigation, Autoplay],
+            modules: [EffectCube, Pagination, Autoplay],
             cubeEffectOptions: {
                 shadow: true,
                 slideShadows: true,
@@ -33,7 +25,7 @@ export default defineComponent({
                 shadowScale: 0.94,
             },
             autoplayOptions: {
-                delay: 2500,
+                delay: 3500,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true
             }
@@ -52,16 +44,16 @@ export default defineComponent({
         :modules="modules"
         :loop="true"
         :pagination="true">
-        <swiper-slide v-for="item in items">
-            <div :style="{ backgroundImage: `url(${item})` }" class="img rounded-4"></div>
+        <swiper-slide v-for="{image, slug} in items">
+            <a :href="'tutorials/' + slug" :style="{ backgroundImage: `url(/storage/${image})` }" class="d-block img rounded-4"></a>
         </swiper-slide>
     </swiper>
 </template>
 
 <style lang="scss">
 .main-slider {
-    width: 450px;
-    height: 450px;
+    width: 490px;
+    height: 490px;
     overflow: visible;
 
     .swiper-slide .img {

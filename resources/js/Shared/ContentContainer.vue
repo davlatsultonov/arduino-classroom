@@ -1,5 +1,5 @@
 <template>
-    <div class="container" style="position: relative; z-index: 1">
+    <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-10">
                 <slot />
@@ -13,3 +13,9 @@ export default {
     name: "ContentContainer"
 }
 </script>
+
+<style>
+.container, .container-fluid {
+    position: relative; z-index: 1
+}
+</style>

@@ -3,23 +3,24 @@
         <title>Home Page</title>
     </Head>
     <div class="mb-3 mb-lg-3">
+        <div class="container-fluid">
+            <div class="row my-5 align-items-center">
+                <div class="col-12 col-md-4 offset-md-1">
+                    <SliderCube :items="iotArticlesThumbnails"/>
+                </div>
+                <div class="col-12 col-md-6 position-relative">
+                    <img class="w-100 d-block" src="/images/arduino-examples.png" alt="arduino example">
+                </div>
+            </div>
+        </div>
         <ContentContainer class="py-1 py-lg-4">
-
-            <div class="row align-items-center pb-4 mb-5">
-                <div class="col-12 col-lg-6">
-                    <h1 class="mb-3 fw-bold text-dark fw-semibold">Дарси муосир оид ба системахои <span class="fw-bold" style="color: #00979d">Arduino</span> ва <span class="fw-bold" style="color: #00979d">Raspberry Pi</span></h1>
-                    <p class="fs-5">
-                        Аз асосҳо то мавзӯъҳои пешрафта бо тавзеҳоти оддӣ, вале муфассал.
-                    </p>
-
-                    <div class="mt-4">
-                        <h5 class="mb-3 fw-bold">Мундариҷа</h5>
-                        <p>Курси асосӣ аз 2 қисм иборат аст, Ки JavaScript-ро ҳамчун забони барномасозӣ ва таҷрибаи браузер фаро мегиранд. Инчунин як силсилаи иловагии мақолаҳои мавзӯӣ мавҷуданд.</p>
-                    </div>
-                </div>
-                <div class="col-12 col-lg-6">
-                    <SliderCube />
-                </div>
+            <div class="pb-4 mb-3">
+                <h1 class="display-4 mb-3 fw-bold text-dark fw-semibold">Дарси муосир оид ба системахои <span class="fw-bold" style="color: #00979d">Arduino</span> ва <span class="fw-bold" style="color: #00979d">Raspberry Pi</span></h1>
+                <p class="fs-5">
+                    Аз асосҳо то мавзӯъҳои пешрафта бо тавзеҳоти оддӣ, вале муфассал.
+                </p>
+                <h5 class="mt-5 mb-3 fw-bold">Мундариҷа</h5>
+                <p>Курси асосӣ аз 2 қисм иборат аст, Ки JavaScript-ро ҳамчун забони барномасозӣ ва таҷрибаи браузер фаро мегиранд. Инчунин як силсилаи иловагии мақолаҳои мавзӯӣ мавҷуданд.</p>
             </div>
             <div id="tutorial-map-nav-container" class="position-sticky top-0 bg-white">
                 <nav id="tutorial-map-nav" class="navbar py-0 border-bottom">
@@ -54,14 +55,17 @@ import HomePageLayout from "../Layouts/HomePageLayout.vue";
 import ContentContainer from "../Shared/ContentContainer.vue";
 import MovingIconsSetContainer from "../Shared/MovingIcons/MovingIconsSetContainer.vue";
 import InfoPanel from "../Shared/InfoPanel/InfoPanel.vue";
-import {EMITTER_EVENT_NAMES} from "../constants";
-import SliderCube from "@/Shared/Slider/SliderCube.vue";
+import {EMITTER_EVENT_NAMES} from "../constants/index";
+import SliderCube from "../Shared/Slider/SliderCube.vue";
 
 export default {
     layout: HomePageLayout,
     components: {
         SliderCube,
         InfoPanel, MovingIconsSetContainer, ContentContainer, TutorialsList, Accordion, Navbar, Head, Link},
+    props: {
+        iotArticlesThumbnails: Array
+    },
     data() {
         return {
             hasReachedTarget: null,
@@ -105,14 +109,14 @@ export default {
 
             // Перебираем scrollSpyHeadings и обновляем пользовательский интерфейс в зависимости от позиции прокрутки
             scrollSpyHeadings.forEach((item, index) => {
-                const offsetTop = Math.floor(item.getBoundingClientRect().top);
+                const scrollSpyHeadingOffsetTop = Math.floor(item.getBoundingClientRect().top);
                 if (this.firstLoad && index === 0) {
                     // Устанавливаем первый заголовок активным при первой загрузке
                     this.tutorialListHeadings[item.id] = true;
                     this.firstLoad = scrollSpyHeadings.length === 1; // Обновляем флаг firstLoad
                 } else {
                     // Определяем, находится ли заголовок в требуемом диапазоне прокрутки
-                    this.tutorialListHeadings[item.id] = offsetTop < 100 && offsetTop >= (tutorialListContainer[index].getBoundingClientRect().height - 40) * -1;
+                    this.tutorialListHeadings[item.id] = scrollSpyHeadingOffsetTop - 66 < 100 && scrollSpyHeadingOffsetTop > (tutorialListContainer[index].getBoundingClientRect().height) * -1;
                 }
                 // Включаем или отключаем CSS-класс 'reached' у ссылки в навигации по карте учебника
                 this.getTutorialMapNavLink(item.id).classList[this.tutorialListHeadings[item.id] ? 'add' : 'remove']('reached');
@@ -120,9 +124,6 @@ export default {
 
             // Проверяем, достигла ли текущая позиция прокрутки цели
             this.hasReachedTarget = window.scrollY >= tutorialMapNavOffsetTop - documentBodyOffsetTop || window.pageYOffset >= tutorialMapNavOffsetTop - documentBodyOffsetTop;
-
-            // Включаем или отключаем CSS-класс в зависимости от того, достигнута цель или нет
-            tutorialMapNav.classList[this.hasReachedTarget ? 'remove' : 'add']('border-bottom');
         },
     },
     watch: {

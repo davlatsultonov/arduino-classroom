@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Article;
+use App\Services\ArticleService;
 
 class HomeController extends Controller
 {
@@ -13,6 +14,8 @@ class HomeController extends Controller
             ->get()
             ->groupBy('category.name');
 
-        return inertia('Home', compact('articles'));
+        $iotArticlesThumbnails = ArticleService::getIoTArticlesThumbnails();
+
+        return inertia('Home', compact('articles', 'iotArticlesThumbnails'));
     }
 }

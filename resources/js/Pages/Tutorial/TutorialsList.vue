@@ -1,6 +1,6 @@
 <template>
-    <div class="tutorials-list-container" v-if="Object.keys(tutorials).length">
-        <div v-for="(value, key, index) in tutorials" class="mb-3 pb-3">
+    <div v-if="Object.keys(tutorials).length">
+        <div v-for="(value, key, index) in tutorials" class="tutorials-list-container mb-3 pb-3">
             <div class="h3 mb-3" :id="`scroll-spy-heading-${$page.props.shared.categories[index].slug}`">{{ key }}</div>
             <div class="my-4" v-for="(item, index) in value">
                 <div class="row">
