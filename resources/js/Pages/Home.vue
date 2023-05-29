@@ -39,7 +39,10 @@
                     <TutorialsList/>
                 </div>
             </div>
+
+            <BooksList />
         </ContentContainer>
+
         <MovingIconsSetContainer />
         <Transition>
             <InfoPanel v-if="isInfoPanelOpen" />
@@ -57,10 +60,12 @@ import MovingIconsSetContainer from "../Shared/MovingIcons/MovingIconsSetContain
 import InfoPanel from "../Shared/InfoPanel/InfoPanel.vue";
 import {EMITTER_EVENT_NAMES} from "../constants/index";
 import SliderCube from "../Shared/Slider/SliderCube.vue";
+import BooksList from "@/Shared/BooksList.vue";
 
 export default {
     layout: HomePageLayout,
     components: {
+        BooksList,
         SliderCube,
         InfoPanel, MovingIconsSetContainer, ContentContainer, TutorialsList, Accordion, Navbar, Head, Link},
     props: {
@@ -116,7 +121,7 @@ export default {
                     this.firstLoad = scrollSpyHeadings.length === 1; // Обновляем флаг firstLoad
                 } else {
                     // Определяем, находится ли заголовок в требуемом диапазоне прокрутки
-                    this.tutorialListHeadings[item.id] = scrollSpyHeadingOffsetTop - 66 < 100 && scrollSpyHeadingOffsetTop > (tutorialListContainer[index].getBoundingClientRect().height) * -1;
+                    this.tutorialListHeadings[item.id] = scrollSpyHeadingOffsetTop <= 60 && scrollSpyHeadingOffsetTop - 60 >= (tutorialListContainer[index].getBoundingClientRect().height) * -1;
                 }
                 // Включаем или отключаем CSS-класс 'reached' у ссылки в навигации по карте учебника
                 this.getTutorialMapNavLink(item.id).classList[this.tutorialListHeadings[item.id] ? 'add' : 'remove']('reached');
