@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Hash;
 class RegisterController extends Controller
 {
     /**
-     * Display the register view.
+     * Отображает страницу регистрации.
      *
-     * @return \Inertia\Response
+     * @return \Inertia\Response - ответ Inertia с данными о странице регистрации
      */
     public function create()
     {
@@ -24,14 +24,17 @@ class RegisterController extends Controller
     }
 
     /**
-     * Handle an incoming register request.
+     * Обрабатывает запрос на регистрацию.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @param \Illuminate\Http\Request $request - HTTP-запрос
+     * @return \Illuminate\Http\RedirectResponse - перенаправление после успешной регистрации
      */
     public function store(RegisterRequest $request)
     {
+        // Создание нового пользователя с использованием валидированных данных из запроса и хэшированным паролем
         User::create(array_merge($request->validated(), ['password' => Hash::make($request->password)]));
 
+        // Аутентификация пользователя после регистрации
         Auth::attempt($request->validated(), true);
 
         $request->session()->regenerate();

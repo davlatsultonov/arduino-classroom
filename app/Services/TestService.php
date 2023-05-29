@@ -11,30 +11,34 @@ use Illuminate\Support\Facades\Facade;
 
 class TestService extends Facade
 {
+    /**
+     * Получает доступные категории с тестами.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection - коллекция доступных категорий с тестами
+     */
     public static function getAvailableCategoriesWithTest()
     {
         return SubCategory::has('tests')->get();
     }
 
+    /**
+     * Получает доступные тесты.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection - коллекция доступных тестов
+     */
     public static function getAvailableTests()
     {
         return Test::has('testQuestions')->has('testAnswers')->get();
     }
 
+    /**
+     * Получает категории тестов пользователя.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection - коллекция категорий тестов пользователя
+     */
     public static function getUserTestCategories()
     {
         return Category::hasCompletedTests()->get();
-
-        return Auth::check() ? TestResult::where('user_id', Auth::user()->id)
-            ->join('test_questions', 'test_results.test_question_id', 'test_questions.id')
-            ->join('tests', 'test_questions.test_id', 'tests.id')
-            ->join('categories', 'tests.category_id', 'categories.id')
-            ->distinct()
-            ->select('categories.name', 'categories.image')
-            ->get()
-            ->map(function ($category) {
-                return $category;
-            }) : [];
     }
 }
 

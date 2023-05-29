@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Auth;
 class LoginController extends Controller
 {
     /**
-     * Display the login view.
+     * Отображает страницу входа в систему.
      *
-     * @return \Inertia\Response
+     * @return \Inertia\Response - ответ Inertia с данными о странице входа в систему
      */
     public function create()
     {
@@ -20,9 +20,10 @@ class LoginController extends Controller
     }
 
     /**
-     * Handle an incoming authentication request.
+     * Обрабатывает запрос на аутентификацию.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @param \Illuminate\Http\Request $request - HTTP-запрос
+     * @return \Illuminate\Http\RedirectResponse - перенаправление после успешной аутентификации
      */
     public function store(LoginRequest $request)
     {
@@ -34,9 +35,10 @@ class LoginController extends Controller
     }
 
     /**
-     * Destroy an authenticated session.
+     * Завершает аутентифицированную сессию.
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @param \Illuminate\Http\Request $request - HTTP-запрос
+     * @return \Illuminate\Http\RedirectResponse - перенаправление на страницу входа после выхода из системы
      */
     public function destroy(Request $request)
     {
