@@ -47,9 +47,10 @@ export default {
         hideBody: Boolean
     },
     computed: {
+        // Возвращает текст для значка
         badgeText() {
-            return this.card.category.name
-        },
+            return this.card.category.name;
+        }
     }
 }
 </script>

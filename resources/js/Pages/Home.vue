@@ -80,6 +80,7 @@ export default {
         }
     },
     mounted() {
+        // Устанавливаем обработчик события "info-panel" для открытия/закрытия информационной панели
         this.emitter.on(EMITTER_EVENT_NAMES['info-panel'], isInfoPanelOpen => {
             this.isInfoPanelOpen = isInfoPanelOpen;
         });
@@ -133,7 +134,8 @@ export default {
     },
     watch: {
         isInfoPanelOpen(value) {
-            document.body.style.overflow = !value ? 'visible' : 'hidden'
+            // Устанавливаем свойство overflow стиля body в 'visible' или 'hidden' в зависимости от значения isInfoPanelOpen
+            document.body.style.overflow = !value ? 'visible' : 'hidden';
         }
     }
 }

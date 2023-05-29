@@ -60,6 +60,9 @@ export default {
         }
     },
     methods: {
+        /**
+         * Отправляет данные формы комментария на сервер.
+         */
         submit() {
             this.commentForm.post('/comments', {
                 onSuccess: () => this.commentForm.reset(),

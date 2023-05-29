@@ -22,10 +22,11 @@ export default {
     props: ['card', 'hideBody'],
     components: {Link},
     computed: {
+        // Возвращает отформатированное время обновления
         formattedUpdateTime() {
             moment.locale('tg');
             return moment(this.card.updated_at).fromNow();
-        },
+        }
     }
 }
 </script>

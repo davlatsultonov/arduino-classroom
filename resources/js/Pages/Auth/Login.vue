@@ -49,6 +49,9 @@ export default {
         }
     },
     methods: {
+        /**
+         * Отправляет данные формы на сервер.
+         */
         submit() {
             this.form.post('/login');
         }

@@ -43,20 +43,23 @@ export default {
         }
     },
     computed: {
+        // Рассчитывает радиус окружности
         r() {
             return this.size / 2 - this.strokeWidth / 2;
         },
+        // Рассчитывает значение dasharray для отображения прогресса
         dasharray() {
             return 2 * Math.PI * this.r;
         },
+        // Рассчитывает значение dashoffset для отображения прогресса
         dashoffset() {
             return this.dasharray * (1 - this.percentage / 100);
         },
+        // Рассчитывает числовое значение прогресса для отображения
         progressNumber() {
             return this.showNumber && parseInt(this.percentage);
         }
-    },
-    mounted() {}
+    }
 };
 </script>
 <style lang="css" scoped>

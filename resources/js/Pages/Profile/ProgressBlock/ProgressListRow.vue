@@ -36,10 +36,18 @@ export default {
         list: Array
     },
     computed: {
+        /**
+         * Возвращает срез списка или весь список, в зависимости от его длины.
+         * Если список содержит более 6 элементов, возвращается первые 6 элементов.
+         * В противном случае возвращается весь список.
+         */
         slicedList() {
-            //return this.list.length > 6 ? this.list.slice(0, 6) : this.list;
+            // Вариант с срезом списка до 6 элементов:
+            // return this.list.length > 6 ? this.list.slice(0, 6) : this.list;
+
+            // Возвращаем весь список без изменений:
             return this.list;
-        }
+        },
     },
 }
 </script>

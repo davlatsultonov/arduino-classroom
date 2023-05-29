@@ -228,20 +228,21 @@ export default {
         };
     },
     computed: {
+        // Возвращает список учебных материалов
         tutorials() {
-            return this.$page.props.shared.tutorials
+            return this.$page.props.shared.tutorials;
         },
+        // Возвращает отрендеренный Markdown текст статьи
         parsedText() {
-            // Возвращает отрендеренный Markdown текст статьи
             return md.render(this.article.description);
         },
+        // Форматирует дату обновления статьи в заданном формате
         formattedArticleUpdatedDate() {
-            // Форматирует дату обновления статьи в заданном формате
             moment.locale('tg'); // Устанавливает локаль для moment.js
             return moment(this.article.updated_at).format('LLLL');
         },
+        // Форматирует время в минуты и секунды на основе значения переменной time
         formattedTime() {
-            // Форматирует время в минуты и секунды на основе значения переменной time
             const minutes = Math.floor(this.time / 60000);
             const seconds = parseInt(((this.time % 60000) / 1000).toFixed(0));
             return {
@@ -249,17 +250,19 @@ export default {
                 seconds
             };
         },
+        // Возвращает значение свойства auth из общих свойств страницы
         auth() {
-            // Возвращает значение свойства auth из общих свойств страницы
             return this.$page.props.shared.auth;
         },
+        // Проверяет, является ли статья новой (не прочитанной)
         isNewArticle() {
-            // Проверяет, является ли статья новой (не прочитанной)
             return this.auth?.read_articles.indexOf(this.article.id) === -1;
         },
+        // Возвращает объект теста для текущей статьи
         currentArticleTest() {
             return this.$page.props.shared.availableTests.find(item => item.description === this.article.name);
         },
+        // Возвращает массив статей и массив индексов последних статей
         articles() {
             const articlesArr = []; // Создание пустого массива для статей
             const lastArticlesIndexes = []; // Создание пустого массива для индексов последних статей
@@ -275,6 +278,7 @@ export default {
 
             return [articlesArr.flat(1), lastArticlesIndexes]; // Возвращение массива статей и массива индексов последних статей
         },
+        // Возвращает объект с ссылками на предыдущую и следующую статьи
         tutorialLinks() {
             const [articlesArr, lastArticlesIndexes] = this.articles; // Деструктуризация массива статей и массива индексов последних статей
 
@@ -297,12 +301,12 @@ export default {
                 }
             };
         },
+        // Проверяет, есть ли тесты для текущей статьи
         hasCurrentArticleTests() {
-            // Проверяет, есть ли тесты для текущей статьи
             return this.$page.props.shared.availableTests.find(test => test.description === this.article.name);
         },
+        // Возвращает идентификатор теста для текущей статьи
         getTestId() {
-            // Возвращает идентификатор теста для текущей статьи
             return (this.$page.props.shared.availableTests.find(test => test.description === this.article.name))?.id;
         }
     },
@@ -311,6 +315,7 @@ export default {
         this.stopScrollInit();
     },
     mounted() {
+        // Привязываем Fancybox ко всем элементам с атрибутом data-fancybox и указываем группировку groupAll: true
         Fancybox.bind("[data-fancybox]", {
             groupAll: true
         });
@@ -324,13 +329,13 @@ export default {
             // В противном случае добавляем классы 'mt-4' и 'mb-3'
             [$itemParent.tagName === 'H2' ? ['border-bottom', 'pb-2', 'mt-5'] : ['mt-4'], 'mb-3'].flat(1).forEach(className => {
                 $itemParent.classList.add(className);
-            })
+            });
 
             // Добавляем объект с id и tagName в массив headingIds
             this.headingIds.push({
                 id: $item.id,
                 tagName: $itemParent.tagName
-            })
+            });
         });
 
         // Проверяем, авторизован ли пользователь и является ли статья новой
@@ -363,10 +368,15 @@ export default {
         }
     },
     methods: {
+        /**
+         * Обработчик перехода к следующей статье.
+         * @param {string} url - URL следующей статьи.
+         * @param {boolean} isLast - Флаг, указывающий, является ли текущая статья последней в списке.
+         */
         handleContinuationToNextArticle(url, isLast) {
             if (!url) return;
 
-            this.handleTooltipDispose()
+            this.handleTooltipDispose();
 
             if (isLast && confirm('Ое шумо мехоҳед пеш аз гузаштан ба боби оянда дар ин бахш санҷиш гузаронед?')) {
                 this.$inertia.get(route('profile.test.show', this.article.sub_category_id), {
@@ -377,6 +387,11 @@ export default {
                 this.$inertia.get(url);
             }
         },
+
+        /**
+         * Обработчик прокрутки страницы.
+         * @param {HTMLElement} footer - Элемент .footer.
+         */
         handleScroll(footer) {
             // Получаем позицию нижнего колонтитула относительно верхнего края окна просмотра, учитывая прокрутку
             const footerPosition = footer.getBoundingClientRect().top + window.scrollY;
@@ -404,12 +419,23 @@ export default {
                 }
             }
         },
+
+        /**
+         * Остановка инициализации прокрутки.
+         */
         stopScrollInit() {
             // Удаляем обработчик прокрутки
             window.removeEventListener("scroll", this.handleScroll);
             // Очищаем интервал, если он был установлен
             clearInterval(this.intervalId);
         },
+
+        /**
+         * Функция-дросселизатор для задержки вызова функции.
+         * @param {Function} fn - Функция для дросселизации.
+         * @param {number} wait - Задержка в миллисекундах.
+         * @returns {Function} - Дросселизированная функция.
+         */
         throttle(fn, wait) {
             let throttled = false;
             return function(...args) {

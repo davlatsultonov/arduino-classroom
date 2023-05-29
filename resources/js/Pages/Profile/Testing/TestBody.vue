@@ -105,52 +105,102 @@ export default {
         }
     },
     created() {
-        if (this.$page.props.shared.availableCategories?.length) this.quizState = 'start';
-        if (this.currentTest) this.quizState = 'process';
+        // Устанавливаем состояние в "start", если доступны категории
+        if (this.$page.props.shared.availableCategories?.length) {
+            this.quizState = 'start';
+        }
+
+        // Устанавливаем состояние в "process", если текущий тест существует
+        if (this.currentTest) {
+            this.quizState = 'process';
+        }
     },
     computed: {
+        /**
+         * Возвращает настройки для другого теста в зависимости от текущего состояния квиза.
+         */
         anotherTestSettings() {
             return this.quizState !== 'process' ? {} : {
                 sub_category_id: this.currentTest.sub_category_id,
                 test_id: this.currentTest.id,
                 changedChoice: true,
-            }
+            };
         },
+
+        /**
+         * Возвращает текущие вопросы теста.
+         */
         currentQuestions() {
-            return this.currentTest.test_questions
+            return this.currentTest.test_questions;
         },
-        currentQuestionText: function () {
-            return this.currentQuestions[this.currentQuestionIndex].question
+
+        /**
+         * Возвращает текст текущего вопроса.
+         */
+        currentQuestionText() {
+            return this.currentQuestions[this.currentQuestionIndex].question;
         },
-        currentQuestionsLength: function () {
-            return this.currentQuestions.length
+
+        /**
+         * Возвращает длину текущих вопросов.
+         */
+        currentQuestionsLength() {
+            return this.currentQuestions.length;
         },
-        currentQuestionAnswers: function () {
-            return this.currentQuestions[this.currentQuestionIndex].test_answers
+
+        /**
+         * Возвращает ответы текущего вопроса.
+         */
+        currentQuestionAnswers() {
+            return this.currentQuestions[this.currentQuestionIndex].test_answers;
         },
     },
     mounted() {
-        this.testChoiceModal = new Modal('#test-choice-modal')
+        // Инициализация модального окна выбора теста
+        this.testChoiceModal = new Modal('#test-choice-modal');
     },
     methods: {
+        /**
+         * Обработка ответа на вопрос.
+         */
         answerToQuestion(answer) {
-            this.quizResults.push(answer)
+            this.quizResults.push(answer);
         },
+
+        /**
+         * Увеличение индекса текущего вопроса.
+         */
         incrementCurrentQuestionIndex() {
             ++this.currentQuestionIndex;
         },
+
+        /**
+         * Обработка перезапуска текущего теста.
+         */
         handleCurrentTestRestart() {
             this.quizResults = [];
             this.currentQuestionIndex = 0;
         },
+
+        /**
+         * Обработка отмены выбора теста.
+         */
         handleTestChoiceCancel() {
             this.agreeToLoseData = false;
             this.testChoiceModal.hide(true);
         },
+
+        /**
+         * Обработка активации модального окна выбора теста.
+         */
         handleTestChoiceChangeModalActivation() {
-            this.testChoiceModal.show(true)
+            this.testChoiceModal.show(true);
         },
-        handleQuizState: function (quizState) {
+
+        /**
+         * Обработка состояния квиза.
+         */
+        handleQuizState(quizState) {
             if (quizState === 'reset') {
                 this.quizState = 'start';
             }
@@ -161,7 +211,7 @@ export default {
 
             if (quizState === 'start') {
                 if (confirm('Оё шумо мехоҳед тағироти ҷории худро нигоҳ доред?')) {
-                    this.saveQuizResult()
+                    this.saveQuizResult();
                 }
 
                 this.quizState = 'start';
@@ -172,17 +222,23 @@ export default {
                 this.quizState = 'finish';
             }
         },
-        saveQuizResult: function () {
+
+        /**
+         * Сохранение результатов квиза.
+         */
+        saveQuizResult() {
             this.$inertia.visit('/profile/test', {
                 method: 'post',
                 data: {
-                    quizResults: this.quizResults.map(({id, test_question_id}) => ({
-                        test_question_id, test_answer_id: id, 'user_id': this.$page.props.shared.auth.userId
-                    }))
-                }
-            })
-        }
-    }
+                    quizResults: this.quizResults.map(({ id, test_question_id }) => ({
+                        test_question_id,
+                        test_answer_id: id,
+                        'user_id': this.$page.props.shared.auth.userId,
+                    })),
+                },
+            });
+        },
+    },
 }
 </script>
 

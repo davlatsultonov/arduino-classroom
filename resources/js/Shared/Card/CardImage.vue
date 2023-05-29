@@ -12,6 +12,7 @@ export default {
     name: "CardImage",
     props: ['image', 'imageHeight'],
     computed: {
+        // Возвращает стили для изображения карточки
         cardImageStyles() {
             return (img) => {
                 return {
@@ -21,10 +22,11 @@ export default {
                     backgroundRepeat: 'no-repeat',
                     height: this.imageHeight ? this.imageHeight + 'px' : null,
                 };
-            }
+            };
         }
     },
     methods: {
+        // Возвращает путь к изображению карточки
         cardImage(img) {
             let result = img;
 

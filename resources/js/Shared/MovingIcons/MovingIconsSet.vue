@@ -52,40 +52,45 @@ export default {
     },
     computed: {
         shuffledIconSources() {
-            let result = []
+            let result = [];
 
+            // Создает 20 случайных перестановок массива `iconSources`
             for (let i = 1; i <= 20; i++) {
-                result.push(this.shuffle(this.iconSources.concat()))
+                result.push(this.shuffle(this.iconSources.concat()));
             }
 
             return result;
         }
     },
     mounted() {
+        // Загружает иконки после монтирования компонента
         Promise.all([
             ...this.iconNames.map(item => this.loadIcon(item))
         ]).then(sources => {
+            // Сохраняет загруженные иконки в `iconSources`
             this.iconSources = sources;
-        })
+        });
     },
     methods: {
         async loadIcon(iconName) {
+            // Асинхронно загружает SVG-файл иконки из папки `public/images/ioticons`
             const { default: svg } = await import(`../../../../public/images/ioticons/${iconName}.svg`);
             return svg;
         },
         shuffle(array) {
-            let currentIndex = array.length,  randomIndex;
+            let currentIndex = array.length, randomIndex;
 
-            // While there remain elements to shuffle.
+            // Пока остаются элементы для перестановки.
             while (currentIndex !== 0) {
 
-                // Pick a remaining element.
+                // Выбираем случайный индекс.
                 randomIndex = Math.floor(Math.random() * currentIndex);
                 currentIndex--;
 
-                // And swap it with the current element.
+                // И меняем его с текущим элементом.
                 [array[currentIndex], array[randomIndex]] = [
-                    array[randomIndex], array[currentIndex]];
+                    array[randomIndex], array[currentIndex]
+                ];
             }
 
             return array;

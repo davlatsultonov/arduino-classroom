@@ -16,25 +16,41 @@ export default {
         }
     },
     methods: {
+        // Обработчик события mouseenter
         handleMouseEnter(e) {
+            // Увеличиваем счетчик кликов
             ++this.clickCount;
             const target = e.target;
-            if (target.tagName === 'IMG') target.parentElement.classList.add('active')
-            else target.classList.add('active')
+            if (target.tagName === 'IMG') {
+                // Добавляем CSS-класс 'active' родительскому элементу, если цель - изображение
+                target.parentElement.classList.add('active');
+            } else {
+                // Добавляем CSS-класс 'active' целевому элементу
+                target.classList.add('active');
+            }
 
             if (this.clickCount >= 2) {
-                this.handleArduinoInfoPanelActivation()
+                // Активируем панель информации Arduino при достижении определенного количества кликов
+                this.handleArduinoInfoPanelActivation();
             }
         },
+        // Обработчик события mouseleave
         handleMouseLeave(e) {
+            // Остановка всплытия события
             e.stopPropagation();
+            // Удаляем CSS-класс 'active' с целевого элемента
             e.target.classList.remove('active');
+            // Сбрасываем счетчик кликов
             this.resetClick();
         },
+        // Активирует панель информации Arduino
         handleArduinoInfoPanelActivation() {
+            // Излучает событие для активации панели информации Arduino
             this.emitter.emit(EMITTER_EVENT_NAMES['info-panel'], true);
+            // Сбрасываем счетчик кликов
             this.resetClick();
         },
+        // Сбрасывает счетчик кликов в 0
         resetClick() {
             this.clickCount = 0;
         }

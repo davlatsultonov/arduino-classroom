@@ -35,9 +35,12 @@ export default {
         }
     },
     computed: {
+        /**
+         * Возвращает количество правильных ответов в результатах теста.
+         */
         correctAnswersCount() {
-            return this.quizResults.reduce((acc, curr) => curr.is_correct ? ++acc : acc, 0)
-        }
-    }
+            return this.quizResults.reduce((acc, curr) => curr.is_correct ? ++acc : acc, 0);
+        },
+    },
 }
 </script>

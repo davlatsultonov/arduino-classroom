@@ -74,24 +74,32 @@ export default {
       }
     },
     created() {
+        // Проверяем наличие внешних настроек
         if (Object.keys(this.externalSettings).length > 1) {
-            this.quizCategorySelectionForm.sub_category_id = this.externalSettings.sub_category_id
-            this.quizCategorySelectionForm.test_id = this.externalSettings.test_id
+            // Если настройки существуют, устанавливаем значения формы выбора категории и теста
+            this.quizCategorySelectionForm.sub_category_id = this.externalSettings.sub_category_id;
+            this.quizCategorySelectionForm.test_id = this.externalSettings.test_id;
         }
     },
     computed: {
-        filteredAvailableTests: function () {
+        /**
+         * Возвращает отфильтрованные доступные тесты, основываясь на выбранной подкатегории.
+         */
+        filteredAvailableTests() {
             return (this.$page.props.shared.availableTests && this.$page.props.shared.availableTests.length)
-                    ? this.$page.props.shared.availableTests.filter(test => test.sub_category_id === this.quizCategorySelectionForm.sub_category_id)
-                    : [];
-        }
+                ? this.$page.props.shared.availableTests.filter(test => test.sub_category_id === this.quizCategorySelectionForm.sub_category_id)
+                : [];
+        },
     },
     methods: {
-        submit: function () {
+        /**
+         * Отправка данных формы выбора категории и теста.
+         */
+        submit() {
             this.quizCategorySelectionForm.get('/profile/test/' + this.quizCategorySelectionForm.sub_category_id, {
                 onSuccess: () => this.handleQuizState('process'),
             });
-        }
+        },
     },
 }
 </script>

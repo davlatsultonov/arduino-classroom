@@ -64,6 +64,9 @@ export default {
         }
     },
     methods: {
+        /**
+         * Отправляет данные формы регистрации на сервер.
+         */
         submit() {
             this.form.post('/register');
         }

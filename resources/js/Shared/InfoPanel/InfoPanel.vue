@@ -86,43 +86,53 @@ export default {
         }
     },
     computed: {
+        // Проверяет, является ли пользователь онлайн
         isUserOnline() {
-            return navigator.onLine
+            return navigator.onLine;
         },
+        // Возвращает отрендеренный Markdown текст статьи
         parsedText() {
-            // Возвращает отрендеренный Markdown текст статьи
             return md.render(this.currentSensor.description);
         },
+        // Возвращает массив сенсоров из общих свойств страницы
         sensors() {
-            return this.$page.props.shared.sensors
+            return this.$page.props.shared.sensors;
         },
+        // Возвращает текущий сенсор на основе активного идентификатора
         currentSensor() {
-            return this.sensors[this.activeId]
+            return this.sensors[this.activeId];
         }
     },
     methods: {
+        // Выводит сообщение в консоль
         log() {
-            console.log(21)
+            console.log(21);
         },
+        // Обрабатывает клик на сенсоре
         handleClick(id) {
             this.activeId = id;
         },
+        // Инициализирует модель
         initModel() {
             alert('Model initialized');
         },
+        // Обрабатывает закрытие панели информации
         handleInfoPanelClose() {
             this.emitter.emit(EMITTER_EVENT_NAMES['info-panel'], false);
         },
+        // Обрабатывает нажатие клавиши Escape
         handleEscKey(event) {
             if (event.key === 'Escape') {
-                this.handleInfoPanelClose()
+                this.handleInfoPanelClose();
             }
         }
     },
     mounted() {
+        // Добавляет слушателя события keydown для обработки нажатия клавиши Escape
         document.addEventListener('keydown', this.handleEscKey);
     },
     beforeUnmount() {
+        // Удаляет слушателя события keydown при демонтировании компонента
         document.removeEventListener('keydown', this.handleEscKey);
     },
 }

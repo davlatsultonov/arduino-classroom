@@ -51,32 +51,53 @@ export default {
         }
     },
     computed: {
+        /**
+         * Проверяет, является ли текущий вопрос первым.
+         */
         isFirstQuestion() {
-            return this.currentQuestionIndex === 0
-        }
+            return this.currentQuestionIndex === 0;
+        },
     },
     methods: {
+        /**
+         * Обработка перезапуска текущего теста.
+         */
         handleRestart() {
+            // Сброс текущих значений и сигнализация о перезапуске теста
             this.currentTestAnswer = null;
             this.chosenTestAnswerId = null;
             this.proceed = false;
             this.$emit('onCurrentTestRestart');
         },
+        /**
+         * Обработка выбора ответа на вопрос.
+         */
         handleAnswerChoice(currentTestAnswer) {
+            // Установка текущего выбранного ответа и флага для продолжения
             this.currentTestAnswer = currentTestAnswer;
             this.proceed = true;
         },
+        /**
+         * Переход к следующему вопросу.
+         */
         nextQuestion() {
-            if (!this.proceed) return;
-            this.proceed = true;
-            this.incrementCurrentQuestionIndex();
+            if (!this.proceed) return; // Если не выбран ответ, выходим из функции
+
+            this.proceed = true; // Устанавливаем флаг для продолжения
+            this.incrementCurrentQuestionIndex(); // Увеличиваем индекс текущего вопроса
+
+            // Эмитируем событие с передачей информации о выбранном ответе
             this.$emit('onAnswerToQuestion', {
                 question: this.currentQuestionText,
-                correctAnswer: (this.currentQuestionAnswers.find(answer => answer.is_correct)).answer,
-                ...this.currentTestAnswer
-            })
-            if (this.currentQuestionIndex === this.currentQuestionsLength - 1) this.handleQuizState('result')
-        }
-    }
+                correctAnswer: this.currentQuestionAnswers.find(answer => answer.is_correct).answer,
+                ...this.currentTestAnswer,
+            });
+
+            // Если достигнут последний вопрос, меняем состояние квиза на 'result'
+            if (this.currentQuestionIndex === this.currentQuestionsLength - 1) {
+                this.handleQuizState('result');
+            }
+        },
+    },
 }
 </script>

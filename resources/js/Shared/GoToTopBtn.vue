@@ -12,23 +12,33 @@ export default {
         };
     },
     mounted() {
+        // Добавляет слушатель события прокрутки страницы
         window.addEventListener('scroll', this.handleScroll);
     },
     beforeUnmount() {
+        // Удаляет слушатель события прокрутки страницы перед удалением компонента
         window.removeEventListener('scroll', this.handleScroll);
     },
     methods: {
+        // Обрабатывает событие прокрутки страницы
         handleScroll() {
+            // Получаем значение вертикальной прокрутки страницы
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            // Устанавливаем значение переменной showButton в зависимости от значения прокрутки
             this.showButton = scrollTop > 0;
         },
+        // Прокручивает страницу вверх
         scrollToTop() {
+            // Получаем ссылку на элемент кнопки
             const buttonRef = this.$refs.buttonRef;
+            // Отключаем возможность взаимодействия с кнопкой
             buttonRef.style.pointerEvents = 'none';
+            // Прокручиваем страницу вверх с плавной анимацией
             window.scrollTo({
                 top: 0,
                 behavior: 'smooth'
             });
+            // Включаем возможность взаимодействия с кнопкой через 500 миллисекунд
             setTimeout(() => {
                 buttonRef.style.pointerEvents = 'auto';
             }, 500);

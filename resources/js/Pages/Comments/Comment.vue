@@ -119,10 +119,16 @@ export default {
         }
     },
     computed: {
+        /**
+         * Форматирует дату создания комментария в относительное время.
+         */
         formattedCommentCreationDate() {
             moment.locale('tg');
             return moment(this.comment.created_at).fromNow();
         },
+        /**
+         * Возвращает левый отступ для комментария на основе родительского идентификатора.
+         */
         leftIndent() {
             return (parentId) => {
                 let result = 0;
@@ -131,11 +137,14 @@ export default {
                     result = this.firstBranch ? '75px' : '50px';
                 }
 
-                return result
-            }
+                return result;
+            };
         }
     },
     methods: {
+        /**
+         * Отправляет данные формы ответа на комментарий на сервер.
+         */
         submit() {
             this.commentReplyForm.post('/comments', {
                 onSuccess: () => {

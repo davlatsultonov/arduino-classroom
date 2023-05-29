@@ -50,15 +50,14 @@ export default {
     components: {CircleProgress},
     props: ['totalPointsCount', 'currentPointsCount'],
     computed: {
-        getPercentage: function () {
+        /**
+         * Возвращает процент выполнения на основе текущего количества очков и общего количества очков.
+         */
+        getPercentage() {
             if (this.totalPointsCount <= 0) return 0;
 
-            return (this.currentPointsCount / this.totalPointsCount) * 100
+            return (this.currentPointsCount / this.totalPointsCount) * 100;
         }
     }
 }
 </script>
-
-<style scoped>
-
-</style>

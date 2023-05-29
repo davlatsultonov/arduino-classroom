@@ -55,7 +55,9 @@ export default {
         }
     },
     methods: {
+        // Отправляет запрос на выход пользователя
         submit() {
+            // Вызываем метод delete() на объекте form с указанием пути '/logout'
             this.form.delete('/logout');
         }
     }

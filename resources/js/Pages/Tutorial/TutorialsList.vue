@@ -48,23 +48,28 @@ export default {
     },
     computed: {
         tutorials() {
+            // Возвращает список учебных пособий, доступных через `$page.props.shared.tutorials`
             return this.$page.props.shared.tutorials;
         },
         currentPageUrl() {
+            // Возвращает URL текущей страницы, извлекая его из `$page.url`
             return this.$page.url.slice(this.$page.url.lastIndexOf('/') + 1);
         },
         chunkItems() {
+            // Возвращает функцию, которая принимает аргумент `items` и разбивает его на блоки (chunks)
             return (items) => {
                 const result = [];
 
                 if (items.length > 9) {
+                    // Рассчитывает размер блока (chunkSize) в зависимости от длины `items`
                     this.chunkSize = Math.ceil(items.length / 3);
                 } else {
+                    // Рассчитывает размер блока (chunkSize) в зависимости от длины `items` и проверки на `items.length <= 3`
                     this.chunkSize = Math.ceil(items.length / (items.length <= 3) ? 3 : 2);
                 }
 
-
                 if (this.chunkSize > 0) {
+                    // Разбивает `items` на блоки размером `chunkSize` и добавляет их в `result`
                     for (let i = 0; i < items.length; i += this.chunkSize) {
                         result.push(items.slice(i, i + this.chunkSize))
                     }

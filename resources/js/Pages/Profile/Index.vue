@@ -47,6 +47,9 @@ export default {
         }
     },
     methods: {
+        /**
+         * Выполняет запрос на сервер для выхода из системы.
+         */
         submit() {
             this.form.delete('/logout');
         }
