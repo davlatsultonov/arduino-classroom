@@ -19,8 +19,6 @@
                 <p class="fs-5">
                     Аз асосҳо то мавзӯъҳои пешрафта бо тавзеҳоти оддӣ, вале муфассал.
                 </p>
-                <h5 class="mt-5 mb-3 fw-bold">Мундариҷа</h5>
-                <p>Курси асосӣ аз 2 қисм иборат аст, Ки JavaScript-ро ҳамчун забони барномасозӣ ва таҷрибаи браузер фаро мегиранд. Инчунин як силсилаи иловагии мақолаҳои мавзӯӣ мавҷуданд.</p>
             </div>
             <div id="tutorial-map-nav-container" class="position-sticky top-0 bg-white">
                 <nav id="tutorial-map-nav" class="navbar py-0 border-bottom">

@@ -16,7 +16,7 @@
                                 <span class="text-dark font-monospace small mr-1">{{ index + 1 }}.{{ itemIndex + 1 + (chunkItemIndex * chunkSize) }}.</span>
                                 <Link
                                     :class="[
-                                  'text-decoration-none small font-monospace tutorial-list__link ps-1',
+                                  'text-decoration-none small tutorial-list__link text-uppercase ps-1',
                                   currentPageUrl === link.slug ? 'active' : null
                               ]"
 
@@ -87,7 +87,7 @@ export default {
 
 
     &__link {
-        color: #436ebd;
+        color: #00979d;
 
         &:hover {
             color: #c4433a;

@@ -91,21 +91,6 @@
                                 alt="map icon">
                         </button>
 
-                        <div class="modal fade" id="test-modal" tabindex="-1" role="dialog" aria-labelledby="test-modal" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered">
-                                <div class="modal-content">
-                                    <div class="modal-body">
-                                        <TestCategorySelector
-                                            :external-settings="{
-                                                sub_category_id: article.sub_category_id,
-                                                test_id: getTestId
-                                            }"
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
                         <Link v-if="tutorialLinks?.prev?.url"
                               :href="tutorialLinks.prev.url"
                               data-bs-toggle="tooltip"
@@ -167,6 +152,22 @@
                               class="float-end position-sticky top-50 btn btn-link page-pagination-btn rounded-0">
                             <img src="/images/arrow_right_single.svg" alt="arrow icon">
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="test-modal" tabindex="-1" role="dialog" aria-labelledby="test-modal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <TestCategorySelector
+                            :external-settings="{
+                                                sub_category_id: article.sub_category_id,
+                                                test_id: getTestId
+                                            }"
+                        />
                     </div>
                 </div>
             </div>
