@@ -1,14 +1,14 @@
 <template>
     <div v-if="Object.keys(tutorials).length">
-        <div v-for="(value, key, index) in tutorials" class="tutorials-list-container mb-3 pb-3">
+        <div v-for="(value, key, index) in tutorials" class="tutorials-list-container mb-sm-3 pb-3">
             <div class="h3 mb-3" :id="`scroll-spy-heading-${$page.props.shared.categories[index].slug}`">{{ key }}</div>
-            <div class="my-4" v-for="(item, index) in value">
+            <div class="my-3 my-sm-4" v-for="(item, index) in value">
                 <div class="row">
-                    <div class="h6 fw-semibold mb-2">
+                    <div class="h6 fw-semibold mb-3 mb-sm-2">
                         {{ item.name }}
                     </div>
-                    <div class="col" v-for="(chunkItem, chunkItemIndex) in chunkItems(item.articles)">
-                        <ul class="list-group mt-2 tutorial-list">
+                    <div class="col-12" v-for="(chunkItem, chunkItemIndex) in chunkItems(item.articles)">
+                        <ul class="list-group mt-sm-2 tutorial-list">
                             <li class="list-group-item px-0 py-1 border-0 d-flex align-items-start bg-transparent"
                                 v-for="(link, itemIndex) in chunkItem"
                                 data-bs-dismiss="modal"

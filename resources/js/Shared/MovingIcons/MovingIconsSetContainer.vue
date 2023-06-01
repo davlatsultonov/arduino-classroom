@@ -1,5 +1,5 @@
 <template>
-    <div class="moving-icons-set-container pause">
+    <div class="d-none d-lg-block moving-icons-set-container pause">
         <MovingIconsSet/>
     </div>
 </template>

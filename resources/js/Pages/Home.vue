@@ -4,7 +4,7 @@
     </Head>
     <div class="mb-3 mb-lg-3">
         <div class="container-fluid">
-            <div class="row my-5 align-items-center">
+            <div class="row my-4 mx-2 my-sm-5 align-items-center">
                 <div class="col-12 col-md-4 offset-md-1">
                     <SliderCube :items="iotArticlesThumbnails"/>
                 </div>
@@ -14,8 +14,8 @@
             </div>
         </div>
         <ContentContainer class="py-1 py-lg-4">
-            <div class="pb-4 mb-3">
-                <h1 class="display-4 mb-3 fw-bold text-dark fw-semibold">Дарси муосир оид ба системахои <span class="fw-bold" style="color: #00979d">Arduino</span> ва <span class="fw-bold" style="color: #00979d">Raspberry Pi</span></h1>
+            <div class="pb-1 pb-sm-4 mb-3">
+                <h1 class="display-4 mt-3 mt-sm-0 mb-3 fw-bold text-dark fw-semibold">Дарси муосир оид ба системахои <span class="fw-bold" style="color: #00979d">Arduino</span> ва <span class="fw-bold" style="color: #00979d">Raspberry Pi</span></h1>
                 <p class="fs-5">
                     Аз асосҳо то мавзӯъҳои пешрафта бо тавзеҳоти оддӣ, вале муфассал.
                 </p>
@@ -24,8 +24,8 @@
                 <nav id="tutorial-map-nav" class="navbar py-0 border-bottom">
                     <ul class="nav">
                         <li class="nav-item" v-for="({name, slug}, index) in $page.props.shared.categories">
-                            <a class="nav-link rounded-0 d-flex flex-column px-2 me-1 me-lg-3" :href="`#scroll-spy-heading-${slug}`">
-                                <small class="d-block text-uppercase mb-1">Қисми {{ index + 1 }}</small>
+                            <a class="nav-link rounded-0 d-flex flex-column px-2 me-sm-1 mb-0 me-lg-3" :href="`#scroll-spy-heading-${slug}`">
+                                <small class="d-block text-uppercase mb-0 mb-sm-1">Қисми {{ index + 1 }}</small>
                                 <span class="d-block">{{ name }}</span>
                             </a>
                         </li>
@@ -145,9 +145,24 @@ export default {
     border-width: 3px !important;
     border-color: rgba(0, 151, 157, 22%) !important;
 
+    @media screen and (max-width: 768px) {
+        position: relative !important;
+    }
+
     #tutorial-map-nav {
         border-width: 2px !important;
         border-color: rgba(0, 151, 157, 22%) !important;
+
+        .nav-item {
+
+            @media screen and (max-width: 768px) {
+                width: 100%;
+
+                .nav-link {
+                    border-bottom: 2px solid transparent;
+                }
+            }
+        }
     }
 
     .nav-link {
