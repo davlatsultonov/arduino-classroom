@@ -1,8 +1,8 @@
 <template>
     <nav class="navbar navbar-expand-lg ac-navbar">
         <div class="container-fluid">
-            <Logo class="navbar-brand" />
-            <ul class="navbar-nav ps-3 flex-row">
+            <Logo class="navbar-brand me-0" />
+            <ul class="navbar-nav ps-0 ps-sm-3 flex-row">
                 <li class="nav-item">
                     <Link
                         class="nav-link px-2" :href="route(isAuth ? 'profile.index' : 'login.create')">

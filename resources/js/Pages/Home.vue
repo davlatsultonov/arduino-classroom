@@ -8,7 +8,7 @@
                 <div class="col-12 col-md-4 offset-md-1">
                     <SliderCube :items="iotArticlesThumbnails"/>
                 </div>
-                <div class="col-12 col-md-6 position-relative">
+                <div class="d-none d-md-block col-md-6 position-relative">
                     <img class="w-100 d-block" src="/images/arduino-examples.png" alt="arduino example">
                 </div>
             </div>

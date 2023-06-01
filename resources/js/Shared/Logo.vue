@@ -1456,6 +1456,14 @@ export default {
     @media screen and (max-width: 576px) {
         width: 250px;
     }
+
+    @media screen and (max-width: 480px) {
+        width: 245px;
+    }
+
+    @media screen and (max-width: 375px) {
+        width: 200px;
+    }
 }
 
 #usb, #uno-r3, #BlueCabel, #BlackUSBCabel {

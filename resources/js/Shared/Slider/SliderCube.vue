@@ -52,9 +52,14 @@ export default defineComponent({
 
 <style lang="scss">
 .main-slider {
-    width: 490px;
-    height: 490px;
+    max-width: 490px;
+    width: 100%;
+    height: 390px;
     overflow: visible;
+
+    @media screen and (max-width: 1200px) {
+        height: 290px;
+    }
 
     .swiper-slide .img {
         height: 100%;
